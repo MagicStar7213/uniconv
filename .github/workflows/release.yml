@@ -1,0 +1,94 @@
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+# This workflow will build a Java project with Gradle and cache/restore any dependencies to improve the workflow execution time
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-java-with-gradle
+
+name: Release Build
+
+on:
+  release:
+    types: [published]
+
+permissions:
+  contents: read
+
+jobs:
+  ubuntu-build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up JDK 18
+      uses: actions/setup-java@v3
+      with:
+        java-version: '18'
+        distribution: 'oracle'
+    - name: Build with Gradle
+      uses: gradle/gradle-build-action@v2.6.0
+      with:
+        gradle-version: wrapper
+    - run: ./gradlew :packageReleaseDistributionForCurrentOS
+    - name: Upload release artifacts
+      uses: Roang-zero1/github-upload-release-artifacts-action@v2
+      with:
+        args: "build/compose/binaries/main-release/deb/*"
+      env:
+        GITHUB_TOKEN: ${{ secrets.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 }}
+    - name: Upload Build Artifact
+      uses: actions/upload-artifact@v3.1.2
+      with:
+        name: Ubuntu Build
+        path: build/compose/binaries/main-release/deb/*
+  macos-build:
+    runs-on: macos-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up JDK 18
+      uses: actions/setup-java@v3
+      with:
+        java-version: '18'
+        distribution: 'oracle'
+    - name: Build with Gradle
+      uses: gradle/gradle-build-action@v2.6.0
+      with:
+        gradle-version: wrapper
+    - run: ./gradlew :packageReleaseDistributionForCurrentOS
+    - name: Upload release artifacts
+      uses: Roang-zero1/github-upload-release-artifacts-action@v2
+      with:
+        args: "build/compose/binaries/main-release/dmg/*"
+      env:
+        GITHUB_TOKEN: ${{ secrets.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 }}
+    - name: Upload Build Artifact
+      uses: actions/upload-artifact@v3.1.2
+      with:
+        name: macOS Build
+        path: build/compose/binaries/main-release/dmg/*
+  windows-build:
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up JDK 18
+      uses: actions/setup-java@v3
+      with:
+        java-version: '18'
+        distribution: 'oracle'
+    - name: Build with Gradle
+      uses: gradle/gradle-build-action@v2.6.0
+      with:
+        gradle-version: wrapper
+    - run: ./gradlew :packageReleaseDistributionForCurrentOS
+    - name: Upload release artifacts
+      uses: Roang-zero1/github-upload-release-artifacts-action@v2
+      with:
+        args: "build/compose/binaries/main-release/msi/* build/compose/binaries/main-release/exe/*"
+      env:
+        GITHUB_TOKEN: ${{ secrets.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 }}
+    - name: Upload Build Artifact
+      uses: actions/upload-artifact@v3.1.2
+      with:
+        name: Windows Build
+        path: build/compose/binaries/main-release/*/*
