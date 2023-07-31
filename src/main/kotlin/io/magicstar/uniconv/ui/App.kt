@@ -18,7 +18,7 @@ import io.magicstar.uniconv.unit.*
 @Composable
 fun app() {
     val magnitudes = setOf(
-        "Length", "Weight", "Time", "Temperature", "Surface", "Volume"
+        "Length", "Weight", "Time", "Temperature", "Surface", "Volume", "Speed"
     )
     var magnitude by remember { mutableStateOf(magnitudes.elementAt(0)) }
 
@@ -37,14 +37,7 @@ fun app() {
 
     enabled = value != ""
 
-    when (magnitude) {
-        magnitudes.elementAt(0) -> reference = length_reference
-        magnitudes.elementAt(1) -> reference = weight_reference
-        magnitudes.elementAt(2) -> reference = time_reference
-        magnitudes.elementAt(3) -> reference = heat_reference
-        magnitudes.elementAt(4) -> reference = surface_reference
-        magnitudes.elementAt(5) -> reference = volume_reference
-    }
+    reference = updateMagnitudes(magnitudes, magnitude)
 
     MaterialTheme {
         Column(
@@ -73,14 +66,7 @@ fun app() {
                     magnitude = magnitudes.elementAt(it)
                     selectedIndexMagn = it
 
-                    when (magnitude) {
-                        magnitudes.elementAt(0) -> reference = length_reference
-                        magnitudes.elementAt(1) -> reference = weight_reference
-                        magnitudes.elementAt(2) -> reference = time_reference
-                        magnitudes.elementAt(3) -> reference = heat_reference
-                        magnitudes.elementAt(4) -> reference = surface_reference
-                        magnitudes.elementAt(5) -> reference = volume_reference
-                    }
+                    reference = updateMagnitudes(magnitudes, magnitude)
 
                     unit1 = reference.keys.elementAt(selectedIndex1)
                     unit2 = reference.keys.elementAt(selectedIndex2)
@@ -143,6 +129,19 @@ fun app() {
                 )
             }
         }
+    }
+}
+
+fun updateMagnitudes(magnitudes: Set<String>, magnitude: String): HashMap<String, Double> {
+    return when (magnitude) {
+        magnitudes.elementAt(0) -> length_reference
+        magnitudes.elementAt(1) -> weight_reference
+        magnitudes.elementAt(2) -> time_reference
+        magnitudes.elementAt(3) -> heat_reference
+        magnitudes.elementAt(4) -> surface_reference
+        magnitudes.elementAt(5) -> volume_reference
+        magnitudes.elementAt(6) -> speed_reference
+        else -> length_reference
     }
 }
 
