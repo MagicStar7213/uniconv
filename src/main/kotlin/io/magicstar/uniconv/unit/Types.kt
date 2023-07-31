@@ -1,19 +1,27 @@
 package io.magicstar.uniconv.unit
 
 val length_reference: HashMap<String, Double> = hashMapOf(
-    "mm" to 0.001,
-    "cm" to 0.01,
-    "dm" to 0.1,
+    "mm" to .001,
+    "cm" to .01,
+    "dm" to .1,
     "m" to 1.0,
     "dam" to 10.0,
     "hm" to 100.0,
     "km" to 1000.0,
 
-    "in" to 0.0254,
-    "yd" to 0.9144,
-    "ft" to 0.3048,
+    "in" to .0254,
+    "yd" to .9144,
+    "ft" to .3048,
     "mi" to 1609.344,
     "nm" to 1852.0,
+)
+val speed_reference: HashMap<String, Double> = hashMapOf(
+    "km/h" to .27777778,
+    "m/s" to 1.0,
+    "mi/h" to .44704,
+    "nu" to .51444444,
+    "ft/s" to .3048,
+    "mach" to 343.0
 )
 val heat_reference: HashMap<String, Double> = hashMapOf(
     "ºC" to 1.0,
@@ -36,7 +44,7 @@ val surface_reference: HashMap<String, Double> = hashMapOf(
     "in2" to .00064516
 )
 val time_reference: HashMap<String, Double> = hashMapOf(
-    "ms" to 0.001,
+    "ms" to .001,
     "s" to 1.0,
     "min" to 60.0,
     "h" to 3600.0,
@@ -81,9 +89,9 @@ val weight_reference: HashMap<String, Double> = hashMapOf(
     "hg" to 100.0,
     "dag" to 10.0,
     "g" to 1.0,
-    "dg" to 0.1,
-    "cg" to 0.01,
-    "mg" to 0.001,
+    "dg" to .1,
+    "cg" to .01,
+    "mg" to .001,
 
     "lb" to 453.59237,
     "drac" to 1.771845195309973,
