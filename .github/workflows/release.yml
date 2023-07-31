@@ -10,6 +10,7 @@ name: Release Build
 on:
   release:
     types: [published]
+  push:
 
 permissions:
   contents: read
@@ -31,12 +32,6 @@ jobs:
         gradle-version: wrapper
     - run: chmod +x gradlew
     - run: ./gradlew :packageReleaseDistributionForCurrentOS
-    - name: Upload release artifacts
-      uses: Roang-zero1/github-upload-release-artifacts-action@v2
-      with:
-        args: "build/compose/binaries/main-release/deb/*"
-      env:
-        GITHUB_TOKEN: ${{ secrets.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 }}
     - name: Upload Build Artifact
       uses: actions/upload-artifact@v3.1.2
       with:
@@ -57,12 +52,6 @@ jobs:
         gradle-version: wrapper
     - run: chmod +x gradlew
     - run: ./gradlew :packageReleaseDistributionForCurrentOS
-    - name: Upload release artifacts
-      uses: Roang-zero1/github-upload-release-artifacts-action@v2
-      with:
-        args: "build/compose/binaries/main-release/dmg/*"
-      env:
-        GITHUB_TOKEN: ${{ secrets.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 }}
     - name: Upload Build Artifact
       uses: actions/upload-artifact@v3.1.2
       with:
@@ -70,7 +59,6 @@ jobs:
         path: build/compose/binaries/main-release/dmg/*
   windows-build:
     runs-on: windows-latest
-
     steps:
     - uses: actions/checkout@v3
     - name: Set up JDK 18
@@ -83,12 +71,6 @@ jobs:
       with:
         gradle-version: wrapper
     - run: ./gradlew :packageReleaseDistributionForCurrentOS
-    - name: Upload release artifacts
-      uses: Roang-zero1/github-upload-release-artifacts-action@v2
-      with:
-        args: "build/compose/binaries/main-release/msi/* build/compose/binaries/main-release/exe/*"
-      env:
-        GITHUB_TOKEN: ${{ secrets.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 }}
     - name: Upload Build Artifact
       uses: actions/upload-artifact@v3.1.2
       with:
