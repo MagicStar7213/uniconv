@@ -1,5 +1,10 @@
 # <img src="src/main/resources/uniconv-logo.svg" width="30" height="30"> Uniconv #
 
+![Kotlin](https://img.shields.io/badge/-Kotlin-7f52ff?style=flat-square&logo=kotlin&logoColor=white)
+![GitHub Workflow Status (with event)](https://img.shields.io/github/actions/workflow/status/magicstar7213/uniconv/release.yml?style=flat-square)
+![GitHub release (with filter)](https://img.shields.io/github/v/release/magicstar7213/uniconv?style=flat-square)
+![GitHub](https://img.shields.io/github/license/magicstar7213/uniconv?style=flat-square)
+
 Uniconv is a unit converter using Compose for Desktop.
 
 It is very simple and intuitive to use.
