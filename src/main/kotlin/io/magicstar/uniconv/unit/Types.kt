@@ -71,12 +71,12 @@ val volume_reference: HashMap<String, Double> = hashMapOf(
     "cl" to .00001,
     "ml" to .000001,
 
-    "US_gal" to .00378541,
+    "gal (US)" to .00378541,
     "gal" to .00454609,
-    "US_qt" to .946352946 * .001,
+    "qt (US)" to .946352946 * .001,
     "qt" to 1.1365225 * .001,
-    "US_fl_oz" to 29.5735295625 * .000001,
-    "fl_oz" to 28.4130642624 * .000001,
+    "oz (fluid) (US)" to 29.5735295625 * .000001,
+    "oz (fluid)" to 28.4130642624 * .000001,
 
     "ft3" to .02831685,
     "in3" to .00001639,
