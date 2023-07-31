@@ -1,8 +1,8 @@
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 
 plugins {
-    kotlin("jvm") version "1.8.20"
-    id("org.jetbrains.compose") version "1.4.1"
+    kotlin("jvm") version "1.8.22"
+    id("org.jetbrains.compose") version "1.4.3"
 }
 
 group = "com.micromatic"
@@ -16,6 +16,7 @@ repositories {
 
 dependencies {
     implementation(compose.desktop.currentOs)
+    implementation("org.jetbrains.compose.material3:material3-desktop:1.4.3")
 }
 
 kotlin {

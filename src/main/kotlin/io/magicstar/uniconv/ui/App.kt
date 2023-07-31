@@ -4,7 +4,9 @@ import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.selection.SelectionContainer
-import androidx.compose.material.*
+import androidx.compose.material3.*
+import androidx.compose.material.ExposedDropDownMenu
+import androidx.compose.material.OutlinedExposedDropDownMenu
 import androidx.compose.runtime.*
 import androidx.compose.ui.*
 import androidx.compose.ui.res.painterResource
@@ -12,6 +14,7 @@ import androidx.compose.ui.unit.*
 
 import io.magicstar.uniconv.unit.*
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun app() {
     val magnitudes = setOf(
