@@ -18,7 +18,8 @@ import io.magicstar.uniconv.unit.*
 @Composable
 fun app() {
     val magnitudes = setOf(
-        "Length", "Weight", "Time", "Temperature", "Surface", "Volume", "Speed", "Electric Current"
+        "Length", "Weight", "Time", "Temperature",
+        "Surface", "Volume", "Speed", "Electric Current", "Power"
     )
     var magnitude by remember { mutableStateOf(magnitudes.elementAt(0)) }
 
@@ -142,6 +143,7 @@ fun updateMagnitudes(magnitudes: Set<String>, magnitude: String): HashMap<String
         magnitudes.elementAt(5) -> volume_reference
         magnitudes.elementAt(6) -> speed_reference
         magnitudes.elementAt(7) -> elec_current_reference
+        magnitudes.elementAt(8) -> power_reference
         else -> length_reference
     }
 }

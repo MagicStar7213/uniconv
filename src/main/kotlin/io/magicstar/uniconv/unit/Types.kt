@@ -32,6 +32,15 @@ val elec_current_reference: HashMap<String, Double> = hashMapOf(
     "GA" to 1.0000E+9,
     "TA" to 1.0000E+12
 )
+val power_reference: HashMap<String, Double> = hashMapOf(
+    "W" to 1.0,
+    "kW" to 1000.0,
+    "MW" to 1_000_000.0,
+    "HP" to 745.699872,
+    "CV" to 735.5,
+    "kcal/h" to 1.1630556,
+    "cal/h" to (1.1630556 / 1000)
+)
 val heat_reference: HashMap<String, Double> = hashMapOf(
     "ºC" to 1.0,
     "ºF" to 32.4,
