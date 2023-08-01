@@ -23,6 +23,15 @@ val speed_reference: HashMap<String, Double> = hashMapOf(
     "ft/s" to .3048,
     "mach" to 343.0
 )
+val elec_current_reference: HashMap<String, Double> = hashMapOf(
+    "μA" to .000001,
+    "mA" to .001,
+    "A" to 1.0,
+    "kA" to 1000.0,
+    "MA" to 1_000_000.0,
+    "GA" to 1.0000E+9,
+    "TA" to 1.0000E+12
+)
 val heat_reference: HashMap<String, Double> = hashMapOf(
     "ºC" to 1.0,
     "ºF" to 32.4,
