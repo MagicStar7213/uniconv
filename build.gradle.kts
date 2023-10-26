@@ -1,9 +1,9 @@
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 
 plugins {
-    kotlin("jvm") version "1.8.22"
-    kotlin("plugin.serialization") version "1.8.22"
-    id("org.jetbrains.compose") version "1.4.3"
+    kotlin("jvm")
+    kotlin("plugin.serialization")
+    id("org.jetbrains.compose")
 }
 
 group = "com.micromatic"
@@ -17,9 +17,9 @@ repositories {
 
 dependencies {
     implementation(compose.desktop.currentOs)
-    implementation("org.jetbrains.compose.material3:material3-desktop:1.4.3")
+    implementation("org.jetbrains.compose.material3:material3-desktop:1.5.0")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.1")
-    implementation("org.jetbrains.compose.material:material-icons-extended-desktop:1.4.3")
+    implementation("org.jetbrains.compose.material:material-icons-extended-desktop:1.5.0")
 }
 
 kotlin {
