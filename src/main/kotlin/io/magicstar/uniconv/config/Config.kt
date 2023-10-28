@@ -45,6 +45,8 @@ fun init() {
 }
 
 fun getLanguage(): HashMap<String, String>? {
+    if (!File(System.getProperty("user.home")+"/.uniconv/config.json").exists())
+        init()
     val configFile = Files.readAllLines(Paths.get(System.getProperty("user.home")+"/.uniconv/config.json"))
     val jsonLang = json.decodeFromString<Language>(configFile.joinToString(""))
     return if (jsonLang.lang == "es") languages["es"]
