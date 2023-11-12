@@ -1,0 +1,13 @@
+#!/usr/bin/make -f
+# You must remove unused comment lines for the released package.
+#export DH_VERBOSE = 1
+#export DEB_BUILD_MAINT_OPTIONS = hardening=+all
+#export DEB_CFLAGS_MAINT_APPEND  = -Wall -pedantic
+#export DEB_LDFLAGS_MAINT_APPEND = -Wl,--as-needed
+
+%:
+	dh $@  --buildsystem=gradle --no-parallel --with maven-repo-helper
+override_dh_auto_configure:
+	chmod +x gradlew
+override_dh_auto_build:
+	./gradlew  --info --console plain --offline --stacktrace --no-daemon --refresh-dependencies --gradle-user-home .gradle -Duser.home=. -Duser.name=debian -Ddebian.package=uniconv -Dfile.encoding=UTF-8
