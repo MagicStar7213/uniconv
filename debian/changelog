@@ -1,5 +1,5 @@
-uniconv (1.0-1) UNRELEASED; urgency=low
+uniconv (1.0-2) UNRELEASED; urgency=low
 
-  * Initial release. Closes: #0000
+  * Jar not found solved. Closes: #0001
 
  -- Breixo Montenegro <saltaestrellas@hotmail.com>  Thu, 26 Oct 2023 20:57:36 +0200

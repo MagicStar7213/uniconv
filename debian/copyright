@@ -2,8 +2,6 @@ Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
 Upstream-Name: uniconv
 Upstream-Contact: Breixo Montenegro <saltaestrellas@hotmail.com>
 Source: https://github.com/MagicStar7213/uniconv
-#
-# Please double check copyright with the licensecheck(1) command.
 
 Files: *
 Copyright: 2023 Breixo Montenegro <saltaestrellas@hotmail.com>
@@ -56,17 +54,7 @@ License:   Apache-2.0
  On Debian systems, the complete text of the Apache License Version 2.0
   can be found in `/usr/share/common-licenses/Apache-2.0'.
 
-#----------------------------------------------------------------------------
-# xml and html files (skipped):
-#         src/main/resources/uniconv-logo.svg
-#         src/main/resources/uniconv.svg
 
-#----------------------------------------------------------------------------
-# Files marked as NO_LICENSE_TEXT_FOUND may be covered by the following
-# license/copyright files.
-
-#----------------------------------------------------------------------------
-# License file: LICENSE
 LICENSE: AGPL-3+
                      GNU AFFERO GENERAL PUBLIC LICENSE
                         Version 3, 19 November 2007

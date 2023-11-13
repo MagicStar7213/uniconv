@@ -9,5 +9,8 @@
 	dh $@  --buildsystem=gradle --no-parallel --with maven-repo-helper
 override_dh_auto_configure:
 	chmod +x gradlew
+	dh_auto_configure
 override_dh_auto_build:
-	./gradlew  --info --console plain --offline --stacktrace --no-daemon --refresh-dependencies --gradle-user-home .gradle -Duser.home=. -Duser.name=debian -Ddebian.package=uniconv -Dfile.encoding=UTF-8
+	./gradlew  --info --console plain --stacktrace --no-daemon --refresh-dependencies --gradle-user-home .gradle -Duser.home=. -Duser.name=debian -Ddebian.package=uniconv -Dfile.encoding=UTF-8 packageUberJarForCurrentOS
+override_dh_auto_test:
+	 --info --console plain --offline --stacktrace --no-daemon --refresh-dependencies --gradle-user-home .gradle -Duser.home=. -Duser.name=debian -Ddebian.package=uniconv -Dfile.encoding=UTF-8
