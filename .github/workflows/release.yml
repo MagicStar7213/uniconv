@@ -30,6 +30,7 @@ jobs:
       uses: gradle/gradle-build-action@v2.6.0
       with:
         gradle-version: wrapper
+    - run: git archive -o ../uniconv_1.0.orig.tar.gz -v $(git rev-parse origin/debian)
     - run: chmod +x gradlew
     - name: Build Debian package
       uses: jtdor/build-deb-action@v1.7.0
