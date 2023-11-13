@@ -35,6 +35,7 @@ jobs:
       uses: jtdor/build-deb-action@v1.7.0
       with:
         buildpackage-opts: -us -uc
+        docker-image: ubuntu:mantic-20231011
     - name: Upload Build Artifact
       uses: actions/upload-artifact@v3.1.2
       with:
