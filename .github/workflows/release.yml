@@ -21,37 +21,40 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
-    - name: Set up JDK 18
+    - name: Set up JDK 19
       uses: actions/setup-java@v3
       with:
-        java-version: '18'
+        java-version: '19'
         distribution: 'oracle'
     - name: Build with Gradle
       uses: gradle/gradle-build-action@v2.6.0
       with:
         gradle-version: wrapper
     - run: chmod +x gradlew
-    - run: ./gradlew :packageReleaseDistributionForCurrentOS
+    - name: Build Debian package
+      uses: jtdor/build-deb-action@v1.7.0
+      with:
+        buildpackage-opts: -us -uc
     - name: Upload Build Artifact
       uses: actions/upload-artifact@v3.1.2
       with:
         name: Ubuntu Build
-        path: build/compose/binaries/main-release/deb/*
+        path: debian/artifacts/*
   macos-build:
     runs-on: macos-latest
     steps:
     - uses: actions/checkout@v3
-    - name: Set up JDK 18
+    - name: Set up JDK 19
       uses: actions/setup-java@v3
       with:
-        java-version: '18'
+        java-version: '19'
         distribution: 'oracle'
     - name: Build with Gradle
       uses: gradle/gradle-build-action@v2.6.0
       with:
         gradle-version: wrapper
     - run: chmod +x gradlew
-    - run: ./gradlew :packageReleaseDistributionForCurrentOS
+    - run: ./gradlew packageReleaseDistributionForCurrentOS
     - name: Upload Build Artifact
       uses: actions/upload-artifact@v3.1.2
       with:
@@ -61,16 +64,16 @@ jobs:
     runs-on: windows-latest
     steps:
     - uses: actions/checkout@v3
-    - name: Set up JDK 18
+    - name: Set up JDK 19
       uses: actions/setup-java@v3
       with:
-        java-version: '18'
+        java-version: '19'
         distribution: 'oracle'
     - name: Build with Gradle
       uses: gradle/gradle-build-action@v2.6.0
       with:
         gradle-version: wrapper
-    - run: ./gradlew :packageReleaseDistributionForCurrentOS
+    - run: ./gradlew packageReleaseDistributionForCurrentOS
     - name: Upload Build Artifact
       uses: actions/upload-artifact@v3.1.2
       with:
