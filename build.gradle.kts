@@ -1,5 +1,4 @@
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
-import org.gradle.nativeplatform.platform.internal.DefaultNativePlatform
 
 plugins {
     kotlin("jvm")
@@ -24,8 +23,7 @@ dependencies {
 }
 
 kotlin {
-    if (DefaultNativePlatform.getCurrentOperatingSystem().isWindows) jvmToolchain(18)
-    else jvmToolchain(20)
+    jvmToolchain(20)
 }
 
 compose.desktop {
@@ -36,5 +34,6 @@ compose.desktop {
             packageName = "uniconv"
             packageVersion = "1.0.0"
         }
+        buildTypes.release.proguard.version = "7.4.1"
     }
 }
