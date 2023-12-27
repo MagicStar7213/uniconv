@@ -1,5 +1,5 @@
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
-import org.jetbrains.kotlin.cli.common.isWindows
+import org.gradle.nativeplatform.platform.internal.DefaultNativePlatform
 
 plugins {
     kotlin("jvm")
@@ -24,11 +24,8 @@ dependencies {
 }
 
 kotlin {
-
-    target {
-        if (isWindows) jvmToolchain(18)
-        else jvmToolchain(20)
-    }
+    if (DefaultNativePlatform.getCurrentOperatingSystem().isWindows) jvmToolchain(18)
+    else jvmToolchain(20)
 }
 
 compose.desktop {
