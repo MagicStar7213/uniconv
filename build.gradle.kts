@@ -1,4 +1,5 @@
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
+import org.jetbrains.kotlin.cli.common.isWindows
 
 plugins {
     kotlin("jvm")
@@ -23,7 +24,11 @@ dependencies {
 }
 
 kotlin {
-    jvmToolchain(20)
+
+    target {
+        if (isWindows) jvmToolchain(18)
+        else jvmToolchain(20)
+    }
 }
 
 compose.desktop {
