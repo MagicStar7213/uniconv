@@ -1,2 +1,0 @@
-build/compose/jars/uniconv-linux-*-?.?.?.jar usr/share/uniconv/
-bin/uniconv usr/bin
