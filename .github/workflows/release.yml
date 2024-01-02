@@ -33,6 +33,7 @@ jobs:
       with:
         gradle-version: wrapper
     - run: sudo apt install git-buildpackage gradle-debian-helper sbuild
+    - run: git fetch --all
     - run: gbp export-orig --no-pristine-tar --upstream-branch=main --upstream-tree=main
     - run: chmod +x gradlew
     - name: Build Debian package
