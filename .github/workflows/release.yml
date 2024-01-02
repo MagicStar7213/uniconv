@@ -21,35 +21,33 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
-    - name: Set up JDK 19
+    - name: Set up JDK 20
       uses: actions/setup-java@v3
       with:
-        java-version: '19'
+        java-version: '20'
         distribution: 'oracle'
     - name: Build with Gradle
       uses: gradle/gradle-build-action@v2.6.0
       with:
         gradle-version: wrapper
-    - run: git archive -o ../uniconv_1.0.orig.tar.gz -v $(git rev-parse origin/debian)
+    - run: sudo apt install git-buildpackage gradle-debian-helper sbuild
+    - run: gbp export-orig --no-pristine-tar --upstream-branch=main --upstream-tree=main
     - run: chmod +x gradlew
     - name: Build Debian package
-      uses: jtdor/build-deb-action@v1.7.0
-      with:
-        buildpackage-opts: -us -uc
-        docker-image: ubuntu:mantic-20231011
+      run: gbp buildpackage --git-debian-branch=debian --git-no-pristine-tar
     - name: Upload Build Artifact
       uses: actions/upload-artifact@v3.1.2
       with:
         name: Ubuntu Build
-        path: debian/artifacts/*
+        path: ../*.deb
   macos-build:
     runs-on: macos-latest
     steps:
     - uses: actions/checkout@v3
-    - name: Set up JDK 19
+    - name: Set up JDK 20
       uses: actions/setup-java@v3
       with:
-        java-version: '19'
+        java-version: '20'
         distribution: 'oracle'
     - name: Build with Gradle
       uses: gradle/gradle-build-action@v2.6.0
@@ -66,10 +64,10 @@ jobs:
     runs-on: windows-latest
     steps:
     - uses: actions/checkout@v3
-    - name: Set up JDK 19
+    - name: Set up JDK 20
       uses: actions/setup-java@v3
       with:
-        java-version: '19'
+        java-version: '20'
         distribution: 'oracle'
     - name: Build with Gradle
       uses: gradle/gradle-build-action@v2.6.0

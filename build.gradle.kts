@@ -17,13 +17,13 @@ repositories {
 
 dependencies {
     implementation(compose.desktop.currentOs)
-    implementation("org.jetbrains.compose.material3:material3-desktop:1.5.3")
+    implementation("org.jetbrains.compose.material3:material3-desktop:1.5.11")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.1")
-    implementation("org.jetbrains.compose.material:material-icons-extended-desktop:1.5.3")
+    implementation("org.jetbrains.compose.material:material-icons-extended-desktop:1.5.11")
 }
 
 kotlin {
-    jvmToolchain(19)
+    jvmToolchain(20)
 }
 
 compose.desktop {
@@ -34,5 +34,6 @@ compose.desktop {
             packageName = "uniconv"
             packageVersion = "1.0.0"
         }
+        buildTypes.release.proguard.version = "7.4.1"
     }
 }
