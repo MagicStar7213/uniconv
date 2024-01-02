@@ -24,6 +24,9 @@ jobs:
     - name: Checkout
       run: git clone https://github.com/magicstar7213/uniconv -b debian
     - run: cd uniconv
+    - run: pwd
+    - run: ls
+    - run: ls ..
     - name: Set up JDK 20
       uses: actions/setup-java@v3
       with:
