@@ -30,13 +30,18 @@ jobs:
       uses: gradle/gradle-build-action@v2.6.0
       with:
         gradle-version: wrapper
+    - run: git archive -o ../uniconv_1.0.orig.tar.gz -v $(git rev-parse origin/debian)
     - run: chmod +x gradlew
-    - run: ./gradlew :packageReleaseDistributionForCurrentOS
+    - name: Build Debian package
+      uses: jtdor/build-deb-action@v1.7.0
+      with:
+        buildpackage-opts: -us -uc
+        docker-image: ubuntu:mantic-20231011
     - name: Upload Build Artifact
       uses: actions/upload-artifact@v3.1.2
       with:
         name: Ubuntu Build
-        path: build/compose/binaries/main-release/deb/*
+        path: debian/artifacts/*
   macos-build:
     runs-on: macos-latest
     steps:
@@ -51,7 +56,7 @@ jobs:
       with:
         gradle-version: wrapper
     - run: chmod +x gradlew
-    - run: ./gradlew :packageReleaseDistributionForCurrentOS
+    - run: ./gradlew packageReleaseDistributionForCurrentOS
     - name: Upload Build Artifact
       uses: actions/upload-artifact@v3.1.2
       with:
@@ -70,7 +75,7 @@ jobs:
       uses: gradle/gradle-build-action@v2.6.0
       with:
         gradle-version: wrapper
-    - run: ./gradlew :packageReleaseDistributionForCurrentOS
+    - run: ./gradlew packageReleaseDistributionForCurrentOS
     - name: Upload Build Artifact
       uses: actions/upload-artifact@v3.1.2
       with:
