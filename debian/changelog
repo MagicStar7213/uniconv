@@ -1,5 +1,5 @@
-uniconv (1.0-3) UNRELEASED; urgency=low
+uniconv (1.0-4) UNRELEASED; urgency=low
 
-  * Updated to upstream
+  * Fixed bug in which binary was not pointing to correct route
 
  -- Breixo Montenegro <saltaestrellas@hotmail.com>  Thu, 26 Oct 2023 20:57:36 +0200
