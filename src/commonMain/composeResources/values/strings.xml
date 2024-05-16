@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<resources>
+    <string name="magnitudes">Magnitudes</string>
+    <string name="languages">Languages</string>
+    <string name="length">Length</string>
+    <string name="weight">Weight</string>
+    <string name="time">Time</string>
+    <string name="temperature">Temperature</string>
+    <string name="surface">Surface</string>
+    <string name="volume">Volume</string>
+    <string name="speed">Speed</string>
+    <string name="origin">Origin</string>
+    <string name="target">Target</string>
+    <string name="value">Value</string>
+    <string name="to">to</string>
+    <string name="convert">Convert</string>
+</resources>

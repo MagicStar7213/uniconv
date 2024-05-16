@@ -1,9 +1,24 @@
 package io.magicstar.uniconv.unit
 
 import kotlin.math.floor
+import io.magicstar.uniconv.unit.model.Unit
+import io.magicstar.uniconv.unit.model.InternationalSystem
+import io.magicstar.uniconv.unit.model.ImperialSystem
 
 fun conversion(value: Double, type1: Double, type2: Double): Number {
     val res = value * (type1 / type2)
+    return if (floor(res) == res)
+        res.toInt()
+    else res
+}
+
+fun convert(value: Double, origin: Unit, target: Unit): Number {
+    val res = if (origin is InternationalSystem && target is ImperialSystem)
+        origin.to(target, origin.toImperial(value))
+    else if (origin is ImperialSystem && target is InternationalSystem)
+        origin.to(target, origin.toSI(value))
+    else
+        0.0
     return if (floor(res) == res)
         res.toInt()
     else res

@@ -1,6 +1,6 @@
 package io.magicstar.uniconv.unit
 
-val length_reference: HashMap<String, Double> = hashMapOf(
+val length_reference: Map<String, Double> = mapOf(
     "mm" to .001,
     "cm" to .01,
     "dm" to .1,
@@ -15,7 +15,7 @@ val length_reference: HashMap<String, Double> = hashMapOf(
     "mi" to 1609.344,
     "nm" to 1852.0,
 )
-val speed_reference: HashMap<String, Double> = hashMapOf(
+val speed_reference = mapOf(
     "km/h" to .27777778,
     "m/s" to 1.0,
     "mi/h" to .44704,
@@ -23,30 +23,12 @@ val speed_reference: HashMap<String, Double> = hashMapOf(
     "ft/s" to .3048,
     "mach" to 343.0
 )
-val elec_current_reference: HashMap<String, Double> = hashMapOf(
-    "μA" to .000001,
-    "mA" to .001,
-    "A" to 1.0,
-    "kA" to 1000.0,
-    "MA" to 1_000_000.0,
-    "GA" to 1.0000E+9,
-    "TA" to 1.0000E+12
-)
-val power_reference: HashMap<String, Double> = hashMapOf(
-    "W" to 1.0,
-    "kW" to 1000.0,
-    "MW" to 1_000_000.0,
-    "HP" to 745.699872,
-    "CV" to 735.5,
-    "kcal/h" to 1.1630556,
-    "cal/h" to (1.1630556 / 1000)
-)
-val heat_reference: HashMap<String, Double> = hashMapOf(
+val heat_reference = mapOf(
     "ºC" to 1.0,
     "ºF" to 32.4,
     "ºK" to 273.15
 )
-val surface_reference: HashMap<String, Double> = hashMapOf(
+val surface_reference = mapOf(
     "km2" to 1_000_000.0,
     "ha" to 10_000.0,
     "a" to 100.0,
@@ -61,7 +43,7 @@ val surface_reference: HashMap<String, Double> = hashMapOf(
     "ft2" to .09290304,
     "in2" to .00064516
 )
-val time_reference: HashMap<String, Double> = hashMapOf(
+val time_reference = mapOf(
     "ms" to .001,
     "s" to 1.0,
     "min" to 60.0,
@@ -74,7 +56,7 @@ val time_reference: HashMap<String, Double> = hashMapOf(
     "century" to 3.1536E+9,
     "millenium" to 3.1536E+10
 )
-val volume_reference: HashMap<String, Double> = hashMapOf(
+val volume_reference = mapOf(
     "km3" to 1E+9,
     "m3" to 1.0,
     "dm3" to .001,
@@ -101,7 +83,7 @@ val volume_reference: HashMap<String, Double> = hashMapOf(
     "yd3" to .76455486,
     "mi3" to 4.1682E+9
 )
-val weight_reference: HashMap<String, Double> = hashMapOf(
+val weight_reference = mapOf(
     "ton" to 1_000_000.0,
     "kg" to 1000.0,
     "hg" to 100.0,
