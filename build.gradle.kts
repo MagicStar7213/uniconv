@@ -39,18 +39,13 @@ compose.desktop {
     application {
         mainClass = "io.magicstar.uniconv.MainKt"
         nativeDistributions {
-
-            targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Exe, TargetFormat.Deb)
-            packageName = "uniconv"
+            targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
+            packageName = "Uniconv"
             packageVersion = "1.0.0"
-            description = """
-                Simple unit converter refactored.
-                Supports the most common magnitudes and units
-            """.trimIndent()
+            description = "Simple unit converter refactored. Supports the most common magnitudes and units"
             vendor = "MagicStar7213"
-            windows.iconFile.fileValue(File("uniconv-logo.svg"))
-            macOS.iconFile.fileValue(File("uniconv-logo.svg"))
-            linux.iconFile.fileValue(File("uniconv-logo.svg"))
+
         }
+        buildTypes.release.proguard.version.set("7.4.1")
     }
 }
