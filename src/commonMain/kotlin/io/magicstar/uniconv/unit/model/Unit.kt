@@ -4,7 +4,7 @@ interface Unit {
     val name: String
     val reference: Number
     fun to(unit: Unit, value: Number): Double {
-        return value.toDouble() * (unit.reference.toDouble() / reference.toDouble())
+        return value.toDouble() * (reference.toDouble() / unit.reference.toDouble())
     }
 }
 

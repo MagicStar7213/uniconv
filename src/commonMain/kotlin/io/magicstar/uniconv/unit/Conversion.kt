@@ -18,7 +18,7 @@ fun convert(value: Double, origin: Unit, target: Unit): Number {
     else if (origin is ImperialSystem && target is InternationalSystem)
         origin.to(target, origin.toSI(value))
     else
-        0.0
+        origin.to(target, value)
     return if (floor(res) == res)
         res.toInt()
     else res
