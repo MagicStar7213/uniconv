@@ -12,7 +12,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import io.magicstar.uniconv.generated.resources.*
 import io.magicstar.uniconv.unit.*
-import io.magicstar.uniconv.unit.model.*
+import io.magicstar.uniconv.unit.model.lengthUnits
 import io.magicstar.uniconv.unit.model.Unit
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.painterResource
@@ -209,18 +209,5 @@ fun App() {
                 }
             }
         }
-    }
-}
-
-fun updateMagnitudes(magnitudes: List<String>, magnitude: String): List<Unit> {
-    return when (magnitude) {
-        magnitudes.elementAt(0) -> lengthUnits
-        magnitudes.elementAt(1) -> weightUnits
-        magnitudes.elementAt(2) -> timeUnits
-        magnitudes.elementAt(3) -> temperatureUnits
-        magnitudes.elementAt(4) -> surfaceUnits
-        magnitudes.elementAt(5) -> volumeUnits
-        magnitudes.elementAt(6) -> speedUnits
-        else -> lengthUnits
     }
 }

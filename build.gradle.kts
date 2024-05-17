@@ -7,7 +7,7 @@ plugins {
 }
 
 group = "io.magicstar"
-version = "1.0"
+version = "2.0"
 
 kotlin {
     jvm {
@@ -41,7 +41,7 @@ compose.desktop {
         nativeDistributions {
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
             packageName = "Uniconv"
-            packageVersion = "1.0.0"
+            packageVersion = "2.0.0"
             description = "Simple unit converter refactored. Supports the most common magnitudes and units"
             vendor = "MagicStar7213"
 
