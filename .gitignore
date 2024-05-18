@@ -51,7 +51,7 @@ captures/
 .externalNativeBuild/
 .cxx/
 *.apk
-output.json
+release/*
 
 # Keystore files
 *.jks
