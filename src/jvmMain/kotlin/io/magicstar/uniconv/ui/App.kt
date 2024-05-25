@@ -39,7 +39,7 @@ import org.jetbrains.compose.resources.stringResource
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalResourceApi::class)
 @Composable
 fun App() {
-    val magnitudes = listOf(
+    val magnitudesList = listOf(
         stringResource(Res.string.length), stringResource(Res.string.weight), stringResource(Res.string.time), stringResource(Res.string.temperature),
         stringResource(Res.string.surface), stringResource(Res.string.volume), stringResource(Res.string.speed)
     )
@@ -47,18 +47,18 @@ fun App() {
 
     var enabled by remember { mutableStateOf(false) }
 
-    var unitIndex1 by remember { mutableStateOf(0) }
-    var unitIndex2 by remember { mutableStateOf(1) }
+    var originIndex by remember { mutableStateOf(0) }
+    var targetIndex by remember { mutableStateOf(1) }
 
     var value by remember { mutableStateOf("") }
     var result by remember { mutableStateOf("") }
 
-    var reference: List<Unit> by remember { mutableStateOf(updateMagnitudes(magnitudes, magnitude)) }
-    var unit1 by remember { mutableStateOf(reference.first { it.name == dataOrigin }) }
-    var unit2 by remember { mutableStateOf(reference.first { it.name == dataTarget }) }
+    var reference: List<Unit> by remember { mutableStateOf(updateMagnitudes(magnitudesList, magnitude)) }
+    var origin by remember { mutableStateOf(reference.first { it.name == dataOrigin }) }
+    var target by remember { mutableStateOf(reference.first { it.name == dataTarget }) }
 
     enabled = value != ""
-    reference = updateMagnitudes(magnitudes, magnitude)
+    reference = updateMagnitudes(magnitudesList, magnitude)
 
     MaterialTheme {
         Box(
@@ -98,19 +98,19 @@ fun App() {
                         expanded = magnMenuExpanded,
                         onDismissRequest = { magnMenuExpanded = false }
                     ) {
-                        magnitudes.forEach {
+                        magnitudesList.forEach {
                             DropdownMenuItem(
                                 text = { Text(it) },
                                 onClick = {
-                                    reference = updateMagnitudes(magnitudes, it)
+                                    reference = updateMagnitudes(magnitudesList, it)
                                     magnitude = it
 
-                                    unit1 = reference[unitIndex1]
-                                    unit2 = reference[unitIndex2]
+                                    origin = reference[originIndex]
+                                    target = reference[targetIndex]
 
                                     dataMagnitude = it
-                                    dataOrigin = unit1.name
-                                    dataTarget = unit2.name
+                                    dataOrigin = origin.name
+                                    dataTarget = target.name
 
                                     magnMenuExpanded = false
                                 }
@@ -145,7 +145,7 @@ fun App() {
                         OutlinedTextField(
                             modifier = Modifier.menuAnchor(),
                             shape = CircleShape,
-                            value = unit1.name,
+                            value = origin.name,
                             onValueChange = {},
                             readOnly = true,
                             singleLine = true,
@@ -160,9 +160,9 @@ fun App() {
                                 DropdownMenuItem(
                                     text = { Text(unit.name) },
                                     onClick = {
-                                        unitIndex1 = reference.indexOf(unit)
-                                        unit1 = unit
-                                        dataOrigin = unit1.name
+                                        originIndex = reference.indexOf(unit)
+                                        origin = unit
+                                        dataOrigin = origin.name
                                         unit1MenuExpanded = false
                                     }
                                 )
@@ -188,7 +188,7 @@ fun App() {
                         OutlinedTextField(
                             modifier = Modifier.menuAnchor(),
                             shape = CircleShape,
-                            value = unit2.name,
+                            value = target.name,
                             onValueChange = {},
                             readOnly = true,
                             singleLine = true,
@@ -203,9 +203,9 @@ fun App() {
                                 DropdownMenuItem(
                                     text = { Text(unit.name) },
                                     onClick = {
-                                        unitIndex2 = reference.indexOf(unit)
-                                        unit2 = unit
-                                        dataTarget = unit2.name
+                                        targetIndex = reference.indexOf(unit)
+                                        target = unit
+                                        dataTarget = target.name
                                         unit2MenuExpanded = false
                                     }
                                 )
@@ -217,7 +217,7 @@ fun App() {
                     modifier = Modifier.padding(vertical = 5.dp),
                     enabled = enabled,
                     onClick = {
-                        result ="${convert(value.toDouble(), unit1, unit2)} ${unit2.name}"
+                        result ="${convert(value.toDouble(), origin, target)} ${target.name}"
                     }
                 ) {
                     Text(
