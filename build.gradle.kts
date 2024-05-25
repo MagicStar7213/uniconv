@@ -1,9 +1,9 @@
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 
 plugins {
-    kotlin("multiplatform") version "1.9.23"
-    kotlin("plugin.serialization") version "1.9.23"
-    id("org.jetbrains.compose") version "1.6.2"
+    kotlin("multiplatform") version "1.9.24"
+    kotlin("plugin.serialization") version "1.9.24"
+    id("org.jetbrains.compose") version "1.6.10"
     id("com.android.application") version "8.4.0"
 }
 
@@ -84,7 +84,7 @@ android {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.13"
+        kotlinCompilerExtensionVersion = "1.5.14"
     }
     packaging {
         resources {
