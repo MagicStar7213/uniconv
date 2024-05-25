@@ -8,7 +8,7 @@ plugins {
 }
 
 group = "io.magicstar"
-version = "2.0"
+version = "2.1"
 
 kotlin {
     jvm {
@@ -64,7 +64,7 @@ android {
         minSdk = 26
         targetSdk = 34
         versionCode = 1
-        versionName = "2.0"
+        versionName = "2.1"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
