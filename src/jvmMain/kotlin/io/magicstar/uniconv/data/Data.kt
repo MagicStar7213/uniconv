@@ -7,12 +7,10 @@ import io.magicstar.uniconv.unit.model.lengthUnits
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
-import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.stringResource
 import java.io.File
 
 val configFile = File("${System.getProperty("user.home")}/.uniconv/config.json")
-@OptIn(ExperimentalResourceApi::class)
 @Composable
 fun initConfigFile() {
     if (!configFile.exists()) {
