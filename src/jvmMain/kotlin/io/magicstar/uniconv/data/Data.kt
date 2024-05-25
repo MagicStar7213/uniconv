@@ -18,8 +18,9 @@ fun initConfigFile() {
     if (!configFile.exists()) {
         configFile.parentFile.mkdirs()
         configFile.createNewFile()
+        configFile.writeText(json.encodeToString(Config(stringResource(Res.string.length), lengthUnits[0].name, lengthUnits[1].name)))
     }
-    configFile.writeText(json.encodeToString(Config(stringResource(Res.string.length), lengthUnits[0].name, lengthUnits[1].name)))
+
 }
 
 val json = Json { prettyPrint = true }
