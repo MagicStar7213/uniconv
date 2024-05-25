@@ -1,28 +1,27 @@
 package io.magicstar.uniconv
 
-import android.content.res.Configuration
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.lifecycleScope
+import io.magicstar.uniconv.data.initConfig
 import io.magicstar.uniconv.ui.App
 import io.magicstar.uniconv.ui.theme.UniconvTheme
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        lifecycleScope.launch(Dispatchers.IO) {
+            initConfig(this@MainActivity.applicationContext)
+        }
+
         setContent {
             UniconvTheme {
-                App()
+                App(this.applicationContext)
             }
         }
-    }
-
-    @Preview(showSystemUi = true)
-    @Preview(showSystemUi = true, uiMode = Configuration.UI_MODE_NIGHT_YES)
-    @Composable
-    fun AppPreview() {
-        App()
     }
 }

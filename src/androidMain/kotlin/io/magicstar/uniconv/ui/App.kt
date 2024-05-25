@@ -1,43 +1,68 @@
 package io.magicstar.uniconv.ui
 
+import android.content.Context
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.selection.SelectionContainer
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material3.Button
+import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExposedDropdownMenuBox
+import androidx.compose.material3.ExposedDropdownMenuDefaults
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import io.magicstar.uniconv.data.getKey
+import io.magicstar.uniconv.data.magnitudeKey
+import io.magicstar.uniconv.data.originKey
+import io.magicstar.uniconv.data.saveKey
+import io.magicstar.uniconv.data.targetKey
 import io.magicstar.uniconv.generated.resources.*
-import io.magicstar.uniconv.unit.*
-import io.magicstar.uniconv.unit.model.lengthUnits
+import io.magicstar.uniconv.unit.convert
 import io.magicstar.uniconv.unit.model.Unit
-import org.jetbrains.compose.resources.ExperimentalResourceApi
+import io.magicstar.uniconv.unit.updateMagnitudes
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalResourceApi::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun App() {
+fun App(context: Context) {
     val magnitudes = listOf(
         stringResource(Res.string.length), stringResource(Res.string.weight), stringResource(Res.string.time), stringResource(Res.string.temperature),
         stringResource(Res.string.surface), stringResource(Res.string.volume), stringResource(Res.string.speed)
     )
-    var magnitude by remember { mutableStateOf(magnitudes.elementAt(0)) }
+    var magnitude by remember { runBlocking(Dispatchers.IO) { mutableStateOf(getKey(context, magnitudeKey)) } }
 
     var enabled by remember { mutableStateOf(false) }
 
-    var unitIndex1 by remember { mutableIntStateOf(0) }
-    var unitIndex2 by remember { mutableIntStateOf(1) }
+    var originIndex by remember { mutableIntStateOf(0) }
+    var targetIndex by remember { mutableIntStateOf(1) }
 
     var value by remember { mutableStateOf("") }
     var result by remember { mutableStateOf("") }
 
-    var reference: List<Unit> by remember { mutableStateOf(lengthUnits) }
-    var unit1 by remember { mutableStateOf(reference[0]) }
-    var unit2 by remember { mutableStateOf(reference[1]) }
+    var reference: List<Unit> by remember { mutableStateOf(updateMagnitudes(magnitudes, magnitude)) }
+    var origin by remember { mutableStateOf(reference.first { it.name == runBlocking(Dispatchers.IO) { getKey(context, originKey) } }) }
+    var target by remember { mutableStateOf(reference.first { it.name == runBlocking(Dispatchers.IO) { getKey(context, targetKey) } }) }
 
     enabled = value != ""
     reference = updateMagnitudes(magnitudes, magnitude)
@@ -83,8 +108,14 @@ fun App() {
                             reference = updateMagnitudes(magnitudes, it)
                             magnitude = it
 
-                            unit1 = reference[unitIndex1]
-                            unit2 = reference[unitIndex2]
+                            origin = reference[originIndex]
+                            target = reference[targetIndex]
+
+                            CoroutineScope(Dispatchers.IO).launch {
+                                saveKey(context, magnitudeKey, magnitude)
+                                saveKey(context, originKey, origin.name)
+                                saveKey(context, targetKey, target.name)
+                            }
 
                             magnMenuExpanded = false
                         }
@@ -109,17 +140,19 @@ fun App() {
             var unit1MenuExpanded by remember { mutableStateOf(false) }
 
             ExposedDropdownMenuBox(
-                modifier = Modifier.padding(
-                    horizontal = 8.dp,
-                    vertical = 8.dp
-                ).weight(.3f),
+                modifier = Modifier
+                    .padding(
+                        horizontal = 8.dp,
+                        vertical = 8.dp
+                    )
+                    .weight(.3f),
                 expanded = unit1MenuExpanded,
                 onExpandedChange = { unit1MenuExpanded = it }
             ) {
                 OutlinedTextField(
                     modifier = Modifier.menuAnchor(),
                     shape = CircleShape,
-                    value = unit1.name,
+                    value = origin.name,
                     onValueChange = {},
                     readOnly = true,
                     singleLine = true,
@@ -134,8 +167,9 @@ fun App() {
                         DropdownMenuItem(
                             text = { Text(unit.name) },
                             onClick = {
-                                unitIndex1 = reference.indexOf(unit)
-                                unit1 = unit
+                                originIndex = reference.indexOf(unit)
+                                origin = unit
+                                CoroutineScope(Dispatchers.IO).launch { saveKey(context, originKey, origin.name) }
                                 unit1MenuExpanded = false
                             }
                         )
@@ -151,17 +185,19 @@ fun App() {
             var unit2MenuExpanded by remember { mutableStateOf(false) }
 
             ExposedDropdownMenuBox(
-                modifier = Modifier.padding(
-                    horizontal = 8.dp,
-                    vertical = 8.dp
-                ).weight(.3f),
+                modifier = Modifier
+                    .padding(
+                        horizontal = 8.dp,
+                        vertical = 8.dp
+                    )
+                    .weight(.3f),
                 expanded = unit2MenuExpanded,
                 onExpandedChange = { unit2MenuExpanded = it }
             ) {
                 OutlinedTextField(
                     modifier = Modifier.menuAnchor(),
                     shape = CircleShape,
-                    value = unit2.name,
+                    value = target.name,
                     onValueChange = {},
                     readOnly = true,
                     singleLine = true,
@@ -176,8 +212,9 @@ fun App() {
                         DropdownMenuItem(
                             text = { Text(unit.name) },
                             onClick = {
-                                unitIndex2 = reference.indexOf(unit)
-                                unit2 = unit
+                                targetIndex = reference.indexOf(unit)
+                                target = unit
+                                CoroutineScope(Dispatchers.IO).launch { saveKey(context, targetKey, target.name) }
                                 unit2MenuExpanded = false
                             }
                         )
@@ -189,7 +226,7 @@ fun App() {
             modifier = Modifier.padding(vertical = 5.dp),
             enabled = enabled,
             onClick = {
-                result ="${convert(value.toDouble(), unit1, unit2)} ${unit2.name}"
+                result ="${convert(value.toDouble(), origin, target)} ${target.name}"
             }
         ) {
             Text(
