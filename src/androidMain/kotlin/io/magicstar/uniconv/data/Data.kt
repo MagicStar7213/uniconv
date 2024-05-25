@@ -16,11 +16,11 @@ val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name ="con
 val magnitudeKey = stringPreferencesKey("magnitude")
 val originKey = stringPreferencesKey("origin")
 val targetKey = stringPreferencesKey("target")
-suspend fun initConfig(context: Context) {
+suspend fun initConfig(context: Context, defaultMagnitude: String) {
     val firstRun = booleanPreferencesKey("firstRun")
     if (context.dataStore.data.map { it[firstRun] }.first() == null) {
         context.dataStore.edit { preferences ->
-            preferences[magnitudeKey] = "Length"
+            preferences[magnitudeKey] = defaultMagnitude
             preferences[originKey] = lengthUnits[0].name
             preferences[targetKey] = lengthUnits[1].name
         }
