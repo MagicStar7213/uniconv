@@ -20,12 +20,12 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         setContent {
-            UniconvTheme {
-                App(this.applicationContext)
-            }
             val defaultMagnitude = stringResource(Res.string.length)
             lifecycleScope.launch(Dispatchers.IO) {
                 initConfig(this@MainActivity.applicationContext, defaultMagnitude)
+            }
+            UniconvTheme {
+                App(this.applicationContext)
             }
         }
     }
