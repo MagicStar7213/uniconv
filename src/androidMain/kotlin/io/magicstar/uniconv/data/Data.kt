@@ -23,9 +23,9 @@ suspend fun initConfig(context: Context, defaultMagnitude: String) {
             preferences[magnitudeKey] = defaultMagnitude
             preferences[originKey] = lengthUnits[0].name
             preferences[targetKey] = lengthUnits[1].name
+            preferences[firstRun] = true
         }
     }
-
 }
 
 suspend fun saveKey(context: Context, key: Preferences.Key<String>, value: String) {
