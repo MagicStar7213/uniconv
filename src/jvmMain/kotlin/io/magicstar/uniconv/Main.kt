@@ -3,6 +3,7 @@ package io.magicstar.uniconv
 import org.jetbrains.compose.resources.painterResource
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
+import io.magicstar.uniconv.data.initConfigFile
 import io.magicstar.uniconv.generated.resources.Res
 import io.magicstar.uniconv.generated.resources.uniconv_logo
 import io.magicstar.uniconv.ui.App
@@ -16,6 +17,7 @@ fun main() = application {
         icon = painterResource(Res.drawable.uniconv_logo),
         onCloseRequest = ::exitApplication
     ) {
+        initConfigFile()
         UniconvTheme {
             App()
         }

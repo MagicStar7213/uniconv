@@ -1,19 +1,37 @@
 package io.magicstar.uniconv.ui
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.selection.SelectionContainer
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material3.Button
+import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExposedDropdownMenuBox
+import androidx.compose.material3.ExposedDropdownMenuDefaults
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import io.magicstar.uniconv.data.*
 import io.magicstar.uniconv.generated.resources.*
-import io.magicstar.uniconv.unit.*
-import io.magicstar.uniconv.unit.model.lengthUnits
+import io.magicstar.uniconv.unit.convert
 import io.magicstar.uniconv.unit.model.Unit
+import io.magicstar.uniconv.unit.updateMagnitudes
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
@@ -25,7 +43,7 @@ fun App() {
         stringResource(Res.string.length), stringResource(Res.string.weight), stringResource(Res.string.time), stringResource(Res.string.temperature),
         stringResource(Res.string.surface), stringResource(Res.string.volume), stringResource(Res.string.speed)
     )
-    var magnitude by remember { mutableStateOf(magnitudes.elementAt(0)) }
+    var magnitude by remember { mutableStateOf(dataMagnitude) }
 
     var enabled by remember { mutableStateOf(false) }
 
@@ -35,9 +53,9 @@ fun App() {
     var value by remember { mutableStateOf("") }
     var result by remember { mutableStateOf("") }
 
-    var reference: List<Unit> by remember { mutableStateOf(lengthUnits) }
-    var unit1 by remember { mutableStateOf(reference[0]) }
-    var unit2 by remember { mutableStateOf(reference[1]) }
+    var reference: List<Unit> by remember { mutableStateOf(updateMagnitudes(magnitudes, magnitude)) }
+    var unit1 by remember { mutableStateOf(reference.first { it.name == dataOrigin }) }
+    var unit2 by remember { mutableStateOf(reference.first { it.name == dataTarget }) }
 
     enabled = value != ""
     reference = updateMagnitudes(magnitudes, magnitude)
@@ -90,6 +108,10 @@ fun App() {
                                     unit1 = reference[unitIndex1]
                                     unit2 = reference[unitIndex2]
 
+                                    dataMagnitude = it
+                                    dataOrigin = unit1.name
+                                    dataTarget = unit2.name
+
                                     magnMenuExpanded = false
                                 }
                             )
@@ -140,6 +162,7 @@ fun App() {
                                     onClick = {
                                         unitIndex1 = reference.indexOf(unit)
                                         unit1 = unit
+                                        dataOrigin = unit1.name
                                         unit1MenuExpanded = false
                                     }
                                 )
@@ -182,6 +205,7 @@ fun App() {
                                     onClick = {
                                         unitIndex2 = reference.indexOf(unit)
                                         unit2 = unit
+                                        dataTarget = unit2.name
                                         unit2MenuExpanded = false
                                     }
                                 )
