@@ -30,7 +30,7 @@ var config: Config
     get() = json.decodeFromString(configFile.readText())
     set(value) = configFile.writeText(json.encodeToString(value))
 
-var magnitude: String
+var dataMagnitude: String
     get() {
         return config.magnitude
     }
@@ -38,7 +38,7 @@ var magnitude: String
         config = config.copy(magnitude = value)
     }
 
-var origin: String
+var dataOrigin: String
     get() {
         return config.origin
     }
@@ -46,7 +46,7 @@ var origin: String
         config = config.copy(origin = value)
     }
 
-var target: String
+var dataTarget: String
     get() {
         return config.target
     }
