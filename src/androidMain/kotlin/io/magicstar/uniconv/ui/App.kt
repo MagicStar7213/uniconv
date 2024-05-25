@@ -137,7 +137,7 @@ fun App(context: Context) {
                 }
             )
 
-            var unit1MenuExpanded by remember { mutableStateOf(false) }
+            var originMenuExpanded by remember { mutableStateOf(false) }
 
             ExposedDropdownMenuBox(
                 modifier = Modifier
@@ -146,8 +146,8 @@ fun App(context: Context) {
                         vertical = 8.dp
                     )
                     .weight(.3f),
-                expanded = unit1MenuExpanded,
-                onExpandedChange = { unit1MenuExpanded = it }
+                expanded = originMenuExpanded,
+                onExpandedChange = { originMenuExpanded = it }
             ) {
                 OutlinedTextField(
                     modifier = Modifier.menuAnchor(),
@@ -157,11 +157,11 @@ fun App(context: Context) {
                     readOnly = true,
                     singleLine = true,
                     label = { Text(stringResource(Res.string.origin)) },
-                    trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(unit1MenuExpanded) }
+                    trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(originMenuExpanded) }
                 )
                 ExposedDropdownMenu(
-                    expanded = unit1MenuExpanded,
-                    onDismissRequest = { unit1MenuExpanded = false }
+                    expanded = originMenuExpanded,
+                    onDismissRequest = { originMenuExpanded = false }
                 ) {
                     reference.forEach { unit ->
                         DropdownMenuItem(
@@ -170,7 +170,7 @@ fun App(context: Context) {
                                 originIndex = reference.indexOf(unit)
                                 origin = unit
                                 CoroutineScope(Dispatchers.IO).launch { saveKey(context, originKey, origin.name) }
-                                unit1MenuExpanded = false
+                                originMenuExpanded = false
                             }
                         )
                     }
@@ -182,7 +182,7 @@ fun App(context: Context) {
                 text = stringResource(Res.string.to)
             )
 
-            var unit2MenuExpanded by remember { mutableStateOf(false) }
+            var targetMenuExpanded by remember { mutableStateOf(false) }
 
             ExposedDropdownMenuBox(
                 modifier = Modifier
@@ -191,8 +191,8 @@ fun App(context: Context) {
                         vertical = 8.dp
                     )
                     .weight(.3f),
-                expanded = unit2MenuExpanded,
-                onExpandedChange = { unit2MenuExpanded = it }
+                expanded = targetMenuExpanded,
+                onExpandedChange = { targetMenuExpanded = it }
             ) {
                 OutlinedTextField(
                     modifier = Modifier.menuAnchor(),
@@ -202,11 +202,11 @@ fun App(context: Context) {
                     readOnly = true,
                     singleLine = true,
                     label = { Text(stringResource(Res.string.target)) },
-                    trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(unit2MenuExpanded) }
+                    trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(targetMenuExpanded) }
                 )
                 ExposedDropdownMenu(
-                    expanded = unit2MenuExpanded,
-                    onDismissRequest = { unit2MenuExpanded = false }
+                    expanded = targetMenuExpanded,
+                    onDismissRequest = { targetMenuExpanded = false }
                 ) {
                     reference.forEach { unit ->
                         DropdownMenuItem(
@@ -215,7 +215,7 @@ fun App(context: Context) {
                                 targetIndex = reference.indexOf(unit)
                                 target = unit
                                 CoroutineScope(Dispatchers.IO).launch { saveKey(context, targetKey, target.name) }
-                                unit2MenuExpanded = false
+                                targetMenuExpanded = false
                             }
                         )
                     }
