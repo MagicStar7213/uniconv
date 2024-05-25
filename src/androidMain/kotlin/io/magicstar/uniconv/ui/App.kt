@@ -50,7 +50,7 @@ fun App(context: Context) {
         stringResource(Res.string.length), stringResource(Res.string.weight), stringResource(Res.string.time), stringResource(Res.string.temperature),
         stringResource(Res.string.surface), stringResource(Res.string.volume), stringResource(Res.string.speed)
     )
-    var magnitude by remember { runBlocking(Dispatchers.IO) { mutableStateOf(getKey(context, magnitudeKey)) } }
+    var magnitude by remember { runBlocking { mutableStateOf(getKey(context, magnitudeKey)) } }
 
     var enabled by remember { mutableStateOf(false) }
 
