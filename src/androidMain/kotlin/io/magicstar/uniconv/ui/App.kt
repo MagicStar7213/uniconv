@@ -123,29 +123,26 @@ fun App(context: Context) {
                 }
             }
         }
+        OutlinedTextField(
+            modifier = Modifier.padding(8.dp),
+            singleLine = true,
+            shape = CircleShape,
+            label = { Text(stringResource(Res.string.value)) },
+            value = value,
+            onValueChange = {
+                value = it
+            }
+        )
+
         Row(
             verticalAlignment = Alignment.CenterVertically
         ) {
-            OutlinedTextField(
-                modifier = Modifier.weight(.4f),
-                singleLine = true,
-                shape = CircleShape,
-                label = { Text(stringResource(Res.string.value)) },
-                value = value,
-                onValueChange = {
-                    value = it
-                }
-            )
-
             var originMenuExpanded by remember { mutableStateOf(false) }
 
             ExposedDropdownMenuBox(
                 modifier = Modifier
-                    .padding(
-                        horizontal = 8.dp,
-                        vertical = 8.dp
-                    )
-                    .weight(.3f),
+                    .padding(8.dp)
+                    .weight(2/5f),
                 expanded = originMenuExpanded,
                 onExpandedChange = { originMenuExpanded = it }
             ) {
@@ -178,7 +175,9 @@ fun App(context: Context) {
             }
 
             Text(
-                modifier = Modifier.padding(horizontal = 2.dp),
+                modifier = Modifier
+                    .padding(horizontal = 2.dp)
+                    .weight(1/5f),
                 text = stringResource(Res.string.to)
             )
 
@@ -186,11 +185,8 @@ fun App(context: Context) {
 
             ExposedDropdownMenuBox(
                 modifier = Modifier
-                    .padding(
-                        horizontal = 8.dp,
-                        vertical = 8.dp
-                    )
-                    .weight(.3f),
+                    .padding(8.dp)
+                    .weight(2/5f),
                 expanded = targetMenuExpanded,
                 onExpandedChange = { targetMenuExpanded = it }
             ) {
