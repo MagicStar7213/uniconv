@@ -23,7 +23,7 @@ jobs:
           gradle-version: wrapper
       - run: chmod +x gradlew
       - run: ./gradlew :packageReleaseDistributionForCurrentOS
-      - name: Upload Build Artifact
+      - name: Upload Ubuntu Artifact
         uses: actions/upload-artifact@v4
         with:
           name: Ubuntu Build
@@ -43,7 +43,7 @@ jobs:
           gradle-version: wrapper
       - run: chmod +x gradlew
       - run: ./gradlew :packageReleaseDistributionForCurrentOS
-      - name: Upload Build Artifact
+      - name: Upload macOS Artifact
         uses: actions/upload-artifact@v4
         with:
           name: macOS Build
@@ -62,7 +62,7 @@ jobs:
         with:
           gradle-version: wrapper
       - run: ./gradlew :packageReleaseDistributionForCurrentOS
-      - name: Upload Build Artifact
+      - name: Upload Windows Artifact
         uses: actions/upload-artifact@v4
         with:
           name: Windows Build
