@@ -4,7 +4,7 @@ plugins {
     kotlin("multiplatform") version "1.9.24"
     kotlin("plugin.serialization") version "1.9.24"
     id("org.jetbrains.compose") version "1.6.10"
-    id("com.android.application") version "8.4.0"
+    id("com.android.application") version "8.4.1"
 }
 
 group = "io.magicstar"
