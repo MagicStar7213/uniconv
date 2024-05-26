@@ -175,9 +175,7 @@ fun App(context: Context) {
             }
 
             Text(
-                modifier = Modifier
-                    .padding(horizontal = 2.dp)
-                    .weight(1/5f),
+                modifier = Modifier.padding(horizontal = 2.dp),
                 text = stringResource(Res.string.to)
             )
 
