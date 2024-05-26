@@ -67,4 +67,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: Windows Build
-          path: build/compose/binaries/main-release/msi/Uniconv-2.1.msi
+          path: build/compose/binaries/main-release/msi/Uniconv-2.1.0.msi
