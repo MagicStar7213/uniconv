@@ -64,7 +64,7 @@ android {
         minSdk = 26
         targetSdk = 34
         versionCode = 1
-        versionName = "2.1"
+        versionName = project.version.toString()
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -104,7 +104,7 @@ compose.desktop {
         nativeDistributions {
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
             packageName = "Uniconv"
-            packageVersion = "2.0.0"
+            packageVersion = project.version.toString()
             description = "Simple unit converter refactored. Supports the most common magnitudes and units"
             vendor = "MagicStar7213"
 
