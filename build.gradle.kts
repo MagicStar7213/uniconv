@@ -107,7 +107,9 @@ compose.desktop {
             packageVersion = project.version.toString()
             description = "Simple unit converter refactored. Supports the most common magnitudes and units"
             vendor = "MagicStar7213"
-
+            windows {
+                packageVersion = "${project.version}.0"
+            }
         }
         buildTypes.release.proguard.version.set("7.4.1")
     }
