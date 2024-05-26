@@ -25,10 +25,30 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.key.Key
+import androidx.compose.ui.input.key.key
+import androidx.compose.ui.input.key.onKeyEvent
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import io.magicstar.uniconv.data.*
-import io.magicstar.uniconv.generated.resources.*
+import io.magicstar.uniconv.data.dataMagnitude
+import io.magicstar.uniconv.data.dataOrigin
+import io.magicstar.uniconv.data.dataTarget
+import io.magicstar.uniconv.generated.resources.Res
+import io.magicstar.uniconv.generated.resources.convert
+import io.magicstar.uniconv.generated.resources.length
+import io.magicstar.uniconv.generated.resources.magnitudes
+import io.magicstar.uniconv.generated.resources.origin
+import io.magicstar.uniconv.generated.resources.speed
+import io.magicstar.uniconv.generated.resources.surface
+import io.magicstar.uniconv.generated.resources.target
+import io.magicstar.uniconv.generated.resources.temperature
+import io.magicstar.uniconv.generated.resources.time
+import io.magicstar.uniconv.generated.resources.to
+import io.magicstar.uniconv.generated.resources.uniconv
+import io.magicstar.uniconv.generated.resources.value
+import io.magicstar.uniconv.generated.resources.volume
+import io.magicstar.uniconv.generated.resources.weight
 import io.magicstar.uniconv.unit.convert
 import io.magicstar.uniconv.unit.model.Unit
 import io.magicstar.uniconv.unit.updateMagnitudes
@@ -121,8 +141,17 @@ fun App() {
                 Row(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
+                    val focusManager = LocalFocusManager.current
                     OutlinedTextField(
-                        modifier = Modifier.padding(horizontal = 5.dp),
+                        modifier = Modifier
+                            .padding(horizontal = 5.dp)
+                            .onKeyEvent {
+                                if (it.key == Key.Enter) {
+                                    result = "${convert(value.toDouble(), origin, target)} ${target.name}"
+                                    focusManager.clearFocus()
+                                    true
+                                } else false
+                            },
                         singleLine = true,
                         shape = CircleShape,
                         label = { Text(stringResource(Res.string.value)) },

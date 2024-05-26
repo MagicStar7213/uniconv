@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material3.Button
@@ -26,6 +27,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -125,6 +128,7 @@ fun App(context: Context) {
                 }
             }
         }
+        val keyboardController = LocalSoftwareKeyboardController.current
         OutlinedTextField(
             modifier = Modifier.padding(8.dp),
             singleLine = true,
@@ -134,7 +138,11 @@ fun App(context: Context) {
             onValueChange = {
                 value = it
             },
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal)
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal, imeAction = ImeAction.Go),
+            keyboardActions = KeyboardActions(onGo = {
+                result ="${convert(value.toDouble(), origin, target)} ${target.name}"
+                keyboardController?.hide()
+            })
         )
 
         Row(
