@@ -1,25 +1,32 @@
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
+import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.jetbrains.kotlin.gradle.dsl.KotlinVersion
 
 plugins {
-    kotlin("multiplatform") version "1.9.24"
-    kotlin("plugin.serialization") version "1.9.24"
-    id("org.jetbrains.compose") version "1.6.10"
-    id("com.android.application") version "8.4.1"
+    kotlin("multiplatform") version "2.0.10"
+    kotlin("plugin.serialization") version "2.0.10"
+    kotlin("plugin.compose") version "2.0.10"
+    id("org.jetbrains.compose") version "1.6.11"
+    id("com.android.application") version "8.5.2"
 }
 
 group = "io.magicstar"
 version = "2.1"
 
+@OptIn(ExperimentalKotlinGradlePluginApi::class)
 kotlin {
     jvm {
-        compilations.all {
-            kotlinOptions.jvmTarget = "21"
+        compilerOptions {
+            jvmTarget = JvmTarget.JVM_21
+            languageVersion = KotlinVersion.KOTLIN_2_0
         }
     }
 
     androidTarget {
-        compilations.all {
-            kotlinOptions.jvmTarget = "21"
+        compilerOptions {
+            jvmTarget = JvmTarget.JVM_21
+            languageVersion = KotlinVersion.KOTLIN_2_0
         }
     }
 
@@ -32,23 +39,20 @@ kotlin {
         }
         val androidMain by getting {
             dependencies {
-                dependsOn(commonMain)
                 implementation("androidx.core:core-ktx:1.13.1")
-                implementation("androidx.activity:activity-compose:1.9.0")
-                implementation(project.dependencies.platform("androidx.compose:compose-bom:2024.05.00"))
+                implementation("androidx.activity:activity-compose:1.9.1")
+                implementation(project.dependencies.platform("androidx.compose:compose-bom:2024.06.00"))
                 implementation("androidx.compose.ui:ui")
                 implementation("androidx.compose.ui:ui-graphics")
-                implementation("androidx.compose.ui:ui-tooling-preview")
                 implementation("androidx.compose.material3:material3")
                 implementation("androidx.datastore:datastore-preferences:1.1.1")
             }
         }
         val jvmMain by getting {
             dependencies {
-                dependsOn(commonMain)
                 implementation(compose.desktop.currentOs)
                 implementation(compose.material3)
-                implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3")
+                implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.7.1")
                 implementation(compose.materialIconsExtended)
             }
         }
@@ -84,18 +88,11 @@ android {
     buildFeatures {
         compose = true
     }
-    composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.14"
-    }
     packaging {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }
-}
-
-dependencies {
-
 }
 
 compose.desktop {
