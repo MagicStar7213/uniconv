@@ -84,9 +84,9 @@ jobs:
       run: chmod +x gradlew
     - name: Build with Gradle
       run: ./gradlew assembleDebug
-    - run: mv app/build/outputs/apk/release/app-debug.apk app/build/outputs/apk/release/uniconv.apk
+    - run: mv app/build/outputs/apk/debug/app-debug.apk app/build/outputs/apk/debug/uniconv.apk
     - name: Upload built APK
       uses: actions/upload-artifact@v3.1.2
       with:
         name: Uniconv APK
-        path: app/build/outputs/apk/release/uniconv.apk
+        path: app/build/outputs/apk/debug/uniconv.apk
