@@ -3,13 +3,13 @@ package io.magicstar.uniconv.unit.model
 interface Weight: Unit {
     abstract class SI(override val name: String, override val reference: Number): Weight, InternationalSystem {
         override fun toImperial(value: Number): Double {
-            return to(GRAINS, value.toDouble()) * (385.81 / 25)
+            return to(G, value.toDouble()) * (385.81 / 25)
         }
     }
 
     abstract class Imperial(override val name: String, override val reference: Number): Weight, ImperialSystem {
         override fun toSI(value: Number): Double {
-            return to(G, value.toDouble()) * (25 / 385.81)
+            return to(GRAINS, value.toDouble()) * (25 / 385.81)
         }
     }
 }
