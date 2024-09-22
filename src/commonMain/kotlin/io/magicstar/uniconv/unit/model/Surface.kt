@@ -3,13 +3,13 @@ package io.magicstar.uniconv.unit.model
 interface Surface: Unit {
     abstract class SI(override val name: String, override val reference: Number): Surface, InternationalSystem {
         override fun toImperial(value: Number): Double {
-            return to(FT2, value.toDouble()) * ( (5 * 5) / (1.524 * 1.524) )
+            return to(M2, value.toDouble()) * ( (5 * 5) / (1.524 * 1.524) )
         }
     }
 
     abstract class Imperial(override val name: String, override val reference: Number): Surface, ImperialSystem {
         override fun toSI(value: Number): Double {
-            return to(M2, value.toDouble()) * ((1.524 * 1.524) / (5 * 5))
+            return to(FT2, value.toDouble()) * ((1.524 * 1.524) / (5 * 5))
         }
     }
 }
