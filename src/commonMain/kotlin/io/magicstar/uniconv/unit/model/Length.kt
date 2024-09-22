@@ -3,13 +3,13 @@ package io.magicstar.uniconv.unit.model
 interface Length: Unit {
     abstract class SI(override val name: String, override val reference: Number): Length, InternationalSystem {
         override fun toImperial(value: Number): Double {
-            return super.toImperial(to(FT, value))
+            return super.toImperial(to(M, value))
         }
     }
 
     abstract class Imperial(override val name: String, override val reference: Number): Length, ImperialSystem {
         override fun toSI(value: Number): Double {
-            return super.toSI(to(M, value))
+            return super.toSI(to(FT, value))
         }
     }
 }
