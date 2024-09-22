@@ -5,13 +5,13 @@ import kotlin.math.pow
 interface Volume: Unit {
     abstract class SI(override val name: String, override val reference: Number): Volume, InternationalSystem {
         override fun toImperial(value: Number): Double {
-            return to(FT3, value) * ((5 * 5 * 5) / (1.524 * 1.524 * 1.524))
+            return to(M3, value) * ((5 * 5 * 5) / (1.524 * 1.524 * 1.524))
         }
     }
 
     abstract class Imperial(override val name: String, override val reference: Number): Volume, ImperialSystem {
         override fun toSI(value: Number): Double {
-            return to(M3, value) * ((1.524 * 1.524 * 1.524) / (5 * 5 * 5))
+            return to(FT3, value) * ((1.524 * 1.524 * 1.524) / (5 * 5 * 5))
         }
     }
 }
