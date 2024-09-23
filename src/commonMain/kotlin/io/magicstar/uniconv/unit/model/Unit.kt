@@ -3,18 +3,14 @@ package io.magicstar.uniconv.unit.model
 interface Unit {
     val name: String
     val reference: Number
-    fun to(unit: Unit, value: Number): Double {
+    fun to(unit: T, value: Number): Double {
         return value.toDouble() * (reference.toDouble() / unit.reference.toDouble())
     }
 }
 
-interface InternationalSystem {
-    fun toImperial(value: Number): Double {
-        return value.toDouble() * ( 5 / 1.524 )
-    }
+abstract class SI<T>(override val name: String, override val reference: Number): Unit {
+    fun toImperial(value: Number): Double = T.toImperial(value)
 }
-interface ImperialSystem {
-    fun toSI(value: Number): Double {
-        return value.toDouble() * (1.524 / 5)
-    }
+abstract class Imperial<T>(override val name: String, override val reference: Number): Unit {
+    fun toSI(value: Number): Double = T.toSI(value)
 }
