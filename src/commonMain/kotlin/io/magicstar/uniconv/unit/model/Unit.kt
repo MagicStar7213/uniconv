@@ -8,10 +8,10 @@ interface Unit {
     }
 }
 
-open class SI<T: Unit>(override val name: String, override val reference: Number): Unit {
-    fun toImperial(value: Number): Double = T.toImperial(value) 
+open class SI(override val name: String, override val reference: Number, unit: Unit): Unit {
+    fun toImperial(value: Number): Double = unit.toImperial(value) 
 }
 
-open class Imperial<T: Unit>(override val name: String, override val reference: Number): Unit {
-    fun toSI(value: Number): Double = T.toSI(value)
+open class Imperial(override val name: String, override val reference: Number, unit: Unit): Unit {
+    fun toSI(value: Number): Double = unit.toSI(value)
 }
