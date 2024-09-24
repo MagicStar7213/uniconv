@@ -6,9 +6,8 @@ class Volume: Unit {
     override val name: String = ""
     override val reference: Number = 0
     
-    fun toImperial(value: Number): Double = to(M3, value) * ((5 * 5 * 5) / (1.524 * 1.524 * 1.524))
-
-    fun toSI(value: Number): Double = to(FT3, value) * ((1.524 * 1.524 * 1.524) / (5 * 5 * 5))
+    override fun toImperial(value: Number): Double = to(M3, value) * ((5 * 5 * 5) / (1.524 * 1.524 * 1.524))
+    override fun toSI(value: Number): Double = to(FT3, value) * ((1.524 * 1.524 * 1.524) / (5 * 5 * 5))
 }
 
 object KM3: SI("km3", KM.reference.toDouble().pow(3.0), Volume())

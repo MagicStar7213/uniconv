@@ -4,9 +4,8 @@ class Surface: Unit {
     override val name: String = ""
     override val reference: Number = 0
     
-    fun toImperial(value: Number): Double = to(M2, value.toDouble()) * ( (5 * 5) / (1.524 * 1.524) )
-
-    fun toSI(value: Number): Double = to(FT2, value.toDouble()) * ((1.524 * 1.524) / (5 * 5))
+    override fun toImperial(value: Number): Double = to(M2, value.toDouble()) * ( (5 * 5) / (1.524 * 1.524) )
+    override fun toSI(value: Number): Double = to(FT2, value.toDouble()) * ((1.524 * 1.524) / (5 * 5))
 }
 
 object KM2: SI("km2", KM.reference.toDouble() * KM.reference.toDouble(), Surface())

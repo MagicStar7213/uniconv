@@ -4,9 +4,8 @@ class Length: Unit {
     override val name: String = ""
     override val reference: Number = 0
 
-    fun toImperial(value: Number): Double = to(M, value).toDouble() * ( 5 / 1.524 )
-
-    fun toSI(value: Number): Double = to(FT, value).toDouble() * (1.524 / 5)
+    override fun toImperial(value: Number): Double = to(M, value).toDouble() * ( 5 / 1.524 )
+    override fun toSI(value: Number): Double = to(FT, value).toDouble() * (1.524 / 5)
 }
 
 object MM: SI("mm", .001, Length())

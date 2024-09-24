@@ -4,9 +4,8 @@ class Weight: Unit {
     override val name: String = ""
     override val reference: Number = 0
     
-    fun toImperial(value: Number): Double = to(G, value.toDouble()) * (385.81 / 25)
-
-    fun toSI(value: Number): Double = to(GRAINS, value.toDouble()) * (25 / 385.81)
+    override fun toImperial(value: Number): Double = to(G, value.toDouble()) * (385.81 / 25)
+    override fun toSI(value: Number): Double = to(GRAINS, value.toDouble()) * (25 / 385.81)
 }
 
 object TON: SI("ton", 1_000_000, Weight())
