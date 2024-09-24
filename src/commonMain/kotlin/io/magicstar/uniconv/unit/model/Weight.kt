@@ -1,6 +1,6 @@
 package io.magicstar.uniconv.unit.model
 
-interface Weight {
+interface Weight: Unit {
     fun toImperial(value: Number): Double = to(G, value.toDouble()) * (385.81 / 25)
 
     fun toSI(value: Number): Double = to(GRAINS, value.toDouble()) * (25 / 385.81)
