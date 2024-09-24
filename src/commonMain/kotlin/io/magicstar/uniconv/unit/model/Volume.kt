@@ -3,6 +3,9 @@ package io.magicstar.uniconv.unit.model
 import kotlin.math.pow
 
 class Volume: Unit {
+    override val name: String = ""
+    override val reference: Number = 0
+    
     fun toImperial(value: Number): Double = to(M3, value) * ((5 * 5 * 5) / (1.524 * 1.524 * 1.524))
 
     fun toSI(value: Number): Double = to(FT3, value) * ((1.524 * 1.524 * 1.524) / (5 * 5 * 5))
@@ -12,7 +15,7 @@ object KM3: SI("km3", KM.reference.toDouble().pow(3.0), Volume())
 object M3: SI("m3", M.reference.toDouble().pow(3.0), Volume())
 object DM3: SI("dm3", DM.reference.toDouble().pow(3.0), Volume())
 object CM3: SI("cm3", CM.reference.toDouble().pow(3.0), Volume())
-object MM3: S("mm3", MM.reference.toDouble().pow(3.0), Volume())
+object MM3: SI("mm3", MM.reference.toDouble().pow(3.0), Volume())
 
 object KL: SI("kl", M.reference.toDouble().pow(3.0), Volume())
 object HL: SI("hl", KL.reference.toDouble() / 10, Volume())
