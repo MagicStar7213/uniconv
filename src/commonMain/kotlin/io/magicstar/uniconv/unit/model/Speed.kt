@@ -12,4 +12,4 @@ object MI_H: Imperial("mi/h", MI.reference.toDouble() / H.reference.toDouble(), 
 object KN: SI("kn", KM_H.reference.toDouble() * 1.852, Speed())
 object FT_S: Imperial("ft/s", FT.reference.toDouble() / S.reference.toDouble(), Speed())
 
-val speedUnits = listOf(KM_H, M_S, MI_H, KN, FT_S)
+val speedUnits = listOf<Unit>(KM_H, M_S, MI_H, KN, FT_S)

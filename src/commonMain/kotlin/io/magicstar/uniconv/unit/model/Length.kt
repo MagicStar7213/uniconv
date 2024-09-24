@@ -19,4 +19,4 @@ object YD: Imperial("yd", 3, Length())
 object FT: Imperial("ft", 1, Length())
 object MI: Imperial("mi", 5280, Length())
 
-val lengthUnits = listOf(MM, CM, DM, M, DAM, HM, KM, IN, YD, FT, MI)
+val lengthUnits = listOf<Unit>(MM, CM, DM, M, DAM, HM, KM, IN, YD, FT, MI)

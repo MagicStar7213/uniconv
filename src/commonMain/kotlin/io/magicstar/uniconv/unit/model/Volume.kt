@@ -32,7 +32,7 @@ object GAL: Imperial("gal", 6, Volume())
 object FL_OZ_US: Imperial("fl oz (US)", GAL_US.reference.toDouble() * 128, Volume())
 object FL_OZ: Imperial("fl oz", GAL.reference.toDouble() * 160, Volume())
 
-val volumeUnits = listOf(
+val volumeUnits = listOf<Unit>(
     KM3, M3, DM3, CM3, MM3,
     KL, HL, DAL, L, DL, CL, ML,
     FT3, IN3, YD3, MI3,
