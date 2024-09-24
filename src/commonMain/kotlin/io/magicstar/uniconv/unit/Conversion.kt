@@ -5,9 +5,9 @@ import io.magicstar.uniconv.unit.model.Unit
 import kotlin.math.floor
 
 fun convert(value: Double, origin: Unit, target: Unit): Number {
-    val res = if (origin is SI<*> && target is Imperial<*>)
+    val res = if (origin is SI && target is Imperial)
         origin.to(target, origin.toImperial(value))
-    else if (origin is Imperial<*> && target is SI<*>)
+    else if (origin is Imperial && target is SI)
         origin.to(target, origin.toSI(value))
     else
         origin.to(target, value)
