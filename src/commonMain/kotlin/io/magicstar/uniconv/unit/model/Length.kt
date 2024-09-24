@@ -1,6 +1,6 @@
 package io.magicstar.uniconv.unit.model
 
-class Length: Unit {
+object Length: Unit {
     fun toImperial(value: Number): Double = to(M, value).toDouble() * ( 5 / 1.524 )
 
     fun toSI(value: Number): Double = to(FT, value).toDouble() * (1.524 / 5)
