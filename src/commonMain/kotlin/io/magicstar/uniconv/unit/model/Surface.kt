@@ -1,6 +1,6 @@
 package io.magicstar.uniconv.unit.model
 
-object Surface: Unit {
+class Surface: Unit {
     fun toImperial(value: Number): Double = to(M2, value.toDouble()) * ( (5 * 5) / (1.524 * 1.524) )
 
     fun toSI(value: Number): Double = to(FT2, value.toDouble()) * ((1.524 * 1.524) / (5 * 5))

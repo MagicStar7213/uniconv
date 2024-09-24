@@ -2,7 +2,7 @@ package io.magicstar.uniconv.unit.model
 
 import kotlin.math.pow
 
-object Volume: Unit {
+class Volume: Unit {
     fun toImperial(value: Number): Double = to(M3, value) * ((5 * 5 * 5) / (1.524 * 1.524 * 1.524))
 
     fun toSI(value: Number): Double = to(FT3, value) * ((1.524 * 1.524 * 1.524) / (5 * 5 * 5))
