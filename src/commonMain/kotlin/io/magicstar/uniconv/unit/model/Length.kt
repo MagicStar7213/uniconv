@@ -18,7 +18,7 @@ object DAM: Length.SI("dam", 10)
 object HM: Length.SI("hm", 100)
 object KM: Length.SI("km", 1000)
 
-object IN: Length.Imperial("in", 1/12)
+object IN: Length.Imperial("in", (1/12))
 object YD: Length.Imperial("yd", 3)
 object FT: Length.Imperial("ft", 1)
 object MI: Length.Imperial("mi", 5280)
