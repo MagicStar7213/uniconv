@@ -1,11 +1,11 @@
 package io.magicstar.uniconv.unit.model
 
-class Weight: Unit {
-    class SI(override val name: String, override val reference: Number): InternationalSys {
+abstract class Weight: Unit {
+    open class SI(override val name: String, override val reference: Number): InternationalSys {
         override fun toImperial(value: Number): Double = to(G, value.toDouble()) * (385.81 / 25)
     }
 
-    class Imperial(override val name: String, override val reference: Number): ImperialSys {
+    open class Imperial(override val name: String, override val reference: Number): ImperialSys {
         override fun toSI(value: Number): Double = to(GRAINS, value.toDouble()) * (25 / 385.81)
     }
 }

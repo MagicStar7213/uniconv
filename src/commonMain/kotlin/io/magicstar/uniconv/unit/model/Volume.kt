@@ -3,11 +3,11 @@ package io.magicstar.uniconv.unit.model
 import kotlin.math.pow
 
 abstract class Volume: Unit {
-    class SI(override val name: String, override val reference: Number): InternationalSys {
+    open class SI(override val name: String, override val reference: Number): InternationalSys {
         override fun toImperial(value: Number): Double = to(M3, value) * ((5 * 5 * 5) / (1.524 * 1.524 * 1.524))
     }
     
-    class Imperial(override val name: String, override val reference: Number): ImperialSys {
+    open class Imperial(override val name: String, override val reference: Number): ImperialSys {
         override fun toSI(value: Number): Double = to(FT3, value) * ((1.524 * 1.524 * 1.524) / (5 * 5 * 5))
     }
 }
