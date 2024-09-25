@@ -8,10 +8,10 @@ interface Unit {
     }
 }
 
-interface InternationalSys(override val name: String, override val reference: Number): Unit {
-    fun toImperial(value: Number): Double = unit.toImperial(value) 
+interface InternationalSys: Unit {
+    fun toImperial(value: Number): Double
 }
 
-interface ImperialSys(override val name: String, override val reference: Number): Unit {
-    fun toSI(value: Number): Double = unit.toSI(value)
+interface ImperialSys: Unit {
+    fun toSI(value: Number): Double
 }

@@ -12,7 +12,7 @@ abstract class Surface: Unit {
 object KM2: Surface.SI("km2", KM.reference.toDouble() * KM.reference.toDouble())
 object HA: Surface.SI("ha", HM.reference.toDouble() * HM.reference.toDouble())
 object A: Surface.SI("a", DAM.reference.toDouble() * DAM.reference.toDouble())
-object M2: Surface.SI("m2", M.reference.toDouble() * M.reference.toDouble(), ())
+object M2: Surface.SI("m2", M.reference.toDouble() * M.reference.toDouble())
 object DM2: Surface.SI("dm2", DM.reference.toDouble() * DM.reference.toDouble())
 object CM2: Surface.SI("cm2", CM.reference.toDouble() * CM.reference.toDouble())
 object MM2: Surface.SI("mm2", MM.reference.toDouble() * MM.reference.toDouble())
