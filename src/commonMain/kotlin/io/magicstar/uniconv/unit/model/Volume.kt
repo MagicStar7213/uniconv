@@ -2,39 +2,31 @@ package io.magicstar.uniconv.unit.model
 
 import kotlin.math.pow
 
-abstract class Volume: Unit {
-    open class SI(override val name: String, override val reference: Number): InternationalSys {
-        override fun toImperial(value: Number): Double = to(M3, value) * ((5 * 5 * 5) / (1.524 * 1.524 * 1.524))
-    }
-    
-    open class Imperial(override val name: String, override val reference: Number): ImperialSys {
-        override fun toSI(value: Number): Double = to(FT3, value) * ((1.524 * 1.524 * 1.524) / (5 * 5 * 5))
-    }
-}
+class Volume(override val name: String, override val reference: Number): Unit {}
 
-object KM3: Volume.SI("km3", KM.reference.toDouble().pow(3.0))
-object M3: Volume.SI("m3", M.reference.toDouble().pow(3.0))
-object DM3: Volume.SI("dm3", DM.reference.toDouble().pow(3.0))
-object CM3: Volume.SI("cm3", CM.reference.toDouble().pow(3.0))
-object MM3: Volume.SI("mm3", MM.reference.toDouble().pow(3.0))
+object KM3: Volume("km3", KM.reference.toDouble().pow(3.0))
+object M3: Volume("m3", M.reference.toDouble().pow(3.0))
+object DM3: Volume("dm3", DM.reference.toDouble().pow(3.0))
+object CM3: Volume("cm3", CM.reference.toDouble().pow(3.0))
+object MM3: Volume("mm3", MM.reference.toDouble().pow(3.0))
 
-object KL: Volume.SI("kl", M.reference.toDouble().pow(3.0))
-object HL: Volume.SI("hl", KL.reference.toDouble() / 10)
-object DAL: Volume.SI("dal", KL.reference.toDouble() / 100)
-object L: Volume.SI("l", DM.reference.toDouble().pow(3.0))
-object DL: Volume.SI("hl", L.reference.toDouble() / 10)
-object CL: Volume.SI("dal", L.reference.toDouble() / 100)
-object ML: Volume.SI("ml", CM.reference.toDouble().pow(3.0))
+object KL: Volume("kl", M.reference.toDouble().pow(3.0))
+object HL: Volume("hl", KL.reference.toDouble() / 10)
+object DAL: Volume("dal", KL.reference.toDouble() / 100)
+object L: Volume("l", DM.reference.toDouble().pow(3.0))
+object DL: Volume("hl", L.reference.toDouble() / 10)
+object CL: Volume("dal", L.reference.toDouble() / 100)
+object ML: Volume("ml", CM.reference.toDouble().pow(3.0))
 
-object FT3: Volume.Imperial("ft3", FT.reference.toDouble().pow(3.0))
-object IN3: Volume.Imperial("in3", IN.reference.toDouble().pow(3.0))
-object YD3: Volume.Imperial("yd3", YD.reference.toDouble().pow(3.0))
-object MI3: Volume.Imperial("mi3", MI.reference.toDouble().pow(3.0))
+object FT3: Volume("ft3", FT.reference.toDouble().pow(3.0))
+object IN3: Volume("in3", IN.reference.toDouble().pow(3.0))
+object YD3: Volume("yd3", YD.reference.toDouble().pow(3.0))
+object MI3: Volume("mi3", MI.reference.toDouble().pow(3.0))
 
-object GAL_US: Volume.Imperial("gal (US)", 7)
-object GAL: Volume.Imperial("gal", 6)
-object FL_OZ_US: Volume.Imperial("fl oz (US)", GAL_US.reference.toDouble() * 128)
-object FL_OZ: Volume.Imperial("fl oz", GAL.reference.toDouble() * 160)
+object GAL_US: Volume("gal (US)", 7)
+object GAL: Volume("gal", 6)
+object FL_OZ_US: Volume("fl oz (US)", GAL_US.reference.toDouble() * 128)
+object FL_OZ: Volume("fl oz", GAL.reference.toDouble() * 160)
 
 val volumeUnits = listOf<Unit>(
     KM3, M3, DM3, CM3, MM3,

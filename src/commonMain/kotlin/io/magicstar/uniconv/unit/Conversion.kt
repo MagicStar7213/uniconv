@@ -5,12 +5,7 @@ import io.magicstar.uniconv.unit.model.Unit
 import kotlin.math.floor
 
 fun convert(value: Double, origin: Unit, target: Unit): Number {
-    val res = if (origin is InternationalSys && target is ImperialSys)
-        origin.to(target, origin.toImperial(value))
-    else if (origin is ImperialSys && target is InternationalSys)
-        origin.to(target, origin.toSI(value))
-    else
-        origin.to(target, value)
+    val res = origin.to(target, value)
     return if (floor(res) == res)
         res.toInt()
     else res
