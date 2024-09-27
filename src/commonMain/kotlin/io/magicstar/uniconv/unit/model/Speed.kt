@@ -1,6 +1,6 @@
 package io.magicstar.uniconv.unit.model
 
-class Speed(override val name: String, override val reference: Number): Unit {}
+abstract class Speed(override val name: String, override val reference: Number): Unit {}
 
 object KM_H: Speed("km/h", KM.reference.toDouble() / H.reference.toDouble())
 object M_S: Speed("m/s", M.reference.toDouble() / S.reference.toDouble())

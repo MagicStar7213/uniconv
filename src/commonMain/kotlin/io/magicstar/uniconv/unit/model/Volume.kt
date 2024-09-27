@@ -2,7 +2,7 @@ package io.magicstar.uniconv.unit.model
 
 import kotlin.math.pow
 
-class Volume(override val name: String, override val reference: Number): Unit {}
+abstract class Volume(override val name: String, override val reference: Number): Unit {}
 
 object KM3: Volume("km3", KM.reference.toDouble().pow(3.0))
 object M3: Volume("m3", M.reference.toDouble().pow(3.0))
