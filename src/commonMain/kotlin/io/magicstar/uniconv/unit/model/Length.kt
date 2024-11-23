@@ -12,7 +12,7 @@ object KM: Length("km", 1000)
 
 object IN: Length("in", (1/12) * FT.reference.toDouble())
 object YD: Length("yd", 3 * FT.reference.toDouble())
-object FT: Length("ft", 3.28084)
+object FT: Length("ft", 1/3.28084)
 object MI: Length("mi", 5280 * FT.reference.toDouble())
 
 val lengthUnits = listOf<Unit>(MM, CM, DM, M, DAM, HM, KM, IN, YD, FT, MI)
