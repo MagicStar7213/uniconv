@@ -4,13 +4,17 @@
 ![GitHub release (with filter)](https://img.shields.io/github/v/release/magicstar7213/uniconv?logo=github&style=flat-square)
 ![GitHub](https://img.shields.io/github/license/magicstar7213/uniconv?logo=github&style=flat-square)
 
-Uniconv is a unit converter using Compose for Desktop.
+Uniconv is a unit converter using Compose Multiplatform.
 
 It is very simple and intuitive to use.
 
 ## Development ##
-Note this repo will be unified with [uniconv-android](https://github.com/MagicStar7213/uniconv-android) into a single KMP project
+This is a Kotlin Multiplatform Project, with support to JVM 21+ and from Android 8 Oreo to Android 14.
 
 In order to run the current desktop app, run `./gradlew run` 
 
-Conversion logic is inside commonMain module
+Conversion logic is inside [commonMain](/src/commonMain) module
+
+### Testing ###
+
+Currently test are being developed to test the accuracy if conversion logic. To run all tests execute `./gradlew check`
