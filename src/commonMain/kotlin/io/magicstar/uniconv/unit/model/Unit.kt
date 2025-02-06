@@ -7,11 +7,3 @@ interface Unit {
         return value.toDouble() * (reference.toDouble() / unit.reference.toDouble())
     }
 }
-
-interface InternationalSys: Unit {
-    fun toImperial(value: Number): Double
-}
-
-interface ImperialSys: Unit {
-    fun toSI(value: Number): Double
-}
