@@ -1,32 +1,30 @@
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
-import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.dsl.KotlinVersion
 
 plugins {
-    kotlin("multiplatform") version "2.0.21"
-    kotlin("plugin.serialization") version "2.0.21"
-    kotlin("plugin.compose") version "2.0.21"
+    kotlin("multiplatform") version "2.1.0"
+    kotlin("plugin.serialization") version "2.1.0"
+    kotlin("plugin.compose") version "2.1.0"
     id("org.jetbrains.compose") version "1.7.0"
-    id("com.android.application") version "8.5.2"
+    id("com.android.application") version "8.8.0"
 }
 
 group = "io.magicstar"
 version = "2.1"
 
-@OptIn(ExperimentalKotlinGradlePluginApi::class)
 kotlin {
     jvm {
         compilerOptions {
             jvmTarget = JvmTarget.JVM_21
-            languageVersion = KotlinVersion.KOTLIN_2_0
+            languageVersion = KotlinVersion.KOTLIN_2_1
         }
     }
 
     androidTarget {
         compilerOptions {
             jvmTarget = JvmTarget.JVM_21
-            languageVersion = KotlinVersion.KOTLIN_2_0
+            languageVersion = KotlinVersion.KOTLIN_2_1
         }
     }
 
@@ -41,11 +39,11 @@ kotlin {
             dependencies {
                 implementation("androidx.core:core-ktx:1.13.1")
                 implementation("androidx.activity:activity-compose:1.9.1")
-                implementation(project.dependencies.platform("androidx.compose:compose-bom:2024.06.00"))
+                implementation(project.dependencies.platform("androidx.compose:compose-bom:2025.01.00"))
                 implementation("androidx.compose.ui:ui")
                 implementation("androidx.compose.ui:ui-graphics")
                 implementation("androidx.compose.material3:material3")
-                implementation("androidx.datastore:datastore-preferences:1.1.1")
+                implementation("androidx.datastore:datastore-preferences:1.1.2")
             }
         }
         val jvmMain by getting {
@@ -56,13 +54,18 @@ kotlin {
                 implementation(compose.materialIconsExtended)
             }
         }
-        val commonTest by getting {
+        val jvmTest by getting {
             dependencies {
                 implementation(kotlin("test"))
-                implementation("org.junit.jupiter:junit-jupiter-params:5.1.0")
+                implementation("systems.uom:systems-common:2.1")
+                implementation("org.junit.jupiter:junit-jupiter-params:5.8.2")
             }
         }
     }
+}
+
+tasks.withType<Test> {
+    useJUnitPlatform()
 }
 
 android {
