@@ -12,6 +12,6 @@ object MONTH: Time("month", DAY.reference.toDouble() * 30)
 object YEAR: Time("year", DAY.reference.toDouble() * 365)
 object DECADE: Time("decade", YEAR.reference.toDouble() * 10)
 object CENTURY: Time("century", YEAR.reference.toDouble() * 100)
-object MILLENIUM: Time("millenium", YEAR.reference.toDouble() * 1000)
+object MILLENNIUM: Time("millenium", YEAR.reference.toDouble() * 1000)
 
-val timeUnits = listOf(MS, S, MIN, H, DAY, WEEK, MONTH, YEAR, DECADE, CENTURY, MILLENIUM)
+val timeUnits = listOf(MS, S, MIN, H, DAY, WEEK, MONTH, YEAR, DECADE, CENTURY, MILLENNIUM)
