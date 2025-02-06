@@ -37,8 +37,8 @@ kotlin {
         }
         val androidMain by getting {
             dependencies {
-                implementation("androidx.core:core-ktx:1.13.1")
-                implementation("androidx.activity:activity-compose:1.9.1")
+                implementation("androidx.core:core-ktx:1.15.0")
+                implementation("androidx.activity:activity-compose:1.10.0")
                 implementation(project.dependencies.platform("androidx.compose:compose-bom:2025.01.00"))
                 implementation("androidx.compose.ui:ui")
                 implementation("androidx.compose.ui:ui-graphics")
@@ -58,7 +58,7 @@ kotlin {
             dependencies {
                 implementation(kotlin("test"))
                 implementation("systems.uom:systems-common:2.1")
-                implementation("org.junit.jupiter:junit-jupiter-params:5.8.2")
+                implementation("org.junit.jupiter:junit-jupiter-params:5.10.1")
             }
         }
     }
