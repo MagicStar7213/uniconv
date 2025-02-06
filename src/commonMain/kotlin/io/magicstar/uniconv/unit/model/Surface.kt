@@ -1,6 +1,6 @@
 package io.magicstar.uniconv.unit.model
 
-abstract class Surface(override val name: String, override val reference: Number): Unit {}
+abstract class Surface(override val name: String, override val reference: Number): Unit
 
 object KM2: Surface("km2", KM.reference.toDouble() * KM.reference.toDouble())
 object HA: Surface("ha", HM.reference.toDouble() * HM.reference.toDouble())

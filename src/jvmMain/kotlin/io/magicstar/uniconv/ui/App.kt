@@ -53,11 +53,10 @@ import io.magicstar.uniconv.generated.resources.weight
 import io.magicstar.uniconv.unit.convert
 import io.magicstar.uniconv.unit.model.Unit
 import io.magicstar.uniconv.unit.updateMagnitudes
-import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalResourceApi::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun App() {
     val magnitudesList = listOf(

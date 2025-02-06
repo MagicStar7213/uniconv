@@ -1,6 +1,6 @@
 package io.magicstar.uniconv.unit.model
 
-abstract class Weight(override val name: String, override val reference: Number): Unit {}
+abstract class Weight(override val name: String, override val reference: Number): Unit
 
 object TON: Weight("ton", 1_000_000)
 object KG: Weight("kg", 1000)

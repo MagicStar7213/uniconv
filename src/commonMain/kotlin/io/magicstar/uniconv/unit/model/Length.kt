@@ -1,6 +1,6 @@
 package io.magicstar.uniconv.unit.model
 
-abstract class Length(override val name: String, override val reference: Number): Unit {}
+abstract class Length(override val name: String, override val reference: Number): Unit
 
 object MM: Length("mm", .001)
 object CM: Length("cm", .01)
