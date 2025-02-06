@@ -32,5 +32,5 @@ val volumeUnits = listOf<Unit>(
     KM3, M3, DM3, CM3, MM3,
     KL, HL, DAL, L, DL, CL, ML,
     FT3, IN3, YD3, MI3,
-    GAL, GAL, FL_OZ, FL_OZ, PINT, CUP
+    GAL, FL_OZ, PINT, CUP
 )
