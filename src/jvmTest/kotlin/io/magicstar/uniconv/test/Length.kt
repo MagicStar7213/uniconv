@@ -49,8 +49,8 @@ class LengthTest {
         println("For origin unit ${origin.name} and target unit ${target.name}:")
         val actual = convert(5, origin, target)
         assertEquals(
-            expectedValue.toDouble().roundTo(1),
-            actual.toDouble().roundTo(1),
+            expectedValue.toDouble().roundTo(10),
+            actual.toDouble().roundTo(10),
             "Expected value was $expectedValue, but got $actual."
         )
     }
