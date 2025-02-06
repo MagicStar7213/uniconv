@@ -70,12 +70,12 @@ tasks.withType<Test> {
 
 android {
     namespace = "io.magicstar.uniconv"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "io.magicstar.uniconv"
         minSdk = 26
-        targetSdk = 34
+        targetSdk = 35
         versionCode = 1
         versionName = project.version.toString()
 
