@@ -11,7 +11,7 @@ object DG: Weight("dg", .1)
 object CG: Weight("cg", .01)
 object MG: Weight("mg", .001)
 
-object OZ: Weight("oz", 0.035274)
+object OZ: Weight("oz", 28.3495)
 object LB: Weight("lb", OZ.reference.toDouble() * 16)
 
 val weightUnits = listOf<Unit>(TON, KG, HG, DAG, G, DG, CG, MG, OZ, LB)
