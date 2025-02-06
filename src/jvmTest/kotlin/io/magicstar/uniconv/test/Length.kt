@@ -8,7 +8,6 @@ import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.MethodSource
 import si.uom.SI
 import systems.uom.common.USCustomary
-import kotlin.math.roundToInt
 import kotlin.test.assertEquals
 
 
@@ -50,8 +49,8 @@ class LengthTest {
         println("For origin unit ${origin.name} and target unit ${target.name}:")
         val actual = convert(5, origin, target)
         assertEquals(
-            expectedValue.toDouble().roundToInt(),
-            actual.toDouble().roundToInt(),
+            expectedValue.toDouble().roundTo(1),
+            actual.toDouble().roundTo(1),
             "Expected value was $expectedValue, but got $actual."
         )
     }
