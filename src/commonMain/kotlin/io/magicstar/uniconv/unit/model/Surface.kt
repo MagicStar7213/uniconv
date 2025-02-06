@@ -11,7 +11,7 @@ object CM2: Surface("cm2", CM.reference.toDouble() * CM.reference.toDouble())
 object MM2: Surface("mm2", MM.reference.toDouble() * MM.reference.toDouble())
 
 object MI2: Surface("mi2", MI.reference.toDouble() * MI.reference.toDouble())
-object ACRE: Surface("acre", YD2.reference.toDouble() / 4840)
+object ACRE: Surface("acre", YD2.reference.toDouble() * 4840)
 object YD2: Surface("yd2", YD.reference.toDouble() * YD.reference.toDouble())
 object FT2: Surface("ft2", FT.reference.toDouble() * FT.reference.toDouble())
 object IN2: Surface("in2", IN.reference.toDouble() * IN.reference.toDouble())
