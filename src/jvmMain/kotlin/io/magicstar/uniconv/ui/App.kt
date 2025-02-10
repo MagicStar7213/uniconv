@@ -10,11 +10,15 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.selection.SelectionContainer
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.SwapHoriz
 import androidx.compose.material3.Button
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.ExposedDropdownMenuDefaults
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.MenuAnchorType
 import androidx.compose.material3.OutlinedTextField
@@ -45,7 +49,7 @@ import io.magicstar.uniconv.generated.resources.surface
 import io.magicstar.uniconv.generated.resources.target
 import io.magicstar.uniconv.generated.resources.temperature
 import io.magicstar.uniconv.generated.resources.time
-import io.magicstar.uniconv.generated.resources.to
+import io.magicstar.uniconv.generated.resources.swap
 import io.magicstar.uniconv.generated.resources.uniconv
 import io.magicstar.uniconv.generated.resources.value
 import io.magicstar.uniconv.generated.resources.volume
@@ -67,15 +71,15 @@ fun App() {
 
     var enabled by remember { mutableStateOf(false) }
 
-    var originIndex by remember { mutableStateOf(0) }
-    var targetIndex by remember { mutableStateOf(1) }
-
     var value by remember { mutableStateOf("") }
     var result by remember { mutableStateOf("") }
 
     var reference: List<Unit> by remember { mutableStateOf(updateMagnitudes(magnitudesList, magnitude)) }
     var origin by remember { mutableStateOf(reference.first { it.name == dataOrigin }) }
     var target by remember { mutableStateOf(reference.first { it.name == dataTarget }) }
+
+    var originIndex by remember { mutableStateOf(reference.indexOf(reference.first { it.name == dataOrigin })) }
+    var targetIndex by remember { mutableStateOf(reference.indexOf(reference.first { it.name == dataTarget })) }
 
     enabled = value != ""
     reference = updateMagnitudes(magnitudesList, magnitude)
@@ -199,10 +203,16 @@ fun App() {
                         }
                     }
 
-                    Text(
+                    IconButton(
                         modifier = Modifier.padding(horizontal = 5.dp),
-                        text = stringResource(Res.string.to)
-                    )
+                        onClick = {
+                            originIndex = targetIndex.also { targetIndex = originIndex }
+                            origin = reference[originIndex]
+                            target = reference[targetIndex]
+                        }
+                    )  {
+                        Icon(imageVector = Icons.Default.SwapHoriz, contentDescription = stringResource(Res.string.swap))
+                    }
 
                     var targetMenuExpanded by remember { mutableStateOf(false) }
 

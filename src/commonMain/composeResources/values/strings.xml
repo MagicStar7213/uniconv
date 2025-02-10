@@ -12,6 +12,6 @@
     <string name="origin">Origin</string>
     <string name="target">Target</string>
     <string name="value">Value</string>
-    <string name="to">to</string>
+    <string name="swap">Switch</string>
     <string name="convert">Convert</string>
 </resources>

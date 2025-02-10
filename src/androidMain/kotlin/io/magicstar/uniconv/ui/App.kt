@@ -12,11 +12,15 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.text.selection.SelectionContainer
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.SwapHoriz
 import androidx.compose.material3.Button
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.ExposedDropdownMenuDefaults
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MenuAnchorType
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
@@ -60,15 +64,15 @@ fun App(context: Context) {
 
     var enabled by remember { mutableStateOf(false) }
 
-    var originIndex by remember { mutableIntStateOf(0) }
-    var targetIndex by remember { mutableIntStateOf(1) }
-
     var value by remember { mutableStateOf("") }
     var result by remember { mutableStateOf("") }
 
     var reference: List<Unit> by remember { mutableStateOf(updateMagnitudes(magnitudes, magnitude)) }
     var origin by remember { mutableStateOf(reference.first { it.name == runBlocking(Dispatchers.IO) { getKey(context, originKey) } }) }
     var target by remember { mutableStateOf(reference.first { it.name == runBlocking(Dispatchers.IO) { getKey(context, targetKey) } }) }
+
+    var originIndex by remember { mutableIntStateOf(reference.indexOf(reference.first { it.name == runBlocking(Dispatchers.IO) { getKey(context, originKey) } })) }
+    var targetIndex by remember { mutableIntStateOf(reference.indexOf(reference.first { it.name == runBlocking(Dispatchers.IO) { getKey(context, targetKey) } })) }
 
     enabled = value != ""
     reference = updateMagnitudes(magnitudes, magnitude)
@@ -186,10 +190,19 @@ fun App(context: Context) {
                 }
             }
 
-            Text(
-                modifier = Modifier.padding(horizontal = 2.dp),
-                text = stringResource(Res.string.to)
-            )
+            IconButton(
+                modifier = Modifier.padding(horizontal = 5.dp),
+                onClick = {
+                    originIndex.also {
+                        originIndex = targetIndex
+                        targetIndex = it
+                    }
+                    origin = reference[originIndex]
+                    target = reference[targetIndex]
+                }
+            )  {
+                Icon(imageVector = Icons.Default.SwapHoriz, contentDescription = stringResource(Res.string.swap))
+            }
 
             var targetMenuExpanded by remember { mutableStateOf(false) }
 
