@@ -1,7 +1,11 @@
 package io.magicstar.uniconv.test
 
 import io.magicstar.uniconv.unit.convert
-import io.magicstar.uniconv.unit.model.*
+import io.magicstar.uniconv.unit.model.FT_S
+import io.magicstar.uniconv.unit.model.KM_H
+import io.magicstar.uniconv.unit.model.KN
+import io.magicstar.uniconv.unit.model.MI_H
+import io.magicstar.uniconv.unit.model.M_S
 import io.magicstar.uniconv.unit.model.Unit
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
@@ -11,25 +15,18 @@ import systems.uom.common.USCustomary
 import kotlin.test.assertEquals
 
 
-class LengthTest {
+class SpeedTest {
     companion object {
         @JvmStatic
         fun expectedResults(): List<Arguments> {
-            val metre = SI.METRE
             val unitsList = listOf(
-                metre.divide(1000),
-                metre.divide(100),
-                metre.divide(10),
-                metre,
-                metre.multiply(10),
-                metre.multiply(100),
-                metre.multiply(1000),
-                USCustomary.INCH,
-                USCustomary.YARD,
-                USCustomary.FOOT,
-                USCustomary.MILE
+                SI.KILOMETRE_PER_HOUR,
+                SI.METRE_PER_SECOND,
+                USCustomary.MILE_PER_HOUR,
+                USCustomary.KNOT,
+                USCustomary.FOOT_PER_SECOND
             )
-            val programUnitList = listOf(MM, CM, DM, M, DAM, HM, KM, IN, YD, FT, MI)
+            val programUnitList = listOf(KM_H, M_S, MI_H, KN, FT_S)
             val expected = mutableListOf<Arguments>()
             unitsList.forEach { origin ->
                 unitsList.forEach { target ->
