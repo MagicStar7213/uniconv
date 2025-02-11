@@ -14,4 +14,83 @@
     <string name="value">Value</string>
     <string name="swap">Switch</string>
     <string name="convert">Convert</string>
+
+    <string name="m">Meters</string>
+    <string name="mm">Millimeters</string>
+    <string name="cm">Centimeters</string>
+    <string name="dm">Decimeters</string>
+    <string name="dam">Decameters</string>
+    <string name="hm">Hectometers</string>
+    <string name="km">Kilometers</string>
+    <string name="in">Inches</string>
+    <string name="ft">Feet</string>
+    <string name="yd">Yards</string>
+    <string name="mi">Miles</string>
+
+    <string name="m_s">Meters per second</string>
+    <string name="km_h">Kilometers per hour</string>
+    <string name="kn">Knots</string>
+    <string name="mi_h">Miles per hour</string>
+    <string name="ft_s">Feet per second</string>
+
+    <string name="km2">Square kilometers</string>
+    <string name="m2">Square meters</string>
+    <string name="dm2">Square decimeters</string>
+    <string name="cm2">Square centimeters</string>
+    <string name="mm2">Square millimeters</string>
+    <string name="mi2">Square miles</string>
+    <string name="yd2">Square yards</string>
+    <string name="ft2">Square feet</string>
+    <string name="in2">Square inches</string>
+    <string name="ha">Hectares</string>
+    <string name="a">Ares</string>
+    <string name="acre">Acres</string>
+
+    <string name="C">Celsius</string>
+    <string name="K">Kelvin</string>
+    <string name="F">Fahrenheit</string>
+
+    <string name="ms">Milliseconds</string>
+    <string name="s">Seconds</string>
+    <string name="min">Minutes</string>
+    <string name="h">Hours</string>
+    <string name="day">Days</string>
+    <string name="week">Weeks</string>
+    <string name="month">Months</string>
+    <string name="year">Years</string>
+    <string name="decade">Decades</string>
+    <string name="century">Centuries</string>
+    <string name="millennium">Millenniums</string>
+
+    <string name="km3">Cubic kilometers</string>
+    <string name="m3">Cubic meters</string>
+    <string name="dm3">Cubic decimeters</string>
+    <string name="cm3">Cubic centimeters</string>
+    <string name="mm3">Cubic millimeters</string>
+    <string name="ft3">Cubic feet</string>
+    <string name="in3">Cubic inches</string>
+    <string name="yd3">Cubic yards</string>
+    <string name="mi3">Cubic miles</string>
+    <string name="kl">Kilolitres</string>
+    <string name="hl">Hectolitres</string>
+    <string name="dal">Decalitres</string>
+    <string name="l">Litres</string>
+    <string name="dl">Decilitres</string>
+    <string name="cl">Centilitres</string>
+    <string name="ml">Millilitres</string>
+    <string name="gal">Gallons</string>
+    <string name="fl oz">Fluid ounces</string>
+    <string name="pt">Pints</string>
+    <string name="cup">Cups</string>
+
+    <string name="kg">Kilograms</string>
+    <string name="hg">Hectograms</string>
+    <string name="dag">Decagrams</string>
+    <string name="g">Grams</string>
+    <string name="dg">Decigrams</string>
+    <string name="cg">Centigrams</string>
+    <string name="mg">Milligrams</string>
+    <string name="ton">Tons</string>
+    <string name="oz">Ounces</string>
+    <string name="lb">Pounds</string>
 </resources>
