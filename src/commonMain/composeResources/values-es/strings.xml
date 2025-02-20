@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <resources>
-    <string name="magnitudes">Magnitudes</string>
+    <string name="magnitudes">Magnitud</string>
     <string name="languages">Idiomas</string>
     <string name="length">Longitud</string>
     <string name="weight">Masa</string>
@@ -79,7 +79,7 @@
     <string name="cl">Centilitros</string>
     <string name="ml">Mililitros</string>
     <string name="gal">Galones</string>
-    <string name="fl oz">Onzas líquidas</string>
+    <string name="fl_oz">Onzas líquidas</string>
     <string name="pt">Pintas</string>
     <string name="cup">Tazas</string>
 
