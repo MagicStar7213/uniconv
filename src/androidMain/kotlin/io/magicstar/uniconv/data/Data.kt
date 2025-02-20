@@ -21,8 +21,8 @@ suspend fun initConfig(context: Context, defaultMagnitude: String) {
     if (context.dataStore.data.map { it[firstRun] }.first() == null) {
         context.dataStore.edit { preferences ->
             preferences[magnitudeKey] = defaultMagnitude
-            preferences[originKey] = lengthUnits[0].name
-            preferences[targetKey] = lengthUnits[1].name
+            preferences[originKey] = lengthUnits[0].abbreviation
+            preferences[targetKey] = lengthUnits[1].abbreviation
             preferences[firstRun] = true
         }
     }

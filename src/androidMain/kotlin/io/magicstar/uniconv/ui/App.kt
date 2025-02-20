@@ -32,6 +32,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.key.Key
+import androidx.compose.ui.input.key.key
+import androidx.compose.ui.input.key.onKeyEvent
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
@@ -68,11 +72,11 @@ fun App(context: Context) {
     var result by remember { mutableStateOf("") }
 
     var reference: List<Unit> by remember { mutableStateOf(updateMagnitudes(magnitudes, magnitude)) }
-    var origin by remember { mutableStateOf(reference.first { it.name == runBlocking(Dispatchers.IO) { getKey(context, originKey) } }) }
-    var target by remember { mutableStateOf(reference.first { it.name == runBlocking(Dispatchers.IO) { getKey(context, targetKey) } }) }
+    var origin by remember { mutableStateOf(reference.first { it.abbreviation == runBlocking(Dispatchers.IO) { getKey(context, originKey) } }) }
+    var target by remember { mutableStateOf(reference.first { it.abbreviation == runBlocking(Dispatchers.IO) { getKey(context, targetKey) } }) }
 
-    var originIndex by remember { mutableIntStateOf(reference.indexOf(reference.first { it.name == runBlocking(Dispatchers.IO) { getKey(context, originKey) } })) }
-    var targetIndex by remember { mutableIntStateOf(reference.indexOf(reference.first { it.name == runBlocking(Dispatchers.IO) { getKey(context, targetKey) } })) }
+    var originIndex by remember { mutableIntStateOf(reference.indexOf(reference.first { it.abbreviation == runBlocking(Dispatchers.IO) { getKey(context, originKey) } })) }
+    var targetIndex by remember { mutableIntStateOf(reference.indexOf(reference.first { it.abbreviation == runBlocking(Dispatchers.IO) { getKey(context, targetKey) } })) }
 
     enabled = value != ""
     reference = updateMagnitudes(magnitudes, magnitude)
@@ -123,8 +127,8 @@ fun App(context: Context) {
 
                             CoroutineScope(Dispatchers.IO).launch {
                                 saveKey(context, magnitudeKey, magnitude)
-                                saveKey(context, originKey, origin.name)
-                                saveKey(context, targetKey, target.name)
+                                saveKey(context, originKey, origin.abbreviation)
+                                saveKey(context, targetKey, target.abbreviation)
                             }
 
                             magnMenuExpanded = false
@@ -153,19 +157,49 @@ fun App(context: Context) {
         Row(
             verticalAlignment = Alignment.CenterVertically
         ) {
+            val focusManager = LocalFocusManager.current
+            OutlinedTextField(
+                modifier = Modifier
+                    .padding(
+                        start = 50.dp,
+                        top = 15.dp,
+                        bottom = 15.dp,
+                        end = 4.dp
+                    )
+                    .onKeyEvent {
+                        if (it.key == Key.Enter) {
+                            result = "${convert(value.toDouble(), origin, target)} ${target.name}"
+                            focusManager.clearFocus()
+                            true
+                        } else false
+                    },
+                singleLine = true,
+                shape = CircleShape,
+                label = { Text(stringResource(Res.string.value)) },
+                value = value,
+                onValueChange = {
+                    value = it
+                }
+            )
+
             var originMenuExpanded by remember { mutableStateOf(false) }
 
             ExposedDropdownMenuBox(
                 modifier = Modifier
-                    .padding(8.dp)
-                    .weight(2/5f),
+                    .weight(.3f)
+                    .padding(
+                        start = 10.dp,
+                        end = 4.dp,
+                        top = 15.dp,
+                        bottom = 15.dp
+                    ),
                 expanded = originMenuExpanded,
                 onExpandedChange = { originMenuExpanded = it }
             ) {
                 OutlinedTextField(
                     modifier = Modifier.menuAnchor(MenuAnchorType.PrimaryNotEditable, true),
                     shape = CircleShape,
-                    value = origin.name,
+                    value = "${stringResource(origin.name)} (${origin.abbreviation})",
                     onValueChange = {},
                     readOnly = true,
                     singleLine = true,
@@ -178,11 +212,11 @@ fun App(context: Context) {
                 ) {
                     reference.forEach { unit ->
                         DropdownMenuItem(
-                            text = { Text(unit.name) },
+                            text = { Text("${stringResource(unit.name)} (${unit.abbreviation})") },
                             onClick = {
                                 originIndex = reference.indexOf(unit)
                                 origin = unit
-                                CoroutineScope(Dispatchers.IO).launch { saveKey(context, originKey, origin.name) }
+                                CoroutineScope(Dispatchers.IO).launch { saveKey(context, originKey, origin.abbreviation) }
                                 originMenuExpanded = false
                             }
                         )
@@ -191,12 +225,8 @@ fun App(context: Context) {
             }
 
             IconButton(
-                modifier = Modifier.padding(horizontal = 5.dp),
                 onClick = {
-                    originIndex.also {
-                        originIndex = targetIndex
-                        targetIndex = it
-                    }
+                    originIndex = targetIndex.also { targetIndex = originIndex }
                     origin = reference[originIndex]
                     target = reference[targetIndex]
                 }
@@ -208,15 +238,20 @@ fun App(context: Context) {
 
             ExposedDropdownMenuBox(
                 modifier = Modifier
-                    .padding(8.dp)
-                    .weight(2/5f),
+                    .weight(.3f)
+                    .padding(
+                        start = 4.dp,
+                        top = 15.dp,
+                        bottom = 15.dp,
+                        end = 50.dp
+                    ),
                 expanded = targetMenuExpanded,
                 onExpandedChange = { targetMenuExpanded = it }
             ) {
                 OutlinedTextField(
                     modifier = Modifier.menuAnchor(MenuAnchorType.PrimaryNotEditable, true),
                     shape = CircleShape,
-                    value = target.name,
+                    value = "${stringResource(target.name)} (${target.abbreviation})",
                     onValueChange = {},
                     readOnly = true,
                     singleLine = true,
@@ -229,11 +264,11 @@ fun App(context: Context) {
                 ) {
                     reference.forEach { unit ->
                         DropdownMenuItem(
-                            text = { Text(unit.name) },
+                            text = { Text("${stringResource(unit.name)} (${unit.abbreviation})") },
                             onClick = {
                                 targetIndex = reference.indexOf(unit)
                                 target = unit
-                                CoroutineScope(Dispatchers.IO).launch { saveKey(context, targetKey, target.name) }
+                                CoroutineScope(Dispatchers.IO).launch { saveKey(context, targetKey, target.abbreviation) }
                                 targetMenuExpanded = false
                             }
                         )

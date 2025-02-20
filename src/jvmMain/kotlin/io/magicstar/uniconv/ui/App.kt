@@ -75,11 +75,11 @@ fun App() {
     var result by remember { mutableStateOf("") }
 
     var reference: List<Unit> by remember { mutableStateOf(updateMagnitudes(magnitudesList, magnitude)) }
-    var origin by remember { mutableStateOf(reference.first { it.name == dataOrigin }) }
-    var target by remember { mutableStateOf(reference.first { it.name == dataTarget }) }
+    var origin by remember { mutableStateOf(reference.first { it.abbreviation == dataOrigin }) }
+    var target by remember { mutableStateOf(reference.first { it.abbreviation == dataTarget }) }
 
-    var originIndex by remember { mutableStateOf(reference.indexOf(reference.first { it.name == dataOrigin })) }
-    var targetIndex by remember { mutableStateOf(reference.indexOf(reference.first { it.name == dataTarget })) }
+    var originIndex by remember { mutableStateOf(reference.indexOf(reference.first { it.abbreviation == dataOrigin })) }
+    var targetIndex by remember { mutableStateOf(reference.indexOf(reference.first { it.abbreviation == dataTarget })) }
 
     enabled = value != ""
     reference = updateMagnitudes(magnitudesList, magnitude)
@@ -133,8 +133,8 @@ fun App() {
                                     target = reference[targetIndex]
 
                                     dataMagnitude = it
-                                    dataOrigin = origin.name
-                                    dataTarget = target.name
+                                    dataOrigin = origin.abbreviation
+                                    dataTarget = target.abbreviation
 
                                     magnMenuExpanded = false
                                 }
@@ -148,7 +148,12 @@ fun App() {
                     val focusManager = LocalFocusManager.current
                     OutlinedTextField(
                         modifier = Modifier
-                            .padding(horizontal = 5.dp)
+                            .padding(
+                                start = 50.dp,
+                                top = 15.dp,
+                                bottom = 15.dp,
+                                end = 4.dp
+                            )
                             .onKeyEvent {
                                 if (it.key == Key.Enter) {
                                     result = "${convert(value.toDouble(), origin, target)} ${target.name}"
@@ -168,17 +173,21 @@ fun App() {
                     var originMenuExpanded by remember { mutableStateOf(false) }
 
                     ExposedDropdownMenuBox(
-                        modifier = Modifier.padding(
-                            horizontal = 8.dp,
-                            vertical = 15.dp
-                        ),
+                        modifier = Modifier
+                            .weight(.3f)
+                            .padding(
+                                start = 10.dp,
+                                end = 4.dp,
+                                top = 15.dp,
+                                bottom = 15.dp
+                            ),
                         expanded = originMenuExpanded,
                         onExpandedChange = { originMenuExpanded = it }
                     ) {
                         OutlinedTextField(
                             modifier = Modifier.menuAnchor(MenuAnchorType.PrimaryNotEditable, true),
                             shape = CircleShape,
-                            value = origin.name,
+                            value = "${stringResource(origin.name)} (${origin.abbreviation})",
                             onValueChange = {},
                             readOnly = true,
                             singleLine = true,
@@ -191,11 +200,11 @@ fun App() {
                         ) {
                             reference.forEach { unit ->
                                 DropdownMenuItem(
-                                    text = { Text(unit.name) },
+                                    text = { Text("${stringResource(unit.name)} (${unit.abbreviation})") },
                                     onClick = {
                                         originIndex = reference.indexOf(unit)
                                         origin = unit
-                                        dataOrigin = origin.name
+                                        dataOrigin = origin.abbreviation
                                         originMenuExpanded = false
                                     }
                                 )
@@ -204,7 +213,6 @@ fun App() {
                     }
 
                     IconButton(
-                        modifier = Modifier.padding(horizontal = 5.dp),
                         onClick = {
                             originIndex = targetIndex.also { targetIndex = originIndex }
                             origin = reference[originIndex]
@@ -217,17 +225,21 @@ fun App() {
                     var targetMenuExpanded by remember { mutableStateOf(false) }
 
                     ExposedDropdownMenuBox(
-                        modifier = Modifier.padding(
-                            horizontal = 8.dp,
-                            vertical = 15.dp
-                        ),
+                        modifier = Modifier
+                            .weight(.3f)
+                            .padding(
+                                start = 4.dp,
+                                top = 15.dp,
+                                bottom = 15.dp,
+                                end = 50.dp
+                            ),
                         expanded = targetMenuExpanded,
                         onExpandedChange = { targetMenuExpanded = it }
                     ) {
                         OutlinedTextField(
                             modifier = Modifier.menuAnchor(MenuAnchorType.PrimaryNotEditable, true),
                             shape = CircleShape,
-                            value = target.name,
+                            value = "${stringResource(target.name)} (${target.abbreviation})",
                             onValueChange = {},
                             readOnly = true,
                             singleLine = true,
@@ -240,11 +252,11 @@ fun App() {
                         ) {
                             reference.forEach { unit ->
                                 DropdownMenuItem(
-                                    text = { Text(unit.name) },
+                                    text = { Text("${stringResource(unit.name)} (${unit.abbreviation})") },
                                     onClick = {
                                         targetIndex = reference.indexOf(unit)
                                         target = unit
-                                        dataTarget = target.name
+                                        dataTarget = target.abbreviation
                                         targetMenuExpanded = false
                                     }
                                 )
