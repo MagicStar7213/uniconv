@@ -143,7 +143,7 @@ fun App(context: Context) {
             onValueChange = {
                 value = it
             },
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal, imeAction = ImeAction.Go),
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number, imeAction = ImeAction.Go),
             keyboardActions = KeyboardActions(onGo = {
                 result ="${convert(value.toDouble(), origin, target)} ${target.name}"
                 keyboardController?.hide()
@@ -159,7 +159,7 @@ fun App(context: Context) {
                 modifier = Modifier
                     .weight(.3f)
                     .padding(
-                        start = 10.dp,
+                        start = 50.dp,
                         end = 4.dp,
                         top = 15.dp,
                         bottom = 15.dp
