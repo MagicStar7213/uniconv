@@ -32,10 +32,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.input.key.Key
-import androidx.compose.ui.input.key.key
-import androidx.compose.ui.input.key.onKeyEvent
-import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
@@ -157,31 +153,6 @@ fun App(context: Context) {
         Row(
             verticalAlignment = Alignment.CenterVertically
         ) {
-            val focusManager = LocalFocusManager.current
-            OutlinedTextField(
-                modifier = Modifier
-                    .padding(
-                        start = 50.dp,
-                        top = 15.dp,
-                        bottom = 15.dp,
-                        end = 4.dp
-                    )
-                    .onKeyEvent {
-                        if (it.key == Key.Enter) {
-                            result = "${convert(value.toDouble(), origin, target)} ${target.name}"
-                            focusManager.clearFocus()
-                            true
-                        } else false
-                    },
-                singleLine = true,
-                shape = CircleShape,
-                label = { Text(stringResource(Res.string.value)) },
-                value = value,
-                onValueChange = {
-                    value = it
-                }
-            )
-
             var originMenuExpanded by remember { mutableStateOf(false) }
 
             ExposedDropdownMenuBox(

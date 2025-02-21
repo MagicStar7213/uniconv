@@ -148,6 +148,7 @@ fun App() {
                     val focusManager = LocalFocusManager.current
                     OutlinedTextField(
                         modifier = Modifier
+                            .weight(.5f)
                             .padding(
                                 start = 50.dp,
                                 top = 15.dp,
@@ -156,7 +157,7 @@ fun App() {
                             )
                             .onKeyEvent {
                                 if (it.key == Key.Enter) {
-                                    result = "${convert(value.toDouble(), origin, target)} ${target.name}"
+                                    result = "${convert(value.toDouble(), origin, target)} ${target.abbreviation}"
                                     focusManager.clearFocus()
                                     true
                                 } else false
@@ -268,7 +269,7 @@ fun App() {
                     modifier = Modifier.padding(vertical = 5.dp),
                     enabled = enabled,
                     onClick = {
-                        result ="${convert(value.toDouble(), origin, target)} ${target.name}"
+                        result ="${convert(value.toDouble(), origin, target)} ${target.abbreviation}"
                     }
                 ) {
                     Text(
