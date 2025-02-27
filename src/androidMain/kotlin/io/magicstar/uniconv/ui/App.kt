@@ -81,7 +81,7 @@ fun App(context: Context) {
 
     val widthTextMeasurer = rememberTextMeasurer()
     val longestString by remember { mutableStateOf(reference.maxBy { "${it.name} (${it.abbreviation})" }) }
-    val dropDownMenuWidth by remember { mutableStateOf(widthTextMeasurer.measure("${longestString.name} (${longestString.abbreviation})")) }
+    val textFieldWidth by remember { mutableStateOf(widthTextMeasurer.measure("${longestString.name} (${longestString.abbreviation})")) }
 
     enabled = value != ""
     reference = updateMagnitudes(magnitudes, magnitude)
@@ -172,14 +172,13 @@ fun App(context: Context) {
                         end = 4.dp,
                         top = 15.dp,
                         bottom = 15.dp
-                    )
-                    .width(with(LocalDensity.current) { dropDownMenuWidth.size.width.dp })
-                ,
+                    ),
                 expanded = originMenuExpanded,
                 onExpandedChange = { originMenuExpanded = it }
             ) {
                 OutlinedTextField(
-                    modifier = Modifier.menuAnchor(MenuAnchorType.PrimaryNotEditable, true),
+                    modifier = Modifier.menuAnchor(MenuAnchorType.PrimaryNotEditable, true)
+                        .width(with(LocalDensity.current) { textFieldWidth.size.width.dp }),
                     shape = CircleShape,
                     value = if (LocalConfiguration.current.orientation == Configuration.ORIENTATION_LANDSCAPE)
                         "${stringResource(origin.name)} (${origin.abbreviation})"
@@ -231,18 +230,17 @@ fun App(context: Context) {
                         top = 15.dp,
                         bottom = 15.dp,
                         end = 50.dp
-                    )
-                    .width(with(LocalDensity.current) { dropDownMenuWidth.size.width.dp })
-                ,
+                    ),
                 expanded = targetMenuExpanded,
                 onExpandedChange = { targetMenuExpanded = it }
             ) {
                 OutlinedTextField(
-                    modifier = Modifier.menuAnchor(MenuAnchorType.PrimaryNotEditable, true),
+                    modifier = Modifier.menuAnchor(MenuAnchorType.PrimaryNotEditable, true)
+                        .width(with(LocalDensity.current) { textFieldWidth.size.width.dp }),
                     shape = CircleShape,
                     value = if (LocalConfiguration.current.orientation == Configuration.ORIENTATION_LANDSCAPE)
-                        "${stringResource(origin.name)} (${origin.abbreviation})"
-                    else origin.abbreviation,
+                        "${stringResource(target.name)} (${target.abbreviation})"
+                    else target.abbreviation,
                     onValueChange = {},
                     readOnly = true,
                     singleLine = true,
