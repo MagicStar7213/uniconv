@@ -1,6 +1,7 @@
 package io.magicstar.uniconv.ui
 
 import android.content.Context
+import android.content.res.Configuration
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -32,6 +33,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
@@ -73,6 +75,10 @@ fun App(context: Context) {
 
     var originIndex by remember { mutableIntStateOf(reference.indexOf(reference.first { it.abbreviation == runBlocking(Dispatchers.IO) { getKey(context, originKey) } })) }
     var targetIndex by remember { mutableIntStateOf(reference.indexOf(reference.first { it.abbreviation == runBlocking(Dispatchers.IO) { getKey(context, targetKey) } })) }
+
+    //val widthTextMeasurer = rememberTextMeasurer()
+    //val longestString by remember { mutableStateOf(reference.maxBy { "${it.name} (${it.abbreviation})" }) }
+    //val dropDownMenuWidth by remember { mutableStateOf(widthTextMeasurer.measure("${longestString.name} (${longestString.abbreviation})")) }
 
     enabled = value != ""
     reference = updateMagnitudes(magnitudes, magnitude)
@@ -163,14 +169,18 @@ fun App(context: Context) {
                         end = 4.dp,
                         top = 15.dp,
                         bottom = 15.dp
-                    ),
+                    )
+                    //.width(with(LocalDensity.current) { dropDownMenuWidth.size.width.dp })
+                ,
                 expanded = originMenuExpanded,
                 onExpandedChange = { originMenuExpanded = it }
             ) {
                 OutlinedTextField(
                     modifier = Modifier.menuAnchor(MenuAnchorType.PrimaryNotEditable, true),
                     shape = CircleShape,
-                    value = "${stringResource(origin.name)} (${origin.abbreviation})",
+                    value = if (LocalConfiguration.current.orientation == Configuration.ORIENTATION_LANDSCAPE)
+                        "${stringResource(origin.name)} (${origin.abbreviation})"
+                    else origin.abbreviation,
                     onValueChange = {},
                     readOnly = true,
                     singleLine = true,
@@ -183,7 +193,10 @@ fun App(context: Context) {
                 ) {
                     reference.forEach { unit ->
                         DropdownMenuItem(
-                            text = { Text("${stringResource(unit.name)} (${unit.abbreviation})") },
+                            text = { Text(
+                                text = "${stringResource(unit.name)} (${unit.abbreviation})",
+                                maxLines = 1
+                            ) },
                             onClick = {
                                 originIndex = reference.indexOf(unit)
                                 origin = unit
@@ -215,7 +228,9 @@ fun App(context: Context) {
                         top = 15.dp,
                         bottom = 15.dp,
                         end = 50.dp
-                    ),
+                    )
+                    //.width(with(LocalDensity.current) { dropDownMenuWidth.size.width.dp })
+                ,
                 expanded = targetMenuExpanded,
                 onExpandedChange = { targetMenuExpanded = it }
             ) {
@@ -235,7 +250,10 @@ fun App(context: Context) {
                 ) {
                     reference.forEach { unit ->
                         DropdownMenuItem(
-                            text = { Text("${stringResource(unit.name)} (${unit.abbreviation})") },
+                            text = { Text(
+                                text = "${stringResource(unit.name)} (${unit.abbreviation})",
+                                maxLines = 1
+                            ) },
                             onClick = {
                                 targetIndex = reference.indexOf(unit)
                                 target = unit
