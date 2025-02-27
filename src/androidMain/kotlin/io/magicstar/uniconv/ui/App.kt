@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -34,9 +35,11 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import io.magicstar.uniconv.data.getKey
@@ -76,9 +79,9 @@ fun App(context: Context) {
     var originIndex by remember { mutableIntStateOf(reference.indexOf(reference.first { it.abbreviation == runBlocking(Dispatchers.IO) { getKey(context, originKey) } })) }
     var targetIndex by remember { mutableIntStateOf(reference.indexOf(reference.first { it.abbreviation == runBlocking(Dispatchers.IO) { getKey(context, targetKey) } })) }
 
-    //val widthTextMeasurer = rememberTextMeasurer()
-    //val longestString by remember { mutableStateOf(reference.maxBy { "${it.name} (${it.abbreviation})" }) }
-    //val dropDownMenuWidth by remember { mutableStateOf(widthTextMeasurer.measure("${longestString.name} (${longestString.abbreviation})")) }
+    val widthTextMeasurer = rememberTextMeasurer()
+    val longestString by remember { mutableStateOf(reference.maxBy { "${it.name} (${it.abbreviation})" }) }
+    val dropDownMenuWidth by remember { mutableStateOf(widthTextMeasurer.measure("${longestString.name} (${longestString.abbreviation})")) }
 
     enabled = value != ""
     reference = updateMagnitudes(magnitudes, magnitude)
@@ -170,7 +173,7 @@ fun App(context: Context) {
                         top = 15.dp,
                         bottom = 15.dp
                     )
-                    //.width(with(LocalDensity.current) { dropDownMenuWidth.size.width.dp })
+                    .width(with(LocalDensity.current) { dropDownMenuWidth.size.width.dp })
                 ,
                 expanded = originMenuExpanded,
                 onExpandedChange = { originMenuExpanded = it }
@@ -229,7 +232,7 @@ fun App(context: Context) {
                         bottom = 15.dp,
                         end = 50.dp
                     )
-                    //.width(with(LocalDensity.current) { dropDownMenuWidth.size.width.dp })
+                    .width(with(LocalDensity.current) { dropDownMenuWidth.size.width.dp })
                 ,
                 expanded = targetMenuExpanded,
                 onExpandedChange = { targetMenuExpanded = it }
@@ -237,7 +240,9 @@ fun App(context: Context) {
                 OutlinedTextField(
                     modifier = Modifier.menuAnchor(MenuAnchorType.PrimaryNotEditable, true),
                     shape = CircleShape,
-                    value = "${stringResource(target.name)} (${target.abbreviation})",
+                    value = if (LocalConfiguration.current.orientation == Configuration.ORIENTATION_LANDSCAPE)
+                        "${stringResource(origin.name)} (${origin.abbreviation})"
+                    else origin.abbreviation,
                     onValueChange = {},
                     readOnly = true,
                     singleLine = true,
