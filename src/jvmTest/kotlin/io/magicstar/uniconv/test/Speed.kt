@@ -4,7 +4,7 @@ import io.magicstar.uniconv.unit.convert
 import io.magicstar.uniconv.unit.model.FT_S
 import io.magicstar.uniconv.unit.model.KM_H
 import io.magicstar.uniconv.unit.model.KN
-import io.magicstar.uniconv.unit.model.MI_H
+import io.magicstar.uniconv.unit.model.MPH
 import io.magicstar.uniconv.unit.model.M_S
 import io.magicstar.uniconv.unit.model.Unit
 import org.junit.jupiter.params.ParameterizedTest
@@ -26,7 +26,7 @@ class SpeedTest {
                 USCustomary.KNOT,
                 USCustomary.FOOT_PER_SECOND
             )
-            val programUnitList = listOf(KM_H, M_S, MI_H, KN, FT_S)
+            val programUnitList = listOf(KM_H, M_S, MPH, KN, FT_S)
             val expected = mutableListOf<Arguments>()
             unitsList.forEach { origin ->
                 unitsList.forEach { target ->

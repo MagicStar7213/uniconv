@@ -279,6 +279,7 @@ fun App() {
                 }
                 SelectionContainer {
                     Text(
+                        modifier = Modifier.padding(horizontal = 50.dp),
                         text = result,
                         fontSize = 25.sp
                     )

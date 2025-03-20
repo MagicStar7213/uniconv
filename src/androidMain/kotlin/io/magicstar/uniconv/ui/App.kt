@@ -272,7 +272,7 @@ fun App(context: Context) {
             modifier = Modifier.padding(vertical = 5.dp),
             enabled = enabled,
             onClick = {
-                result ="${convert(value.toDouble(), origin, target)} ${target.name}"
+                result ="${convert(value.toDouble(), origin, target)} ${target.abbreviation}"
             }
         ) {
             Text(
@@ -282,6 +282,7 @@ fun App(context: Context) {
         }
         SelectionContainer {
             Text(
+                modifier = Modifier.padding(horizontal = 50.dp),
                 text = result,
                 fontSize = 25.sp
             )

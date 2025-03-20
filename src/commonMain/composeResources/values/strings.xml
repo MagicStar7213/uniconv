@@ -30,7 +30,7 @@
     <string name="m_s">Meters per second</string>
     <string name="km_h">Kilometers per hour</string>
     <string name="kn">Knots</string>
-    <string name="mi_h">Miles per hour</string>
+    <string name="mph">Miles per hour</string>
     <string name="ft_s">Feet per second</string>
 
     <string name="km2">Square kilometers</string>
