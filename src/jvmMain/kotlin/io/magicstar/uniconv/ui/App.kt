@@ -25,6 +25,7 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -78,8 +79,8 @@ fun App() {
     var origin by remember { mutableStateOf(reference.first { it.abbreviation == dataOrigin }) }
     var target by remember { mutableStateOf(reference.first { it.abbreviation == dataTarget }) }
 
-    var originIndex by remember { mutableStateOf(reference.indexOf(reference.first { it.abbreviation == dataOrigin })) }
-    var targetIndex by remember { mutableStateOf(reference.indexOf(reference.first { it.abbreviation == dataTarget })) }
+    var originIndex by remember { mutableIntStateOf(reference.indexOf(reference.first { it.abbreviation == dataOrigin })) }
+    var targetIndex by remember { mutableIntStateOf(reference.indexOf(reference.first { it.abbreviation == dataTarget })) }
 
     enabled = value != ""
     reference = updateMagnitudes(magnitudesList, magnitude)
@@ -129,8 +130,12 @@ fun App() {
                                     reference = updateMagnitudes(magnitudesList, it)
                                     magnitude = it
 
-                                    origin = reference[originIndex]
-                                    target = reference[targetIndex]
+                                    origin = reference[if (originIndex > reference.lastIndex)
+                                        if (originIndex > targetIndex) reference.lastIndex else reference.lastIndex-1
+                                    else originIndex]
+                                    target = reference[if (targetIndex > reference.lastIndex)
+                                        if (targetIndex > originIndex) reference.lastIndex else reference.lastIndex-1
+                                    else targetIndex]
 
                                     dataMagnitude = it
                                     dataOrigin = origin.abbreviation
