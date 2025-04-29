@@ -3,11 +3,11 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.dsl.KotlinVersion
 
 plugins {
-    kotlin("multiplatform") version "2.1.0"
-    kotlin("plugin.serialization") version "2.1.0"
-    kotlin("plugin.compose") version "2.1.0"
-    id("org.jetbrains.compose") version "1.7.0"
-    id("com.android.application") version "8.8.0"
+    kotlin("multiplatform") version "2.1.20"
+    kotlin("plugin.serialization") version "2.1.20"
+    kotlin("plugin.compose") version "2.1.20"
+    id("org.jetbrains.compose") version "1.7.3"
+    id("com.android.application") version "8.9.2"
 }
 
 group = "io.magicstar"
@@ -37,21 +37,21 @@ kotlin {
         }
         val androidMain by getting {
             dependencies {
-                implementation("androidx.core:core-ktx:1.15.0")
-                implementation("androidx.activity:activity-compose:1.10.0")
-                implementation(project.dependencies.platform("androidx.compose:compose-bom:2025.01.00"))
+                implementation("androidx.core:core-ktx:1.16.0")
+                implementation("androidx.activity:activity-compose:1.10.1")
+                implementation(project.dependencies.platform("androidx.compose:compose-bom:2025.04.01"))
                 implementation("androidx.compose.ui:ui")
                 implementation("androidx.compose.ui:ui-graphics")
                 implementation("androidx.compose.material3:material3")
                 implementation("androidx.compose.material:material-icons-extended")
-                implementation("androidx.datastore:datastore-preferences:1.1.2")
+                implementation("androidx.datastore:datastore-preferences:1.1.4")
             }
         }
         val jvmMain by getting {
             dependencies {
                 implementation(compose.desktop.currentOs)
                 implementation(compose.material3)
-                implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.7.1")
+                implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.8.1")
                 implementation(compose.materialIconsExtended)
             }
         }
@@ -59,7 +59,7 @@ kotlin {
             dependencies {
                 implementation(kotlin("test"))
                 implementation("systems.uom:systems-common:2.1")
-                implementation("org.junit.jupiter:junit-jupiter-params:5.10.1")
+                implementation("org.junit.jupiter:junit-jupiter-params:5.12.2")
             }
         }
     }
