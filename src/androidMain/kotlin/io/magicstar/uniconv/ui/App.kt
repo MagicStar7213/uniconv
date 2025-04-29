@@ -201,7 +201,6 @@ fun App(context: Context) {
                         DropdownMenuItem(
                             text = { Text(
                                 text = "${stringResource(unit.name)} (${unit.abbreviation})",
-                                maxLines = 1
                             ) },
                             onClick = {
                                 originIndex = reference.indexOf(unit)
@@ -259,7 +258,6 @@ fun App(context: Context) {
                         DropdownMenuItem(
                             text = { Text(
                                 text = "${stringResource(unit.name)} (${unit.abbreviation})",
-                                maxLines = 1
                             ) },
                             onClick = {
                                 targetIndex = reference.indexOf(unit)
