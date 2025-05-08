@@ -33,6 +33,7 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 implementation(compose.components.resources)
+                implementation(compose.runtime)
             }
         }
         val androidMain by getting {

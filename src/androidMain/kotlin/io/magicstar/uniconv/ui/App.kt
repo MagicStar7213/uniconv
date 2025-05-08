@@ -27,6 +27,7 @@ import androidx.compose.material3.MenuAnchorType
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -35,7 +36,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
@@ -47,7 +47,21 @@ import io.magicstar.uniconv.data.magnitudeKey
 import io.magicstar.uniconv.data.originKey
 import io.magicstar.uniconv.data.saveKey
 import io.magicstar.uniconv.data.targetKey
-import io.magicstar.uniconv.generated.resources.*
+import io.magicstar.uniconv.generated.resources.Res
+import io.magicstar.uniconv.generated.resources.convert
+import io.magicstar.uniconv.generated.resources.length
+import io.magicstar.uniconv.generated.resources.magnitudes
+import io.magicstar.uniconv.generated.resources.origin
+import io.magicstar.uniconv.generated.resources.speed
+import io.magicstar.uniconv.generated.resources.surface
+import io.magicstar.uniconv.generated.resources.swap
+import io.magicstar.uniconv.generated.resources.target
+import io.magicstar.uniconv.generated.resources.temperature
+import io.magicstar.uniconv.generated.resources.time
+import io.magicstar.uniconv.generated.resources.uniconv
+import io.magicstar.uniconv.generated.resources.value
+import io.magicstar.uniconv.generated.resources.volume
+import io.magicstar.uniconv.generated.resources.weight
 import io.magicstar.uniconv.unit.convert
 import io.magicstar.uniconv.unit.model.Unit
 import io.magicstar.uniconv.unit.updateMagnitudes
@@ -80,8 +94,14 @@ fun App(context: Context) {
     var targetIndex by remember { mutableIntStateOf(reference.indexOf(reference.first { it.abbreviation == runBlocking(Dispatchers.IO) { getKey(context, targetKey) } })) }
 
     val widthTextMeasurer = rememberTextMeasurer()
-    val longestString by remember { mutableStateOf(reference.maxBy { "${it.name} (${it.abbreviation})" }) }
-    val textFieldWidth by remember { mutableStateOf(widthTextMeasurer.measure("${longestString.name} (${longestString.abbreviation})")) }
+    val unitStrings = reference.associateWith { "${stringResource(it.name)} (${it.abbreviation})" }
+    var maxUnit = unitStrings.maxByOrNull { it.value }!!.key
+    var textFieldWidth = widthTextMeasurer.measure(unitStrings[maxUnit]!!)
+    LaunchedEffect(unitStrings) {
+        maxUnit = unitStrings.maxBy { it.value }.key
+
+        textFieldWidth = widthTextMeasurer.measure(unitStrings[maxUnit]!!)
+    }
 
     enabled = value != ""
     reference = updateMagnitudes(magnitudes, magnitude)
@@ -181,8 +201,7 @@ fun App(context: Context) {
                 onExpandedChange = { originMenuExpanded = it }
             ) {
                 OutlinedTextField(
-                    modifier = Modifier.menuAnchor(MenuAnchorType.PrimaryNotEditable, true)
-                        .width(with(LocalDensity.current) { textFieldWidth.size.width.dp }),
+                    modifier = Modifier.menuAnchor(MenuAnchorType.PrimaryNotEditable, true),
                     shape = CircleShape,
                     value = if (LocalConfiguration.current.orientation == Configuration.ORIENTATION_LANDSCAPE)
                         "${stringResource(origin.name)} (${origin.abbreviation})"
@@ -194,6 +213,7 @@ fun App(context: Context) {
                     trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(originMenuExpanded) }
                 )
                 ExposedDropdownMenu(
+                    modifier = Modifier.width(textFieldWidth.size.width.dp),
                     expanded = originMenuExpanded,
                     onDismissRequest = { originMenuExpanded = false }
                 ) {
@@ -238,8 +258,7 @@ fun App(context: Context) {
                 onExpandedChange = { targetMenuExpanded = it }
             ) {
                 OutlinedTextField(
-                    modifier = Modifier.menuAnchor(MenuAnchorType.PrimaryNotEditable, true)
-                        .width(with(LocalDensity.current) { textFieldWidth.size.width.dp }),
+                    modifier = Modifier.menuAnchor(MenuAnchorType.PrimaryNotEditable, true),
                     shape = CircleShape,
                     value = if (LocalConfiguration.current.orientation == Configuration.ORIENTATION_LANDSCAPE)
                         "${stringResource(target.name)} (${target.abbreviation})"
@@ -251,6 +270,7 @@ fun App(context: Context) {
                     trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(targetMenuExpanded) }
                 )
                 ExposedDropdownMenu(
+                    modifier = Modifier.width(textFieldWidth.size.width.dp),
                     expanded = targetMenuExpanded,
                     onDismissRequest = { targetMenuExpanded = false }
                 ) {
