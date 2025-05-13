@@ -17,11 +17,10 @@ import org.jetbrains.compose.resources.stringResource
 fun getDropdownWidth(): List<Dp> {
     val textMeasurer = rememberTextMeasurer()
     val widthList = mutableListOf<Dp>()
-    listOf(lengthUnits, weightUnits, timeUnits, temperatureUnits,
-        surfaceUnits, volumeUnits, speedUnits).forEach { ref ->
-        val maxUnit = ref.maxBy { "${stringResource(it.name)} (${it.abbreviation})".length }
+    listOf(lengthUnits, weightUnits, timeUnits, temperatureUnits, surfaceUnits, volumeUnits, speedUnits).forEach { ref ->
+        val allStrings = ref.map { "${stringResource(it.name)} (${it.abbreviation})" }
         with(LocalDensity.current) {
-            widthList.add(textMeasurer.measure("${stringResource(maxUnit.name)} (${maxUnit.abbreviation})").size.width.toDp())
+            widthList.add(allStrings.maxOf { textMeasurer.measure(it).size.width }.toDp())
         }
     }
     return widthList
