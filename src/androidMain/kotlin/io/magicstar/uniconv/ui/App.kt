@@ -27,7 +27,6 @@ import androidx.compose.material3.MenuAnchorType
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -39,7 +38,6 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import io.magicstar.uniconv.data.getKey
@@ -62,6 +60,7 @@ import io.magicstar.uniconv.generated.resources.uniconv
 import io.magicstar.uniconv.generated.resources.value
 import io.magicstar.uniconv.generated.resources.volume
 import io.magicstar.uniconv.generated.resources.weight
+import io.magicstar.uniconv.getDropdownWidth
 import io.magicstar.uniconv.unit.convert
 import io.magicstar.uniconv.unit.model.Unit
 import io.magicstar.uniconv.unit.updateMagnitudes
@@ -93,15 +92,9 @@ fun App(context: Context) {
     var originIndex by remember { mutableIntStateOf(reference.indexOf(reference.first { it.abbreviation == runBlocking(Dispatchers.IO) { getKey(context, originKey) } })) }
     var targetIndex by remember { mutableIntStateOf(reference.indexOf(reference.first { it.abbreviation == runBlocking(Dispatchers.IO) { getKey(context, targetKey) } })) }
 
-    val widthTextMeasurer = rememberTextMeasurer()
-    val unitStrings = reference.associateWith { "${stringResource(it.name)} (${it.abbreviation})" }
-    var maxUnit = unitStrings.maxByOrNull { it.value }!!.key
-    var textFieldWidth = widthTextMeasurer.measure(unitStrings[maxUnit]!!)
-    LaunchedEffect(unitStrings) {
-        maxUnit = unitStrings.maxBy { it.value }.key
+    val maxWidthList = getDropdownWidth()
 
-        textFieldWidth = widthTextMeasurer.measure(unitStrings[maxUnit]!!)
-    }
+    val textFieldWidth by remember { mutableStateOf(maxWidthList[magnitudes.indexOf(magnitude)]) }
 
     enabled = value != ""
     reference = updateMagnitudes(magnitudes, magnitude)
@@ -213,7 +206,7 @@ fun App(context: Context) {
                     trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(originMenuExpanded) }
                 )
                 ExposedDropdownMenu(
-                    modifier = Modifier.width(textFieldWidth.size.width.dp),
+                    modifier = Modifier.width(textFieldWidth),
                     expanded = originMenuExpanded,
                     onDismissRequest = { originMenuExpanded = false }
                 ) {
@@ -270,7 +263,7 @@ fun App(context: Context) {
                     trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(targetMenuExpanded) }
                 )
                 ExposedDropdownMenu(
-                    modifier = Modifier.width(textFieldWidth.size.width.dp),
+                    modifier = Modifier.width(textFieldWidth),
                     expanded = targetMenuExpanded,
                     onDismissRequest = { targetMenuExpanded = false }
                 ) {
