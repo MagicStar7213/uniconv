@@ -7,7 +7,7 @@ plugins {
     kotlin("plugin.serialization") version "2.1.20"
     kotlin("plugin.compose") version "2.1.20"
     id("org.jetbrains.compose") version "1.7.3"
-    id("com.android.application") version "8.9.2"
+    id("com.android.application") version "8.10.0"
 }
 
 group = "io.magicstar"
@@ -45,7 +45,7 @@ kotlin {
                 implementation("androidx.compose.ui:ui-graphics")
                 implementation("androidx.compose.material3:material3")
                 implementation("androidx.compose.material:material-icons-extended")
-                implementation("androidx.datastore:datastore-preferences:1.1.4")
+                implementation("androidx.datastore:datastore-preferences:1.1.6")
             }
         }
         val jvmMain by getting {
