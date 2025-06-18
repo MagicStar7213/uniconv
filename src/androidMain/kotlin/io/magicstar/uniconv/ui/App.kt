@@ -92,9 +92,7 @@ fun App(context: Context) {
     var originIndex by remember { mutableIntStateOf(reference.indexOf(reference.first { it.abbreviation == runBlocking(Dispatchers.IO) { getKey(context, originKey) } })) }
     var targetIndex by remember { mutableIntStateOf(reference.indexOf(reference.first { it.abbreviation == runBlocking(Dispatchers.IO) { getKey(context, targetKey) } })) }
 
-    val maxWidthList = getDropdownWidth()
-
-    val textFieldWidth by remember { mutableStateOf(maxWidthList[magnitudes.indexOf(magnitude)]) }
+    val textFieldWidth = getDropdownWidth()
 
     enabled = value != ""
     reference = updateMagnitudes(magnitudes, magnitude)

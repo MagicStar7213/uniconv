@@ -14,14 +14,14 @@ import io.magicstar.uniconv.unit.model.weightUnits
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
-fun getDropdownWidth(): List<Dp> {
-    val textMeasurer = rememberTextMeasurer()
-    val widthList = mutableListOf<Dp>()
-    listOf(lengthUnits, weightUnits, timeUnits, temperatureUnits, surfaceUnits, volumeUnits, speedUnits).forEach { ref ->
-        val allStrings = ref.map { "${stringResource(it.name)} (${it.abbreviation})" }
-        with(LocalDensity.current) {
+fun getDropdownWidth(): Dp {
+    with(LocalDensity.current) {
+        val textMeasurer = rememberTextMeasurer()
+        val widthList = mutableListOf<Dp>()
+        for (ref in listOf(lengthUnits, weightUnits, timeUnits, temperatureUnits, surfaceUnits, volumeUnits, speedUnits)) {
+            val allStrings = ref.map { "${stringResource(it.name)} (${it.abbreviation})" }
             widthList.add(allStrings.maxOf { textMeasurer.measure(it).size.width }.toDp())
         }
+        return widthList.maxBy { it.toPx() }
     }
-    return widthList
 }
