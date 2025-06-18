@@ -171,7 +171,7 @@ fun App(context: Context) {
             },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number, imeAction = ImeAction.Go),
             keyboardActions = KeyboardActions(onGo = {
-                result ="${convert(value.toDouble(), origin, target)} ${target.name}"
+                result ="${convert(value.toDouble(), origin, target)} ${target.abbreviation}"
                 keyboardController?.hide()
             })
         )
