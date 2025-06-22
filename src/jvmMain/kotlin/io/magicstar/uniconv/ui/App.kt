@@ -130,12 +130,16 @@ fun App() {
                                     reference = updateMagnitudes(magnitudesList, it)
                                     magnitude = it
 
-                                    origin = reference[if (originIndex > reference.lastIndex)
+                                    originIndex = if (originIndex > reference.lastIndex)
                                         if (originIndex > targetIndex) reference.lastIndex else reference.lastIndex-1
-                                    else originIndex]
-                                    target = reference[if (targetIndex > reference.lastIndex)
+                                    else originIndex
+
+                                    targetIndex = if (targetIndex > reference.lastIndex)
                                         if (targetIndex > originIndex) reference.lastIndex else reference.lastIndex-1
-                                    else targetIndex]
+                                    else targetIndex
+
+                                    origin = reference[originIndex]
+                                    target = reference[targetIndex]
 
                                     dataMagnitude = it
                                     dataOrigin = origin.abbreviation
