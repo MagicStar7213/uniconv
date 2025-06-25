@@ -3,11 +3,11 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.dsl.KotlinVersion
 
 plugins {
-    kotlin("multiplatform") version "2.1.20"
-    kotlin("plugin.serialization") version "2.1.20"
-    kotlin("plugin.compose") version "2.1.20"
-    id("org.jetbrains.compose") version "1.7.3"
-    id("com.android.application") version "8.10.1"
+    kotlin("multiplatform") version "2.2.0"
+    kotlin("plugin.serialization") version "2.2.0"
+    kotlin("plugin.compose") version "2.2.0"
+    id("org.jetbrains.compose") version "1.8.2"
+    id("com.android.application") version "8.11.0"
 }
 
 group = "io.magicstar"
@@ -17,14 +17,14 @@ kotlin {
     jvm {
         compilerOptions {
             jvmTarget = JvmTarget.JVM_21
-            languageVersion = KotlinVersion.KOTLIN_2_1
+            languageVersion = KotlinVersion.KOTLIN_2_2
         }
     }
 
     androidTarget {
         compilerOptions {
             jvmTarget = JvmTarget.JVM_21
-            languageVersion = KotlinVersion.KOTLIN_2_1
+            languageVersion = KotlinVersion.KOTLIN_2_2
         }
     }
 
@@ -40,7 +40,7 @@ kotlin {
             dependencies {
                 implementation("androidx.core:core-ktx:1.16.0")
                 implementation("androidx.activity:activity-compose:1.10.1")
-                implementation(project.dependencies.platform("androidx.compose:compose-bom:2025.06.00"))
+                implementation(project.dependencies.platform("androidx.compose:compose-bom:2025.06.01"))
                 implementation("androidx.compose.ui:ui")
                 implementation("androidx.compose.ui:ui-graphics")
                 implementation("androidx.compose.material3:material3")
@@ -60,7 +60,7 @@ kotlin {
             dependencies {
                 implementation(kotlin("test"))
                 implementation("systems.uom:systems-common:2.1")
-                implementation("org.junit.jupiter:junit-jupiter-params:5.12.2")
+                implementation("org.junit.jupiter:junit-jupiter-params:5.13.2")
             }
         }
     }
