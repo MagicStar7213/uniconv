@@ -11,7 +11,7 @@ plugins {
 }
 
 group = "io.magicstar"
-version = "2.2"
+version = "2.2.1"
 
 kotlin {
     jvm {
@@ -116,9 +116,9 @@ compose.desktop {
             description = "Simple unit converter refactored. Supports the most common magnitudes and units"
             vendor = "MagicStar7213"
             windows {
-                packageVersion = "${project.version}.0"
+                packageVersion = "${project.version}"
             }
         }
-        buildTypes.release.proguard.version.set("7.4.1")
+        buildTypes.release.proguard.version.set("7.5.0")
     }
 }
