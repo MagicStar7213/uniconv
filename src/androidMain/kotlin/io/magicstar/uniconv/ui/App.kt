@@ -60,9 +60,15 @@ import io.magicstar.uniconv.generated.resources.uniconv
 import io.magicstar.uniconv.generated.resources.value
 import io.magicstar.uniconv.generated.resources.volume
 import io.magicstar.uniconv.generated.resources.weight
-import io.magicstar.uniconv.getDropdownWidth
 import io.magicstar.uniconv.unit.convert
 import io.magicstar.uniconv.unit.model.Unit
+import io.magicstar.uniconv.unit.model.lengthUnits
+import io.magicstar.uniconv.unit.model.speedUnits
+import io.magicstar.uniconv.unit.model.surfaceUnits
+import io.magicstar.uniconv.unit.model.temperatureUnits
+import io.magicstar.uniconv.unit.model.timeUnits
+import io.magicstar.uniconv.unit.model.volumeUnits
+import io.magicstar.uniconv.unit.model.weightUnits
 import io.magicstar.uniconv.unit.updateMagnitudes
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -92,218 +98,230 @@ fun App(context: Context) {
     var originIndex by remember { mutableIntStateOf(reference.indexOf(reference.first { it.abbreviation == runBlocking(Dispatchers.IO) { getKey(context, originKey) } })) }
     var targetIndex by remember { mutableIntStateOf(reference.indexOf(reference.first { it.abbreviation == runBlocking(Dispatchers.IO) { getKey(context, targetKey) } })) }
 
-    val textFieldWidth = getDropdownWidth()
+    GetDropdownWidth(
+        view = {
+            val widthList = mutableListOf<String>()
+            for (ref in listOf(lengthUnits, weightUnits, timeUnits, temperatureUnits, surfaceUnits, volumeUnits, speedUnits)) {
+                val allStrings = ref.map { "${stringResource(it.name)} (${it.abbreviation})" }
+                widthList.add(allStrings.maxBy { it.length })
+            }
+            val maxString = widthList.maxBy { it.length }
+            Text(maxString)
+        }
+    ) { dropdownWidth ->
+        enabled = value != ""
+        reference = updateMagnitudes(magnitudes, magnitude)
 
-    enabled = value != ""
-    reference = updateMagnitudes(magnitudes, magnitude)
-
-    Column(
-        modifier = Modifier.fillMaxSize(),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
-    ) {
-        Image(
-            painter = painterResource(Res.drawable.uniconv),
-            contentDescription = "App logo",
-            modifier = Modifier.size(90.dp)
-        )
-        var magnMenuExpanded by remember { mutableStateOf(false) }
-
-        ExposedDropdownMenuBox(
-            modifier = Modifier.padding(
-                horizontal = 8.dp,
-                vertical = 8.dp
-            ),
-            expanded = magnMenuExpanded,
-            onExpandedChange = { magnMenuExpanded = it }
+        Column(
+            modifier = Modifier.fillMaxSize(),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
         ) {
-            OutlinedTextField(
-                modifier = Modifier.menuAnchor(MenuAnchorType.PrimaryNotEditable, true),
-                shape = CircleShape,
-                value = magnitude,
-                onValueChange = {},
-                readOnly = true,
-                singleLine = true,
-                label = { Text(stringResource(Res.string.magnitudes)) },
-                trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(magnMenuExpanded) }
+            Image(
+                painter = painterResource(Res.drawable.uniconv),
+                contentDescription = "App logo",
+                modifier = Modifier.size(90.dp)
             )
-            ExposedDropdownMenu(
+            var magnMenuExpanded by remember { mutableStateOf(false) }
+
+            ExposedDropdownMenuBox(
+                modifier = Modifier.padding(
+                    horizontal = 8.dp,
+                    vertical = 8.dp
+                ),
                 expanded = magnMenuExpanded,
-                onDismissRequest = { magnMenuExpanded = false }
-            ) {
-                magnitudes.forEach {
-                    DropdownMenuItem(
-                        text = { Text(it) },
-                        onClick = {
-                            reference = updateMagnitudes(magnitudes, it)
-                            magnitude = it
-
-                            originIndex = if (originIndex > reference.lastIndex) {
-                                if (originIndex > targetIndex) reference.lastIndex else reference.lastIndex - 1
-                            } else originIndex
-
-                            targetIndex = if (targetIndex > reference.lastIndex) {
-                                if (targetIndex > originIndex) reference.lastIndex else reference.lastIndex - 1
-                            } else targetIndex
-
-                            origin = reference[originIndex]
-                            target = reference[targetIndex]
-
-                            CoroutineScope(Dispatchers.IO).launch {
-                                saveKey(context, magnitudeKey, magnitude)
-                                saveKey(context, originKey, origin.abbreviation)
-                                saveKey(context, targetKey, target.abbreviation)
-                            }
-
-                            magnMenuExpanded = false
-                        }
-                    )
-                }
-            }
-        }
-        val keyboardController = LocalSoftwareKeyboardController.current
-        OutlinedTextField(
-            modifier = Modifier.padding(8.dp),
-            singleLine = true,
-            shape = CircleShape,
-            label = { Text(stringResource(Res.string.value)) },
-            value = value,
-            onValueChange = {
-                value = it
-            },
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number, imeAction = ImeAction.Go),
-            keyboardActions = KeyboardActions(onGo = {
-                result ="${convert(value.toDouble(), origin, target)} ${target.abbreviation}"
-                keyboardController?.hide()
-            })
-        )
-
-        Row(
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            var originMenuExpanded by remember { mutableStateOf(false) }
-
-            ExposedDropdownMenuBox(
-                modifier = Modifier
-                    .weight(.3f)
-                    .padding(
-                        start = 50.dp,
-                        end = 4.dp,
-                        top = 15.dp,
-                        bottom = 15.dp
-                    ),
-                expanded = originMenuExpanded,
-                onExpandedChange = { originMenuExpanded = it }
+                onExpandedChange = { magnMenuExpanded = it }
             ) {
                 OutlinedTextField(
                     modifier = Modifier.menuAnchor(MenuAnchorType.PrimaryNotEditable, true),
                     shape = CircleShape,
-                    value = if (LocalConfiguration.current.orientation == Configuration.ORIENTATION_LANDSCAPE)
-                        "${stringResource(origin.name)} (${origin.abbreviation})"
-                    else origin.abbreviation,
+                    value = magnitude,
                     onValueChange = {},
                     readOnly = true,
                     singleLine = true,
-                    label = { Text(stringResource(Res.string.origin)) },
-                    trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(originMenuExpanded) }
+                    label = { Text(stringResource(Res.string.magnitudes)) },
+                    trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(magnMenuExpanded) }
                 )
                 ExposedDropdownMenu(
-                    modifier = Modifier.width(textFieldWidth),
+                    expanded = magnMenuExpanded,
+                    onDismissRequest = { magnMenuExpanded = false }
+                ) {
+                    magnitudes.forEach {
+                        DropdownMenuItem(
+                            text = { Text(it) },
+                            onClick = {
+                                reference = updateMagnitudes(magnitudes, it)
+                                magnitude = it
+
+                                originIndex = if (originIndex > reference.lastIndex) {
+                                    if (originIndex > targetIndex) reference.lastIndex else reference.lastIndex - 1
+                                } else originIndex
+
+                                targetIndex = if (targetIndex > reference.lastIndex) {
+                                    if (targetIndex > originIndex) reference.lastIndex else reference.lastIndex - 1
+                                } else targetIndex
+
+                                origin = reference[originIndex]
+                                target = reference[targetIndex]
+
+                                CoroutineScope(Dispatchers.IO).launch {
+                                    saveKey(context, magnitudeKey, magnitude)
+                                    saveKey(context, originKey, origin.abbreviation)
+                                    saveKey(context, targetKey, target.abbreviation)
+                                }
+
+                                magnMenuExpanded = false
+                            }
+                        )
+                    }
+                }
+            }
+            val keyboardController = LocalSoftwareKeyboardController.current
+            OutlinedTextField(
+                modifier = Modifier.padding(8.dp),
+                singleLine = true,
+                shape = CircleShape,
+                label = { Text(stringResource(Res.string.value)) },
+                value = value,
+                onValueChange = {
+                    value = it
+                },
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number, imeAction = ImeAction.Go),
+                keyboardActions = KeyboardActions(onGo = {
+                    result ="${convert(value.toDouble(), origin, target)} ${target.abbreviation}"
+                    keyboardController?.hide()
+                })
+            )
+
+            Row(
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                var originMenuExpanded by remember { mutableStateOf(false) }
+
+                ExposedDropdownMenuBox(
+                    modifier = Modifier
+                        .weight(.3f)
+                        .padding(
+                            start = 50.dp,
+                            end = 4.dp,
+                            top = 15.dp,
+                            bottom = 15.dp
+                        ),
                     expanded = originMenuExpanded,
-                    onDismissRequest = { originMenuExpanded = false }
+                    onExpandedChange = { originMenuExpanded = it }
                 ) {
-                    reference.forEach { unit ->
-                        DropdownMenuItem(
-                            text = { Text(
-                                text = "${stringResource(unit.name)} (${unit.abbreviation})",
-                            ) },
-                            onClick = {
-                                originIndex = reference.indexOf(unit)
-                                origin = unit
-                                CoroutineScope(Dispatchers.IO).launch { saveKey(context, originKey, origin.abbreviation) }
-                                originMenuExpanded = false
-                            }
-                        )
+                    OutlinedTextField(
+                        modifier = Modifier.menuAnchor(MenuAnchorType.PrimaryNotEditable, true),
+                        shape = CircleShape,
+                        value = if (LocalConfiguration.current.orientation == Configuration.ORIENTATION_LANDSCAPE)
+                            "${stringResource(origin.name)} (${origin.abbreviation})"
+                        else origin.abbreviation,
+                        onValueChange = {},
+                        readOnly = true,
+                        singleLine = true,
+                        label = { Text(stringResource(Res.string.origin)) },
+                        trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(originMenuExpanded) }
+                    )
+                    ExposedDropdownMenu(
+                        modifier = Modifier.width(dropdownWidth),
+                        expanded = originMenuExpanded,
+                        onDismissRequest = { originMenuExpanded = false }
+                    ) {
+                        reference.forEach { unit ->
+                            DropdownMenuItem(
+                                text = { Text(
+                                    text = "${stringResource(unit.name)} (${unit.abbreviation})",
+                                ) },
+                                onClick = {
+                                    originIndex = reference.indexOf(unit)
+                                    origin = unit
+                                    CoroutineScope(Dispatchers.IO).launch { saveKey(context, originKey, origin.abbreviation) }
+                                    originMenuExpanded = false
+                                }
+                            )
+                        }
                     }
                 }
-            }
 
-            IconButton(
-                onClick = {
-                    originIndex = targetIndex.also { targetIndex = originIndex }
-                    origin = reference[originIndex]
-                    target = reference[targetIndex]
+                IconButton(
+                    onClick = {
+                        originIndex = targetIndex.also { targetIndex = originIndex }
+                        origin = reference[originIndex]
+                        target = reference[targetIndex]
+                    }
+                )  {
+                    Icon(imageVector = Icons.Default.SwapHoriz, contentDescription = stringResource(Res.string.swap))
                 }
-            )  {
-                Icon(imageVector = Icons.Default.SwapHoriz, contentDescription = stringResource(Res.string.swap))
-            }
 
-            var targetMenuExpanded by remember { mutableStateOf(false) }
+                var targetMenuExpanded by remember { mutableStateOf(false) }
 
-            ExposedDropdownMenuBox(
-                modifier = Modifier
-                    .weight(.3f)
-                    .padding(
-                        start = 4.dp,
-                        top = 15.dp,
-                        bottom = 15.dp,
-                        end = 50.dp
-                    ),
-                expanded = targetMenuExpanded,
-                onExpandedChange = { targetMenuExpanded = it }
-            ) {
-                OutlinedTextField(
-                    modifier = Modifier.menuAnchor(MenuAnchorType.PrimaryNotEditable, true),
-                    shape = CircleShape,
-                    value = if (LocalConfiguration.current.orientation == Configuration.ORIENTATION_LANDSCAPE)
-                        "${stringResource(target.name)} (${target.abbreviation})"
-                    else target.abbreviation,
-                    onValueChange = {},
-                    readOnly = true,
-                    singleLine = true,
-                    label = { Text(stringResource(Res.string.target)) },
-                    trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(targetMenuExpanded) }
-                )
-                ExposedDropdownMenu(
-                    modifier = Modifier.width(textFieldWidth),
+                ExposedDropdownMenuBox(
+                    modifier = Modifier
+                        .weight(.3f)
+                        .padding(
+                            start = 4.dp,
+                            top = 15.dp,
+                            bottom = 15.dp,
+                            end = 50.dp
+                        ),
                     expanded = targetMenuExpanded,
-                    onDismissRequest = { targetMenuExpanded = false }
+                    onExpandedChange = { targetMenuExpanded = it }
                 ) {
-                    reference.forEach { unit ->
-                        DropdownMenuItem(
-                            text = { Text(
-                                text = "${stringResource(unit.name)} (${unit.abbreviation})",
-                            ) },
-                            onClick = {
-                                targetIndex = reference.indexOf(unit)
-                                target = unit
-                                CoroutineScope(Dispatchers.IO).launch { saveKey(context, targetKey, target.abbreviation) }
-                                targetMenuExpanded = false
-                            }
-                        )
+                    OutlinedTextField(
+                        modifier = Modifier.menuAnchor(MenuAnchorType.PrimaryNotEditable, true),
+                        shape = CircleShape,
+                        value = if (LocalConfiguration.current.orientation == Configuration.ORIENTATION_LANDSCAPE)
+                            "${stringResource(target.name)} (${target.abbreviation})"
+                        else target.abbreviation,
+                        onValueChange = {},
+                        readOnly = true,
+                        singleLine = true,
+                        label = { Text(stringResource(Res.string.target)) },
+                        trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(targetMenuExpanded) }
+                    )
+                    ExposedDropdownMenu(
+                        modifier = Modifier.width(dropdownWidth),
+                        expanded = targetMenuExpanded,
+                        onDismissRequest = { targetMenuExpanded = false }
+                    ) {
+                        reference.forEach { unit ->
+                            DropdownMenuItem(
+                                text = { Text(
+                                    text = "${stringResource(unit.name)} (${unit.abbreviation})",
+                                ) },
+                                onClick = {
+                                    targetIndex = reference.indexOf(unit)
+                                    target = unit
+                                    CoroutineScope(Dispatchers.IO).launch { saveKey(context, targetKey, target.abbreviation) }
+                                    targetMenuExpanded = false
+                                }
+                            )
+                        }
                     }
                 }
             }
-        }
-        Button(
-            modifier = Modifier.padding(vertical = 5.dp),
-            enabled = enabled,
-            onClick = {
-                result ="${convert(value.toDouble(), origin, target)} ${target.abbreviation}"
+            Button(
+                modifier = Modifier.padding(vertical = 5.dp),
+                enabled = enabled,
+                onClick = {
+                    result ="${convert(value.toDouble(), origin, target)} ${target.abbreviation}"
+                }
+            ) {
+                Text(
+                    text = stringResource(Res.string.convert),
+                    fontSize = 17.5.sp
+                )
             }
-        ) {
-            Text(
-                text = stringResource(Res.string.convert),
-                fontSize = 17.5.sp
-            )
-        }
-        SelectionContainer {
-            Text(
-                modifier = Modifier.padding(horizontal = 50.dp),
-                text = result,
-                fontSize = 25.sp
-            )
+            SelectionContainer {
+                Text(
+                    modifier = Modifier.padding(horizontal = 50.dp),
+                    text = result,
+                    fontSize = 25.sp
+                )
+            }
         }
     }
+
+
 
 }
