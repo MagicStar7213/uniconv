@@ -15,5 +15,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "Uniconv"
-include(":Uniconv")
+rootProject.name = "uniconv"
+include(":uniconv")
