@@ -8,11 +8,13 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.SwapHoriz
 import androidx.compose.material3.Button
+import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuBox
@@ -37,6 +39,7 @@ import androidx.compose.ui.input.key.onKeyEvent
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.window.PopupProperties
 import io.magicstar.uniconv.data.dataMagnitude
 import io.magicstar.uniconv.data.dataOrigin
 import io.magicstar.uniconv.data.dataTarget
@@ -47,10 +50,9 @@ import io.magicstar.uniconv.generated.resources.magnitudes
 import io.magicstar.uniconv.generated.resources.origin
 import io.magicstar.uniconv.generated.resources.speed
 import io.magicstar.uniconv.generated.resources.surface
-import io.magicstar.uniconv.generated.resources.target
+import io.magicstar.uniconv.generated.resources.swap
 import io.magicstar.uniconv.generated.resources.temperature
 import io.magicstar.uniconv.generated.resources.time
-import io.magicstar.uniconv.generated.resources.swap
 import io.magicstar.uniconv.generated.resources.uniconv
 import io.magicstar.uniconv.generated.resources.value
 import io.magicstar.uniconv.generated.resources.volume
@@ -182,6 +184,8 @@ fun App() {
 
                     var originMenuExpanded by remember { mutableStateOf(false) }
 
+                    val setOriginDefault = "${stringResource(origin.name)} (${origin.abbreviation})"
+                    var textFieldValue1 by remember { mutableStateOf(setOriginDefault) }
                     ExposedDropdownMenuBox(
                         modifier = Modifier
                             .weight(.3f)
@@ -192,34 +196,48 @@ fun App() {
                                 bottom = 15.dp
                             ),
                         expanded = originMenuExpanded,
-                        onExpandedChange = { originMenuExpanded = it }
+                        onExpandedChange = {
+                            originMenuExpanded = it
+                            if (originMenuExpanded) textFieldValue1 = ""
+                        }
                     ) {
                         OutlinedTextField(
-                            modifier = Modifier.menuAnchor(MenuAnchorType.PrimaryNotEditable, true),
+                            modifier = Modifier
+                                .menuAnchor(MenuAnchorType.PrimaryEditable, true),
                             shape = CircleShape,
-                            value = "${stringResource(origin.name)} (${origin.abbreviation})",
-                            onValueChange = {},
-                            readOnly = true,
+                            value = textFieldValue1,
+                            onValueChange = {
+                                textFieldValue1 = it
+                                originMenuExpanded = true
+                            },
+                            readOnly = false,
                             singleLine = true,
                             label = { Text(stringResource(Res.string.origin)) },
                             trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(originMenuExpanded) }
                         )
-                        ExposedDropdownMenu(
-                            expanded = originMenuExpanded,
-                            onDismissRequest = { originMenuExpanded = false }
-                        ) {
-                            reference.forEach { unit ->
-                                DropdownMenuItem(
-                                    text = { Text("${stringResource(unit.name)} (${unit.abbreviation})") },
-                                    onClick = {
-                                        originIndex = reference.indexOf(unit)
-                                        origin = unit
-                                        dataOrigin = origin.abbreviation
-                                        originMenuExpanded = false
-                                    }
-                                )
+                        if (!originMenuExpanded) textFieldValue1 = setOriginDefault
+                        val tempReference = reference.filter { "${stringResource(it.name)} (${it.abbreviation})".contains(textFieldValue1, true) }
+                        if (tempReference.isNotEmpty())
+                            DropdownMenu(
+                                modifier = Modifier.exposedDropdownSize(true),
+                                properties = PopupProperties(focusable = false, clippingEnabled = false),
+                                scrollState = rememberScrollState(),
+                                expanded = originMenuExpanded,
+                                onDismissRequest = { originMenuExpanded = false }
+                            ) {
+                                tempReference.forEach { unit ->
+                                    DropdownMenuItem(
+                                        text = { Text("${stringResource(unit.name)} (${unit.abbreviation})") },
+                                        onClick = {
+                                            originIndex = reference.indexOf(unit)
+                                            origin = unit
+                                            dataOrigin = origin.abbreviation
+                                            originMenuExpanded = false
+                                        }
+                                    )
+                                }
                             }
-                        }
+
                     }
 
                     IconButton(
@@ -234,44 +252,60 @@ fun App() {
 
                     var targetMenuExpanded by remember { mutableStateOf(false) }
 
+                    val setTargetDefault = "${stringResource(target.name)} (${target.abbreviation})"
+                    var textFieldValue2 by remember { mutableStateOf(setTargetDefault) }
                     ExposedDropdownMenuBox(
                         modifier = Modifier
                             .weight(.3f)
                             .padding(
-                                start = 4.dp,
+                                start = 10.dp,
+                                end = 4.dp,
                                 top = 15.dp,
-                                bottom = 15.dp,
-                                end = 50.dp
+                                bottom = 15.dp
                             ),
                         expanded = targetMenuExpanded,
-                        onExpandedChange = { targetMenuExpanded = it }
+                        onExpandedChange = {
+                            targetMenuExpanded = it
+                            if (targetMenuExpanded) textFieldValue2 = ""
+                        }
                     ) {
                         OutlinedTextField(
-                            modifier = Modifier.menuAnchor(MenuAnchorType.PrimaryNotEditable, true),
+                            modifier = Modifier
+                                .menuAnchor(MenuAnchorType.PrimaryEditable, true),
                             shape = CircleShape,
-                            value = "${stringResource(target.name)} (${target.abbreviation})",
-                            onValueChange = {},
-                            readOnly = true,
+                            value = textFieldValue2,
+                            onValueChange = {
+                                textFieldValue2 = it
+                                targetMenuExpanded = true
+                            },
+                            readOnly = false,
                             singleLine = true,
-                            label = { Text(stringResource(Res.string.target)) },
+                            label = { Text(stringResource(Res.string.origin)) },
                             trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(targetMenuExpanded) }
                         )
-                        ExposedDropdownMenu(
-                            expanded = targetMenuExpanded,
-                            onDismissRequest = { targetMenuExpanded = false }
-                        ) {
-                            reference.forEach { unit ->
-                                DropdownMenuItem(
-                                    text = { Text("${stringResource(unit.name)} (${unit.abbreviation})") },
-                                    onClick = {
-                                        targetIndex = reference.indexOf(unit)
-                                        target = unit
-                                        dataTarget = target.abbreviation
-                                        targetMenuExpanded = false
-                                    }
-                                )
+                        if (!targetMenuExpanded) textFieldValue2 = setTargetDefault
+                        val tempReference = reference.filter { "${stringResource(it.name)} (${it.abbreviation})".contains(textFieldValue2, true) }
+                        if (tempReference.isNotEmpty())
+                            DropdownMenu(
+                                modifier = Modifier.exposedDropdownSize(true),
+                                properties = PopupProperties(focusable = false, clippingEnabled = false),
+                                scrollState = rememberScrollState(),
+                                expanded = targetMenuExpanded,
+                                onDismissRequest = { targetMenuExpanded = false }
+                            ) {
+                                tempReference.forEach { unit ->
+                                    DropdownMenuItem(
+                                        text = { Text("${stringResource(unit.name)} (${unit.abbreviation})") },
+                                        onClick = {
+                                            targetIndex = reference.indexOf(unit)
+                                            target = unit
+                                            dataTarget = target.abbreviation
+                                            targetMenuExpanded = false
+                                        }
+                                    )
+                                }
                             }
-                        }
+
                     }
                 }
                 Button(

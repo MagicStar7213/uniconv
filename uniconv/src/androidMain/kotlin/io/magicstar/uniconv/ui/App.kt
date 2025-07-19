@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -17,6 +18,7 @@ import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.SwapHoriz
 import androidx.compose.material3.Button
+import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuBox
@@ -40,6 +42,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.window.PopupProperties
 import io.magicstar.uniconv.data.getKey
 import io.magicstar.uniconv.data.magnitudeKey
 import io.magicstar.uniconv.data.originKey
@@ -198,6 +201,10 @@ fun App(context: Context) {
             ) {
                 var originMenuExpanded by remember { mutableStateOf(false) }
 
+                val setOriginDefault = if (LocalConfiguration.current.orientation == Configuration.ORIENTATION_LANDSCAPE)
+                    "${stringResource(origin.name)} (${origin.abbreviation})"
+                else origin.abbreviation
+                var textFieldValue1 by remember { mutableStateOf(setOriginDefault) }
                 ExposedDropdownMenuBox(
                     modifier = Modifier
                         .weight(.3f)
@@ -208,26 +215,37 @@ fun App(context: Context) {
                             bottom = 15.dp
                         ),
                     expanded = originMenuExpanded,
-                    onExpandedChange = { originMenuExpanded = it }
+                    onExpandedChange = {
+                        originMenuExpanded = it
+                        if (originMenuExpanded) textFieldValue1 = ""
+                    }
                 ) {
                     OutlinedTextField(
                         modifier = Modifier.menuAnchor(MenuAnchorType.PrimaryNotEditable, true),
                         shape = CircleShape,
-                        value = if (LocalConfiguration.current.orientation == Configuration.ORIENTATION_LANDSCAPE)
-                            "${stringResource(origin.name)} (${origin.abbreviation})"
-                        else origin.abbreviation,
-                        onValueChange = {},
-                        readOnly = true,
+                        value = textFieldValue1,
+                        onValueChange = {
+                            textFieldValue1 = it
+                            originMenuExpanded = true
+                        },
+                        readOnly = false,
                         singleLine = true,
                         label = { Text(stringResource(Res.string.origin)) },
                         trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(originMenuExpanded) }
                     )
-                    ExposedDropdownMenu(
-                        modifier = Modifier.width(dropdownWidth),
-                        expanded = originMenuExpanded,
-                        onDismissRequest = { originMenuExpanded = false }
-                    ) {
-                        reference.forEach { unit ->
+                    if (!originMenuExpanded) textFieldValue1 = setOriginDefault
+                    val tempReference = reference.filter { "${stringResource(it.name)} (${it.abbreviation})".contains(textFieldValue1, true) }
+                    if (tempReference.isNotEmpty())
+                        DropdownMenu(
+                            modifier = Modifier
+                                .exposedDropdownSize(true)
+                                .width(dropdownWidth),
+                            properties = PopupProperties(focusable = false, clippingEnabled = false),
+                            scrollState = rememberScrollState(),
+                            expanded = originMenuExpanded,
+                            onDismissRequest = { originMenuExpanded = false }
+                        ) {
+                            tempReference.forEach { unit ->
                             DropdownMenuItem(
                                 text = { Text(
                                     text = "${stringResource(unit.name)} (${unit.abbreviation})",
@@ -255,6 +273,10 @@ fun App(context: Context) {
 
                 var targetMenuExpanded by remember { mutableStateOf(false) }
 
+                val setTargetDefault = if (LocalConfiguration.current.orientation == Configuration.ORIENTATION_LANDSCAPE)
+                    "${stringResource(target.name)} (${target.abbreviation})"
+                else target.abbreviation
+                var textFieldValue2 by remember { mutableStateOf(setTargetDefault) }
                 ExposedDropdownMenuBox(
                     modifier = Modifier
                         .weight(.3f)
@@ -265,26 +287,37 @@ fun App(context: Context) {
                             end = 50.dp
                         ),
                     expanded = targetMenuExpanded,
-                    onExpandedChange = { targetMenuExpanded = it }
+                    onExpandedChange = {
+                        targetMenuExpanded = it
+                        if (targetMenuExpanded) textFieldValue2 = ""
+                    }
                 ) {
                     OutlinedTextField(
                         modifier = Modifier.menuAnchor(MenuAnchorType.PrimaryNotEditable, true),
                         shape = CircleShape,
-                        value = if (LocalConfiguration.current.orientation == Configuration.ORIENTATION_LANDSCAPE)
-                            "${stringResource(target.name)} (${target.abbreviation})"
-                        else target.abbreviation,
-                        onValueChange = {},
-                        readOnly = true,
+                        value = textFieldValue2,
+                        onValueChange = {
+                            textFieldValue2 = it
+                            targetMenuExpanded = true
+                        },
+                        readOnly = false,
                         singleLine = true,
                         label = { Text(stringResource(Res.string.target)) },
                         trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(targetMenuExpanded) }
                     )
-                    ExposedDropdownMenu(
-                        modifier = Modifier.width(dropdownWidth),
-                        expanded = targetMenuExpanded,
-                        onDismissRequest = { targetMenuExpanded = false }
-                    ) {
-                        reference.forEach { unit ->
+                    if (!targetMenuExpanded) textFieldValue2 = setTargetDefault
+                    val tempReference = reference.filter { "${stringResource(it.name)} (${it.abbreviation})".contains(textFieldValue2, true) }
+                    if (tempReference.isNotEmpty())
+                        DropdownMenu(
+                            modifier = Modifier
+                                .exposedDropdownSize(true)
+                                .width(dropdownWidth),
+                            properties = PopupProperties(focusable = false, clippingEnabled = false),
+                            scrollState = rememberScrollState(),
+                            expanded = targetMenuExpanded,
+                            onDismissRequest = { targetMenuExpanded = false }
+                        ) {
+                            tempReference.forEach { unit ->
                             DropdownMenuItem(
                                 text = { Text(
                                     text = "${stringResource(unit.name)} (${unit.abbreviation})",
