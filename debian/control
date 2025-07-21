@@ -4,10 +4,10 @@ Section: misc
 Priority: optional
 Build-Depends: debhelper-compat (= 13),
                gradle-debian-helper,
-               openjdk-20-jdk
+               openjdk-21-jdk
 Standards-Version: 4.6.2
-Vcs-Browser: https://github.com/magicstar7213/uniconv
-Vcs-Git: https://github.com/magicstar7213/uniconv.git
+Vcs-Browser: https://github.com/MagicStar7213/uniconv
+Vcs-Git: https://github.com/MagicStar7213/uniconv.git
 Rules-Requires-Root: no
 X-Python3-Version: >=3.7
 
@@ -16,7 +16,7 @@ Architecture: all
 Multi-Arch: foreign
 Depends: ${misc:Depends},
          ${shlibs:Depends},
-         openjdk-20-jre
+         openjdk-21-jre
 Description: Compose Multiplatform unit converter
  Uniconv is a Compose Multiplatform Kotlin-written app.
  It allows you to convert most common units from most common magnitudes.
