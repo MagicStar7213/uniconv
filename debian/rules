@@ -11,7 +11,7 @@ override_dh_auto_configure:
 	chmod +x gradlew
 	dh_auto_configure
 override_dh_auto_build:
-	./gradlew  --info --console plain --stacktrace --no-daemon --refresh-dependencies --gradle-user-home .gradle -Duser.home=. -Duser.name=debian -Ddebian.package=uniconv -Dfile.encoding=UTF-8 packageUberJarForCurrentOS && chmod +x build/compose/jars/uniconv-linux-*-?.?.?.jar && \
+	./gradlew  --info --console plain --stacktrace --no-daemon --refresh-dependencies --gradle-user-home .gradle -Duser.home=. -Duser.name=debian -Ddebian.package=uniconv -Dfile.encoding=UTF-8 packageUberJarForCurrentOS && chmod +x uniconv/build/compose/jars/uniconv-linux-*-?.?.?.jar && \
 	mkdir bin && echo '#!/bin/sh' >> bin/uniconv && \
 	echo 'java -jar /usr/share/uniconv/uniconv-linux-*-?.?.?.jar' >> bin/uniconv || \
 	rm -r bin
