@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.layout.SubcomposeLayout
 import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.Dp
+import java.text.Normalizer
 
 @Composable
 fun GetDropdownWidth(
@@ -21,4 +22,9 @@ fun GetDropdownWidth(
             contentPlaceable.place(0, 0)
         }
     }
+}
+
+fun String.normalize(): String {
+    val unaccentRegex = "\\p{InCombiningDiacriticalMarks}+".toRegex()
+    return unaccentRegex.replace(Normalizer.normalize(this, Normalizer.Form.NFD), "")
 }

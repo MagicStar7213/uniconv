@@ -216,7 +216,7 @@ fun App() {
                             trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(originMenuExpanded) }
                         )
                         if (!originMenuExpanded) textFieldValue1 = setOriginDefault
-                        val tempReference = reference.filter { "${stringResource(it.name)} (${it.abbreviation})".contains(textFieldValue1, true) }
+                        val tempReference = reference.filter { "${stringResource(it.name)} (${it.abbreviation})".normalize().contains(textFieldValue1.normalize(), true) }
                         if (tempReference.isNotEmpty())
                             DropdownMenu(
                                 modifier = Modifier.exposedDropdownSize(false),
@@ -284,7 +284,7 @@ fun App() {
                             trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(targetMenuExpanded) }
                         )
                         if (!targetMenuExpanded) textFieldValue2 = setTargetDefault
-                        val tempReference = reference.filter { "${stringResource(it.name)} (${it.abbreviation})".contains(textFieldValue2, true) }
+                        val tempReference = reference.filter { "${stringResource(it.name)} (${it.abbreviation})".normalize().contains(textFieldValue2.normalize(), true) }
                         if (tempReference.isNotEmpty())
                             DropdownMenu(
                                 modifier = Modifier.exposedDropdownSize(false),
