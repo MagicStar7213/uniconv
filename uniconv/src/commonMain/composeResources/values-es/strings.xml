@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<resources>
+    <string name="magnitudes">Magnitud</string>
+    <string name="languages">Idiomas</string>
+    <string name="length">Longitud</string>
+    <string name="weight">Masa</string>
+    <string name="time">Tiempo</string>
+    <string name="temperature">Temperatura</string>
+    <string name="surface">Superficie</string>
+    <string name="volume">Volumen</string>
+    <string name="speed">Velocidad</string>
+    <string name="origin">Origen</string>
+    <string name="target">Destino</string>
+    <string name="value">Valor</string>
+    <string name="swap">Intercambiar</string>
+    <string name="convert">Convertir</string>
+
+    <string name="m">Metros</string>
+    <string name="mm">Milímetros</string>
+    <string name="cm">Centímetros</string>
+    <string name="dm">Decímetros</string>
+    <string name="dam">Decámetros</string>
+    <string name="hm">Hectómetros</string>
+    <string name="km">Kilómetros</string>
+    <string name="in">Pulgadas</string>
+    <string name="ft">Pies</string>
+    <string name="yd">Yardas</string>
+    <string name="mi">Millas</string>
+
+    <string name="m_s">Metros por segundo</string>
+    <string name="km_h">Kilómetros por hora</string>
+    <string name="kn">Nudos</string>
+    <string name="mph">Millas por hora</string>
+    <string name="ft_s">Pies por segundo</string>
+
+    <string name="km2">Kilómetros cuadrados</string>
+    <string name="m2">Metros cuadrados</string>
+    <string name="dm2">Decímetros cuadrados</string>
+    <string name="cm2">Centímetros cuadrados</string>
+    <string name="mm2">Milímetros cuadrados</string>
+    <string name="mi2">Millas cuadradas</string>
+    <string name="yd2">Yardas cuadradas</string>
+    <string name="ft2">Pies cuadrados</string>
+    <string name="in2">Pulgadas cuadradas</string>
+    <string name="ha">Hectáreas</string>
+    <string name="a">Áreas</string>
+    <string name="acre">Acres</string>
+
+    <string name="C">Celsius</string>
+    <string name="K">Kelvin</string>
+    <string name="F">Fahrenheit</string>
+
+    <string name="ms">Milisegundos</string>
+    <string name="s">Segundos</string>
+    <string name="min">Minutos</string>
+    <string name="h">Horas</string>
+    <string name="day">Días</string>
+    <string name="week">Semanas</string>
+    <string name="month">Meses</string>
+    <string name="year">Años</string>
+    <string name="decade">Décadas</string>
+    <string name="century">Siglos</string>
+    <string name="millennium">Milenios</string>
+
+    <string name="km3">Kilómetros cúbicos</string>
+    <string name="m3">Metros cúbicos</string>
+    <string name="dm3">Decímetros cúbicos</string>
+    <string name="cm3">Centímetros cúbicos</string>
+    <string name="mm3">Milímetros cúbicos</string>
+    <string name="ft3">Pies cúbicos</string>
+    <string name="in3">Pulgadas cúbicas</string>
+    <string name="yd3">Yardas cúbicas</string>
+    <string name="mi3">Millas cúbicas</string>
+    <string name="kl">Kilolitros</string>
+    <string name="hl">Hectolitros</string>
+    <string name="dal">Decalitros</string>
+    <string name="l">Litros</string>
+    <string name="dl">Decilitros</string>
+    <string name="cl">Centilitros</string>
+    <string name="ml">Mililitros</string>
+    <string name="gal">Galones</string>
+    <string name="fl_oz">Onzas líquidas</string>
+    <string name="pt">Pintas</string>
+    <string name="cup">Tazas</string>
+
+    <string name="kg">Kilogramos</string>
+    <string name="hg">Hectogramos</string>
+    <string name="dag">Decagramos</string>
+    <string name="dg">Decigramos</string>
+    <string name="cg">Centigramos</string>
+    <string name="mg">Miligramos</string>
+    <string name="ton">Toneladas</string>
+    <string name="oz">Onzas</string>
+    <string name="lb">Libras</string>
+</resources>
