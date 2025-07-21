@@ -1,5 +1,12 @@
-uniconv (1.0-4) UNRELEASED; urgency=low
+uniconv (2.3.0-1) UNRELEASED; urgency=low
 
-  * Fixed bug in which binary was not pointing to correct route
+  * Added orientation support
+  * Added Unit tests to check accurate conversions
+  * Added better internationalization with Compose Resources
+  * Fixed several conversion parameter bugs
+  * Added a switch units feature
+  * Fixed typos in variable names and i18n strings
+  * Adjuested paddings for better display
+  * Added a search unit feature when selecting units
 
- -- Breixo Montenegro <saltaestrellas@hotmail.com>  Thu, 26 Oct 2023 20:57:36 +0200
+ -- Breixo Montenegro <saltaestrellas@hotmail.com>  Mon, 21 Jul 2025 16:55:00 +0200
