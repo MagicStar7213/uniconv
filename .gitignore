@@ -4,6 +4,7 @@ build/
 !gradle/wrapper/gradle-wrapper.jar
 !uniconv/src/jvmMain/**/build/
 !uniconv/src/jvmTest/**/build/
+uniconv/release/
 
 ### IntelliJ IDEA ###
 .idea/
