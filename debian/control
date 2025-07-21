@@ -4,7 +4,7 @@ Section: misc
 Priority: optional
 Build-Depends: debhelper-compat (= 13),
                gradle-debian-helper,
-               openjdk-21-jdk
+               openjdk-21-jdk,
 	       maven-repo-helper
 Standards-Version: 4.6.2
 Vcs-Browser: https://github.com/MagicStar7213/uniconv
