@@ -225,8 +225,8 @@ fun App(context: Context) {
                         shape = CircleShape,
                         value = textFieldValue1,
                         onValueChange = {
-                            textFieldValue1 = it
                             originMenuExpanded = true
+                            textFieldValue1 = it
                         },
                         readOnly = false,
                         singleLine = true,
@@ -240,7 +240,7 @@ fun App(context: Context) {
                             modifier = Modifier
                                 .exposedDropdownSize(false)
                                 .width(dropdownWidth),
-                            properties = PopupProperties(focusable = false, clippingEnabled = false),
+                            properties = PopupProperties(focusable = false, clippingEnabled = false, dismissOnClickOutside = false),
                             scrollState = rememberScrollState(),
                             expanded = originMenuExpanded,
                             onDismissRequest = { originMenuExpanded = false }
@@ -297,8 +297,8 @@ fun App(context: Context) {
                         shape = CircleShape,
                         value = textFieldValue2,
                         onValueChange = {
-                            textFieldValue2 = it
                             targetMenuExpanded = true
+                            textFieldValue2 = it
                         },
                         readOnly = false,
                         singleLine = true,
@@ -312,7 +312,7 @@ fun App(context: Context) {
                             modifier = Modifier
                                 .exposedDropdownSize(false)
                                 .width(dropdownWidth),
-                            properties = PopupProperties(focusable = false, clippingEnabled = false),
+                            properties = PopupProperties(focusable = false, clippingEnabled = false, dismissOnClickOutside = false),
                             scrollState = rememberScrollState(),
                             expanded = targetMenuExpanded,
                             onDismissRequest = { targetMenuExpanded = false }
