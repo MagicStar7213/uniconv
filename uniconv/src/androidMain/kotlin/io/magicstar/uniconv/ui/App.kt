@@ -238,7 +238,7 @@ fun App(context: Context) {
                     if (tempReference.isNotEmpty())
                         DropdownMenu(
                             modifier = Modifier
-                                .exposedDropdownSize(true)
+                                .exposedDropdownSize(false)
                                 .width(dropdownWidth),
                             properties = PopupProperties(focusable = false, clippingEnabled = false),
                             scrollState = rememberScrollState(),
@@ -310,7 +310,7 @@ fun App(context: Context) {
                     if (tempReference.isNotEmpty())
                         DropdownMenu(
                             modifier = Modifier
-                                .exposedDropdownSize(true)
+                                .exposedDropdownSize(false)
                                 .width(dropdownWidth),
                             properties = PopupProperties(focusable = false, clippingEnabled = false),
                             scrollState = rememberScrollState(),

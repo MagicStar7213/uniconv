@@ -219,7 +219,7 @@ fun App() {
                         val tempReference = reference.filter { "${stringResource(it.name)} (${it.abbreviation})".contains(textFieldValue1, true) }
                         if (tempReference.isNotEmpty())
                             DropdownMenu(
-                                modifier = Modifier.exposedDropdownSize(true),
+                                modifier = Modifier.exposedDropdownSize(false),
                                 properties = PopupProperties(focusable = false, clippingEnabled = false),
                                 scrollState = rememberScrollState(),
                                 expanded = originMenuExpanded,
@@ -287,7 +287,7 @@ fun App() {
                         val tempReference = reference.filter { "${stringResource(it.name)} (${it.abbreviation})".contains(textFieldValue2, true) }
                         if (tempReference.isNotEmpty())
                             DropdownMenu(
-                                modifier = Modifier.exposedDropdownSize(true),
+                                modifier = Modifier.exposedDropdownSize(false),
                                 properties = PopupProperties(focusable = false, clippingEnabled = false),
                                 scrollState = rememberScrollState(),
                                 expanded = targetMenuExpanded,
