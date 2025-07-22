@@ -30,13 +30,13 @@ kotlin {
 
     sourceSets {
         applyDefaultHierarchyTemplate()
-        val commonMain by getting {
+        commonMain {
             dependencies {
                 implementation(compose.components.resources)
                 implementation(compose.runtime)
             }
         }
-        val androidMain by getting {
+        androidMain {
             dependencies {
                 implementation("androidx.core:core-ktx:1.16.0")
                 implementation("androidx.activity:activity-compose:1.10.1")
@@ -48,7 +48,7 @@ kotlin {
                 implementation("androidx.datastore:datastore-preferences:1.1.7")
             }
         }
-        val jvmMain by getting {
+        jvmMain {
             dependencies {
                 implementation(compose.desktop.currentOs)
                 implementation(compose.material3)
@@ -56,7 +56,7 @@ kotlin {
                 implementation(compose.materialIconsExtended)
             }
         }
-        val jvmTest by getting {
+        jvmTest {
             dependencies {
                 implementation(kotlin("test"))
                 implementation("systems.uom:systems-common:2.1")
