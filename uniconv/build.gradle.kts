@@ -111,7 +111,7 @@ compose.desktop {
         mainClass = "io.magicstar.uniconv.MainKt"
         nativeDistributions {
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
-            packageName = "Uniconv"
+            packageName = "uniconv"
             packageVersion = project.version.toString()
             description = "Simple unit converter refactored. Supports the most common magnitudes and units"
             vendor = "MagicStar7213"
