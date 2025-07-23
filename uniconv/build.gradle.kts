@@ -118,6 +118,12 @@ compose.desktop {
             windows {
                 packageVersion = "${project.version}"
             }
+            macOS {
+                iconFile.set(project.file("uniconv.icns"))
+            }
+            linux {
+                iconFile.set(project.file("uniconv.png"))
+            }
         }
         buildTypes.release.proguard.version.set("7.5.0")
     }
