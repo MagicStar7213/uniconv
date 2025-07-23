@@ -117,6 +117,10 @@ compose.desktop {
             vendor = "MagicStar7213"
             windows {
                 packageVersion = "${project.version}"
+                iconFile.set(project.file("uniconv.ico"))
+                dirChooser = true
+                perUserInstall = true
+                menu = true
             }
             macOS {
                 iconFile.set(project.file("uniconv.icns"))
