@@ -129,6 +129,6 @@ compose.desktop {
                 iconFile.set(project.file("uniconv.png"))
             }
         }
-        buildTypes.release.proguard.version.set("7.5.0")
+        buildTypes.release.proguard.version.set("7.7.0")
     }
 }
