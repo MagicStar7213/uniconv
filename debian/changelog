@@ -1,12 +1,6 @@
-uniconv (2.3.0-1) UNRELEASED; urgency=low
+uniconv (2.3.1-1) UNRELEASED; urgency=low
 
-  * Added orientation support
-  * Added Unit tests to check accurate conversions
-  * Added better internationalization with Compose Resources
-  * Fixed several conversion parameter bugs
-  * Added a switch units feature
-  * Fixed typos in variable names and i18n strings
-  * Adjuested paddings for better display
-  * Added a search unit feature when selecting units
+  * Added icon to launcher
+  * Added rounded corners to app icon
 
  -- Breixo Montenegro <saltaestrellas@hotmail.com>  Mon, 21 Jul 2025 16:55:00 +0200
