@@ -11,7 +11,7 @@ plugins {
 }
 
 group = "io.magicstar"
-version = "2.3.0"
+version = "2.3.1"
 
 kotlin {
     jvm {
@@ -30,13 +30,13 @@ kotlin {
 
     sourceSets {
         applyDefaultHierarchyTemplate()
-        val commonMain by getting {
+        commonMain {
             dependencies {
                 implementation(compose.components.resources)
                 implementation(compose.runtime)
             }
         }
-        val androidMain by getting {
+        androidMain {
             dependencies {
                 implementation("androidx.core:core-ktx:1.16.0")
                 implementation("androidx.activity:activity-compose:1.10.1")
@@ -48,7 +48,7 @@ kotlin {
                 implementation("androidx.datastore:datastore-preferences:1.1.7")
             }
         }
-        val jvmMain by getting {
+        jvmMain {
             dependencies {
                 implementation(compose.desktop.currentOs)
                 implementation(compose.material3)
@@ -56,7 +56,7 @@ kotlin {
                 implementation(compose.materialIconsExtended)
             }
         }
-        val jvmTest by getting {
+        jvmTest {
             dependencies {
                 implementation(kotlin("test"))
                 implementation("systems.uom:systems-common:2.1")
@@ -111,14 +111,24 @@ compose.desktop {
         mainClass = "io.magicstar.uniconv.MainKt"
         nativeDistributions {
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
-            packageName = "Uniconv"
+            packageName = "uniconv"
             packageVersion = project.version.toString()
             description = "Simple unit converter refactored. Supports the most common magnitudes and units"
             vendor = "MagicStar7213"
             windows {
                 packageVersion = "${project.version}"
+                iconFile.set(project.file("uniconv.ico"))
+                dirChooser = true
+                perUserInstall = true
+                menu = true
+            }
+            macOS {
+                iconFile.set(project.file("uniconv.icns"))
+            }
+            linux {
+                iconFile.set(project.file("uniconv.png"))
             }
         }
-        buildTypes.release.proguard.version.set("7.5.0")
+        buildTypes.release.proguard.version.set("7.7.0")
     }
 }
