@@ -8,7 +8,7 @@ Build-Depends: debhelper-compat (= 13),
 	       maven-repo-helper
 Standards-Version: 4.6.2
 Vcs-Browser: https://github.com/MagicStar7213/uniconv
-Vcs-Git: https://github.com/MagicStar7213/uniconv.git
+Vcs-Git: https://github.com/MagicStar7213/uniconv.git -b debian
 Rules-Requires-Root: no
 X-Python3-Version: >=3.7
 
