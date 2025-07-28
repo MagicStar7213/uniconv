@@ -13,7 +13,7 @@ Rules-Requires-Root: no
 X-Python3-Version: >=3.7
 
 Package: uniconv
-Architecture: all
+Architecture: any
 Multi-Arch: foreign
 Depends: ${misc:Depends},
          ${shlibs:Depends},
