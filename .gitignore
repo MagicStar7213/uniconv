@@ -7,6 +7,9 @@ build/
 !uniconv/src/jvmTest/**/build/
 uniconv/release/
 
+### Debian ###
+debian/changelog
+
 ### IntelliJ IDEA ###
 .idea/
 *.iws
