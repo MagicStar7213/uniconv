@@ -40,7 +40,7 @@ kotlin {
             dependencies {
                 implementation("androidx.core:core-ktx:1.16.0")
                 implementation("androidx.activity:activity-compose:1.10.1")
-                implementation(project.dependencies.platform("androidx.compose:compose-bom:2025.06.01"))
+                implementation(project.dependencies.platform("androidx.compose:compose-bom:2025.07.00"))
                 implementation("androidx.compose.ui:ui")
                 implementation("androidx.compose.ui:ui-graphics")
                 implementation("androidx.compose.material3:material3")
@@ -52,15 +52,15 @@ kotlin {
             dependencies {
                 implementation(compose.desktop.currentOs)
                 implementation(compose.material3)
-                implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.8.1")
+                implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.9.0")
                 implementation(compose.materialIconsExtended)
             }
         }
         jvmTest {
             dependencies {
                 implementation(kotlin("test"))
-                implementation("systems.uom:systems-common:2.1")
-                implementation("org.junit.jupiter:junit-jupiter-params:5.13.2")
+                implementation("systems.uom:systems-common:2.2")
+                implementation("org.junit.jupiter:junit-jupiter-params:5.13.4")
             }
         }
     }
@@ -72,12 +72,12 @@ tasks.withType<Test> {
 
 android {
     namespace = "io.magicstar.uniconv"
-    compileSdk = 35
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "io.magicstar.uniconv"
         minSdk = 26
-        targetSdk = 35
+        targetSdk = 36
         versionCode = 1
         versionName = project.version.toString()
 
