@@ -21,12 +21,12 @@ jobs:
         with:
           gradle-version: wrapper
       - run: chmod +x gradlew
-      - run: ./gradlew :uniconv:packageDistributionForCurrentOS
+      - run: ./gradlew :desktop:packageDistributionForCurrentOS
       - name: Upload Ubuntu Artifact
         uses: actions/upload-artifact@v4
         with:
           name: Ubuntu Build
-          path: uniconv/build/compose/binaries/main/deb/*.deb
+          path: desktop/build/compose/binaries/main/deb/*.deb
   macos-build:
     runs-on: macos-latest
     steps:
@@ -41,12 +41,12 @@ jobs:
         with:
           gradle-version: wrapper
       - run: chmod +x gradlew
-      - run: ./gradlew :uniconv:packageDistributionForCurrentOS
+      - run: ./gradlew :desktop:packageDistributionForCurrentOS
       - name: Upload macOS Artifact
         uses: actions/upload-artifact@v4
         with:
           name: macOS Build
-          path: uniconv/build/compose/binaries/main/dmg/*.dmg
+          path: desktop/build/compose/binaries/main/dmg/*.dmg
   windows-build:
     runs-on: windows-latest
     steps:
@@ -60,12 +60,12 @@ jobs:
         uses: gradle/actions/setup-gradle@v4
         with:
           gradle-version: wrapper
-      - run: ./gradlew :uniconv:packageDistributionForCurrentOS
+      - run: ./gradlew :desktop:packageDistributionForCurrentOS
       - name: Upload Windows Artifact
         uses: actions/upload-artifact@v4
         with:
           name: Windows Build
-          path: uniconv/build/compose/binaries/main/msi/*.msi
+          path: desktop/build/compose/binaries/main/msi/*.msi
   android-build:
     runs-on: ubuntu-latest
 
@@ -86,4 +86,4 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: Uniconv APK
-        path: uniconv/build/outputs/apk/debug/*.apk
+        path: android/build/outputs/apk/debug/*.apk
