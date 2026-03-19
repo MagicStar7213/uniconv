@@ -21,11 +21,11 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExposedDropdownMenuAnchorType
 import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.MenuAnchorType
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -95,11 +95,31 @@ fun App(context: Context) {
     var result by remember { mutableStateOf("") }
 
     var reference: List<Unit> by remember { mutableStateOf(updateMagnitudes(magnitudes, magnitude)) }
-    var origin by remember { mutableStateOf(reference.first { it.abbreviation == runBlocking(Dispatchers.IO) { getKey(context, originKey) } }) }
-    var target by remember { mutableStateOf(reference.first { it.abbreviation == runBlocking(Dispatchers.IO) { getKey(context, targetKey) } }) }
+    var origin by remember { mutableStateOf(reference.first { it.abbreviation == runBlocking(Dispatchers.IO) {
+        getKey(
+            context,
+            originKey
+        )
+    } }) }
+    var target by remember { mutableStateOf(reference.first { it.abbreviation == runBlocking(Dispatchers.IO) {
+        getKey(
+            context,
+            targetKey
+        )
+    } }) }
 
-    var originIndex by remember { mutableIntStateOf(reference.indexOf(reference.first { it.abbreviation == runBlocking(Dispatchers.IO) { getKey(context, originKey) } })) }
-    var targetIndex by remember { mutableIntStateOf(reference.indexOf(reference.first { it.abbreviation == runBlocking(Dispatchers.IO) { getKey(context, targetKey) } })) }
+    var originIndex by remember { mutableIntStateOf(reference.indexOf(reference.first { it.abbreviation == runBlocking(Dispatchers.IO) {
+        getKey(
+            context,
+            originKey
+        )
+    } })) }
+    var targetIndex by remember { mutableIntStateOf(reference.indexOf(reference.first { it.abbreviation == runBlocking(Dispatchers.IO) {
+        getKey(
+            context,
+            targetKey
+        )
+    } })) }
 
     GetDropdownWidth(
         view = {
@@ -136,7 +156,7 @@ fun App(context: Context) {
                 onExpandedChange = { magnMenuExpanded = it }
             ) {
                 OutlinedTextField(
-                    modifier = Modifier.menuAnchor(MenuAnchorType.PrimaryNotEditable, true),
+                    modifier = Modifier.menuAnchor(ExposedDropdownMenuAnchorType.PrimaryNotEditable, true),
                     shape = CircleShape,
                     value = magnitude,
                     onValueChange = {},
@@ -221,7 +241,7 @@ fun App(context: Context) {
                     }
                 ) {
                     OutlinedTextField(
-                        modifier = Modifier.menuAnchor(MenuAnchorType.PrimaryNotEditable, true),
+                        modifier = Modifier.menuAnchor(ExposedDropdownMenuAnchorType.PrimaryNotEditable, true),
                         shape = CircleShape,
                         value = textFieldValue1,
                         onValueChange = {
@@ -253,7 +273,13 @@ fun App(context: Context) {
                                 onClick = {
                                     originIndex = reference.indexOf(unit)
                                     origin = unit
-                                    CoroutineScope(Dispatchers.IO).launch { saveKey(context, originKey, origin.abbreviation) }
+                                    CoroutineScope(Dispatchers.IO).launch {
+                                        saveKey(
+                                            context,
+                                            originKey,
+                                            origin.abbreviation
+                                        )
+                                    }
                                     originMenuExpanded = false
                                 }
                             )
@@ -293,7 +319,7 @@ fun App(context: Context) {
                     }
                 ) {
                     OutlinedTextField(
-                        modifier = Modifier.menuAnchor(MenuAnchorType.PrimaryNotEditable, true),
+                        modifier = Modifier.menuAnchor(ExposedDropdownMenuAnchorType.PrimaryNotEditable, true),
                         shape = CircleShape,
                         value = textFieldValue2,
                         onValueChange = {
@@ -325,7 +351,13 @@ fun App(context: Context) {
                                 onClick = {
                                     targetIndex = reference.indexOf(unit)
                                     target = unit
-                                    CoroutineScope(Dispatchers.IO).launch { saveKey(context, targetKey, target.abbreviation) }
+                                    CoroutineScope(Dispatchers.IO).launch {
+                                        saveKey(
+                                            context,
+                                            targetKey,
+                                            target.abbreviation
+                                        )
+                                    }
                                     targetMenuExpanded = false
                                 }
                             )

@@ -5,7 +5,6 @@ import io.magicstar.uniconv.generated.resources.Res
 import io.magicstar.uniconv.generated.resources.length
 import io.magicstar.uniconv.unit.model.lengthUnits
 import kotlinx.serialization.Serializable
-import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import org.jetbrains.compose.resources.stringResource
 import java.io.File

@@ -1,7 +1,8 @@
 plugins {
-    kotlin("multiplatform") version "2.2.0" apply false
-    kotlin("plugin.serialization") version "2.2.0" apply false
-    kotlin("plugin.compose") version "2.2.0" apply false
-    id("org.jetbrains.compose") version "1.8.2" apply false
-    id("com.android.application") version "8.12.0" apply false
+    alias(libs.plugins.kotlin.multiplatform) apply false
+    alias(libs.plugins.kotlin.serialization) apply false
+    alias(libs.plugins.compose.compiler) apply false
+    alias(libs.plugins.compose) apply false
+    alias(libs.plugins.android.kmp) apply false
+    alias(libs.plugins.android.application) apply false
 }

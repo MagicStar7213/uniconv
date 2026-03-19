@@ -6,10 +6,10 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.lifecycle.lifecycleScope
 import io.magicstar.uniconv.data.initConfig
-import io.magicstar.uniconv.generated.resources.Res
-import io.magicstar.uniconv.generated.resources.length
 import io.magicstar.uniconv.ui.App
 import io.magicstar.uniconv.ui.theme.UniconvTheme
+import io.magicstar.uniconv.generated.resources.Res
+import io.magicstar.uniconv.generated.resources.length
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.stringResource

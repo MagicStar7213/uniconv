@@ -6,6 +6,7 @@ pluginManagement {
         maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
     }
 }
+
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
     repositories {
@@ -17,3 +18,5 @@ dependencyResolutionManagement {
 
 rootProject.name = "uniconv"
 include(":uniconv")
+include(":android")
+include(":desktop")
