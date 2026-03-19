@@ -1,3 +1,5 @@
+import java.util.Locale
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.compose.compiler)
@@ -52,4 +54,12 @@ android {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }
+}
+
+base {
+    archivesName =
+        if (project.gradle.startParameter.taskNames.any { it.lowercase(Locale.getDefault()).contains("debug") })
+            "${rootProject.name}"
+        else
+            "${rootProject.name}-${android.defaultConfig.versionName}"
 }
