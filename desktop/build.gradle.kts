@@ -47,15 +47,15 @@ compose.desktop {
         mainClass = "io.magicstar.uniconv.MainKt"
         nativeDistributions {
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
-            packageName = "uniconv"
+            packageName = "Uniconv"
             packageVersion = project.version.toString()
-            description = "Simple unit converter refactored. Supports the most common magnitudes and units"
+            description = "Uniconv"
             vendor = "MagicStar7213"
             windows {
                 iconFile.set(project.file("uniconv.ico"))
                 dirChooser = true
-                perUserInstall = true
-                menu = true
+                menuGroup = ""
+                upgradeUuid = "95B02AAD-D9C7-4DD8-9052-7787C6361A5D"
             }
             macOS {
                 iconFile.set(project.file("uniconv.icns"))
