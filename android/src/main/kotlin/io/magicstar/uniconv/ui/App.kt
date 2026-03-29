@@ -147,57 +147,72 @@ fun App(context: Context) {
             )
             var magnMenuExpanded by remember { mutableStateOf(false) }
 
+            val setMagnitudeDefault = magnitude
+            var magnTextFieldValue by remember { mutableStateOf(setMagnitudeDefault) }
+
             ExposedDropdownMenuBox(
                 modifier = Modifier.padding(
                     horizontal = 8.dp,
                     vertical = 8.dp
                 ),
                 expanded = magnMenuExpanded,
-                onExpandedChange = { magnMenuExpanded = it }
+                onExpandedChange = {
+                    magnMenuExpanded = it
+                    if (magnMenuExpanded) magnTextFieldValue = ""
+                }
             ) {
                 OutlinedTextField(
                     modifier = Modifier.menuAnchor(ExposedDropdownMenuAnchorType.PrimaryNotEditable, true),
                     shape = CircleShape,
-                    value = magnitude,
-                    onValueChange = {},
-                    readOnly = true,
+                    value = magnTextFieldValue,
+                    onValueChange = {
+                        magnTextFieldValue = it
+                        magnMenuExpanded = true
+                    },
+                    readOnly = false,
                     singleLine = true,
                     label = { Text(stringResource(Res.string.magnitudes)) },
                     trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(magnMenuExpanded) }
                 )
-                ExposedDropdownMenu(
-                    expanded = magnMenuExpanded,
-                    onDismissRequest = { magnMenuExpanded = false }
-                ) {
-                    magnitudes.forEach {
-                        DropdownMenuItem(
-                            text = { Text(it) },
-                            onClick = {
-                                reference = updateMagnitudes(magnitudes, it)
-                                magnitude = it
+                if (!magnMenuExpanded) magnTextFieldValue = setMagnitudeDefault
+                val tempMagnitudes = magnitudes.filter { it.normalize().contains(magnTextFieldValue.normalize(), true) }
+                if (tempMagnitudes.isNotEmpty())
+                    DropdownMenu(
+                        modifier = Modifier.exposedDropdownSize(false),
+                        properties = PopupProperties(focusable = false, clippingEnabled = false),
+                        scrollState = rememberScrollState(),
+                        expanded = magnMenuExpanded,
+                        onDismissRequest = { magnMenuExpanded = false }
+                    ) {
+                        tempMagnitudes.forEach {
+                            DropdownMenuItem(
+                                text = { Text(it) },
+                                onClick = {
+                                    reference = updateMagnitudes(magnitudes, it)
+                                    magnitude = it
 
-                                originIndex = if (originIndex > reference.lastIndex) {
-                                    if (originIndex > targetIndex) reference.lastIndex else reference.lastIndex - 1
-                                } else originIndex
+                                    originIndex = if (originIndex > reference.lastIndex) {
+                                        if (originIndex > targetIndex) reference.lastIndex else reference.lastIndex - 1
+                                    } else originIndex
 
-                                targetIndex = if (targetIndex > reference.lastIndex) {
-                                    if (targetIndex > originIndex) reference.lastIndex else reference.lastIndex - 1
-                                } else targetIndex
+                                    targetIndex = if (targetIndex > reference.lastIndex) {
+                                        if (targetIndex > originIndex) reference.lastIndex else reference.lastIndex - 1
+                                    } else targetIndex
 
-                                origin = reference[originIndex]
-                                target = reference[targetIndex]
+                                    origin = reference[originIndex]
+                                    target = reference[targetIndex]
 
-                                CoroutineScope(Dispatchers.IO).launch {
-                                    saveKey(context, magnitudeKey, magnitude)
-                                    saveKey(context, originKey, origin.abbreviation)
-                                    saveKey(context, targetKey, target.abbreviation)
+                                    CoroutineScope(Dispatchers.IO).launch {
+                                        saveKey(context, magnitudeKey, magnitude)
+                                        saveKey(context, originKey, origin.abbreviation)
+                                        saveKey(context, targetKey, target.abbreviation)
+                                    }
+
+                                    magnMenuExpanded = false
                                 }
-
-                                magnMenuExpanded = false
-                            }
-                        )
+                            )
+                        }
                     }
-                }
             }
             val keyboardController = LocalSoftwareKeyboardController.current
             OutlinedTextField(
