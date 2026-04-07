@@ -138,7 +138,7 @@ fun App() {
                     if (tempMagnitudes.isNotEmpty())
                         DropdownMenu(
                             modifier = Modifier.exposedDropdownSize(false),
-                            properties = PopupProperties(focusable = false, clippingEnabled = false),
+                            properties = PopupProperties(focusable = true),
                             scrollState = rememberScrollState(),
                             expanded = magnMenuExpanded,
                             onDismissRequest = { magnMenuExpanded = false }
@@ -238,7 +238,7 @@ fun App() {
                         if (tempReference.isNotEmpty())
                             DropdownMenu(
                                 modifier = Modifier.exposedDropdownSize(false),
-                                properties = PopupProperties(focusable = false, clippingEnabled = false),
+                                properties = PopupProperties(focusable = true),
                                 scrollState = rememberScrollState(),
                                 expanded = originMenuExpanded,
                                 onDismissRequest = { originMenuExpanded = false }
@@ -310,7 +310,7 @@ fun App() {
                         if (tempReference.isNotEmpty())
                             DropdownMenu(
                                 modifier = Modifier.exposedDropdownSize(false),
-                                properties = PopupProperties(focusable = false, clippingEnabled = false),
+                                properties = PopupProperties(focusable = true),
                                 scrollState = rememberScrollState(),
                                 expanded = targetMenuExpanded,
                                 onDismissRequest = { targetMenuExpanded = false }
