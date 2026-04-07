@@ -13,7 +13,7 @@ This is a Kotlin Multiplatform Project, with support to JVM 21+ and from Android
 
 In order to run the current desktop app, run `./gradlew run` 
 
-Conversion logic is inside [commonMain](/src/commonMain) module
+Conversion logic is inside [uniconv](/uniconv) module
 
 ### Testing ###
 
