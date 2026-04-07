@@ -58,7 +58,7 @@ android {
 base {
     archivesName =
         if (project.gradle.startParameter.taskNames.any { it.lowercase(Locale.getDefault()).contains("debug") })
-            "${rootProject.name}"
+            rootProject.name
         else
             "${rootProject.name}-${android.defaultConfig.versionName}"
 }
