@@ -1,4 +1,4 @@
-# <img src="uniconv-logo.svg" width="30" height="30"> Uniconv #
+# <img src="uniconv.svg" width="30" height="30"/> Uniconv #
 
 ![Kotlin](https://img.shields.io/badge/-Kotlin-7f52ff?style=flat-square&logo=kotlin&logoColor=7f52ff&labelColor=white)
 ![GitHub release (with filter)](https://img.shields.io/github/v/release/magicstar7213/uniconv?logo=github&style=flat-square)

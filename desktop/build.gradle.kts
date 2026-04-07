@@ -22,7 +22,6 @@ kotlin {
                 implementation(project(":uniconv"))
                 implementation(compose.desktop.currentOs)
                 implementation(libs.material3)
-                implementation(libs.compose.material.icons.desktop)
                 implementation(libs.kotlinx.serialization.json)
                 implementation(libs.compose.resources)
             }

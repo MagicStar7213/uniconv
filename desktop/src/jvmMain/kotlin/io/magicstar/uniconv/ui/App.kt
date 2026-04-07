@@ -2,6 +2,7 @@ package io.magicstar.uniconv.ui
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -12,8 +13,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.selection.SelectionContainer
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.SwapHoriz
 import androidx.compose.material3.Button
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
@@ -34,6 +33,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.key.Key
 import androidx.compose.ui.input.key.key
 import androidx.compose.ui.input.key.onKeyEvent
@@ -52,9 +52,11 @@ import io.magicstar.uniconv.generated.resources.origin
 import io.magicstar.uniconv.generated.resources.speed
 import io.magicstar.uniconv.generated.resources.surface
 import io.magicstar.uniconv.generated.resources.swap
+import io.magicstar.uniconv.generated.resources.swap_horiz
 import io.magicstar.uniconv.generated.resources.temperature
 import io.magicstar.uniconv.generated.resources.time
-import io.magicstar.uniconv.generated.resources.uniconv
+import io.magicstar.uniconv.generated.resources.uniconv_text
+import io.magicstar.uniconv.generated.resources.uniconv_text_dark
 import io.magicstar.uniconv.generated.resources.value
 import io.magicstar.uniconv.generated.resources.volume
 import io.magicstar.uniconv.generated.resources.weight
@@ -98,7 +100,7 @@ fun App() {
                 verticalArrangement = Arrangement.Center
             ) {
                 Image(
-                    painter = painterResource(Res.drawable.uniconv),
+                    painter = painterResource(if (isSystemInDarkTheme()) Res.drawable.uniconv_text_dark else Res.drawable.uniconv_text),
                     contentDescription = "App logo",
                     modifier = Modifier.size(90.dp)
                 )
@@ -263,7 +265,11 @@ fun App() {
                             target = reference[targetIndex]
                         }
                     )  {
-                        Icon(imageVector = Icons.Default.SwapHoriz, contentDescription = stringResource(Res.string.swap))
+                        Icon(
+                            painter = painterResource(Res.drawable.swap_horiz),
+                            tint = if (isSystemInDarkTheme()) Color.White else Color.Black,
+                            contentDescription = stringResource(Res.string.swap)
+                        )
                     }
 
                     var targetMenuExpanded by remember { mutableStateOf(false) }
