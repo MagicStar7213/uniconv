@@ -220,8 +220,7 @@ fun App() {
                         }
                     ) {
                         OutlinedTextField(
-                            modifier = Modifier
-                                .menuAnchor(ExposedDropdownMenuAnchorType.PrimaryEditable, true),
+                            modifier = Modifier.menuAnchor(ExposedDropdownMenuAnchorType.PrimaryEditable, true),
                             shape = CircleShape,
                             value = textFieldValue1,
                             onValueChange = {
