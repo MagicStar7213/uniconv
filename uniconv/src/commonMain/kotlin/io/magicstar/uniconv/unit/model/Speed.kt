@@ -6,14 +6,13 @@ import io.magicstar.uniconv.generated.resources.km_h
 import io.magicstar.uniconv.generated.resources.kn
 import io.magicstar.uniconv.generated.resources.m_s
 import io.magicstar.uniconv.generated.resources.mph
-import org.jetbrains.compose.resources.StringResource
+import io.magicstar.uniconv.generated.resources.speed
 
-abstract class Speed(override val name: StringResource, override val abbreviation: String, override val reference: Number): Unit
+sealed class Speed: Magnitude(Res.string.speed) {
 
-object KM_H: Speed(Res.string.km_h,"km/h", KM.reference.toDouble() / H.reference.toDouble())
-object M_S: Speed(Res.string.m_s,"m/s", M.reference.toDouble() / S.reference.toDouble())
-object MPH: Speed(Res.string.mph,"mph", MI.reference.toDouble() / H.reference.toDouble())
-object KN: Speed(Res.string.kn,"kn", (1.852 * KM.reference.toDouble()) / H.reference.toDouble())
-object FT_S: Speed(Res.string.ft_s,"ft/s", FT.reference.toDouble() / S.reference.toDouble())
-
-val speedUnits = listOf<Unit>(KM_H, M_S, MPH, KN, FT_S)
+    data object KM_H: Unit(Res.string.km_h,"km/h", Length.KM.reference.toDouble() / Time.H.reference.toDouble())
+    data object M_S: Unit(Res.string.m_s,"m/s", Length.M.reference.toDouble() / Time.S.reference.toDouble())
+    data object MPH: Unit(Res.string.mph,"mph", Length.MI.reference.toDouble() / Time.H.reference.toDouble())
+    data object KN: Unit(Res.string.kn,"kn", (1.852 * Length.KM.reference.toDouble()) / Time.H.reference.toDouble())
+    data object FT_S: Unit(Res.string.ft_s,"ft/s", Length.FT.reference.toDouble() / Time.S.reference.toDouble())
+}

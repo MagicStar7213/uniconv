@@ -10,22 +10,21 @@ import io.magicstar.uniconv.generated.resources.min
 import io.magicstar.uniconv.generated.resources.month
 import io.magicstar.uniconv.generated.resources.ms
 import io.magicstar.uniconv.generated.resources.s
+import io.magicstar.uniconv.generated.resources.time
 import io.magicstar.uniconv.generated.resources.week
 import io.magicstar.uniconv.generated.resources.year
-import org.jetbrains.compose.resources.StringResource
 
-abstract class Time(override val name: StringResource, override val abbreviation: String, override val reference: Number): Unit
+sealed class Time: Magnitude(Res.string.time) {
 
-object MS: Time(Res.string.ms,"ms", .001)
-object S: Time(Res.string.s,"s", 1)
-object MIN: Time(Res.string.min,"min", 60)
-object H: Time(Res.string.h,"h", 3600)
-object DAY: Time(Res.string.day,"day", H.reference.toDouble() * 24)
-object WEEK: Time(Res.string.week,"week", DAY.reference.toDouble() * 7)
-object MONTH: Time(Res.string.month,"month", DAY.reference.toDouble() * 30)
-object YEAR: Time(Res.string.year,"year", DAY.reference.toDouble() * 365)
-object DECADE: Time(Res.string.decade,"decade", YEAR.reference.toDouble() * 10)
-object CENTURY: Time(Res.string.century,"century", YEAR.reference.toDouble() * 100)
-object MILLENNIUM: Time(Res.string.millennium,"millennium", YEAR.reference.toDouble() * 1000)
-
-val timeUnits = listOf(MS, S, MIN, H, DAY, WEEK, MONTH, YEAR, DECADE, CENTURY, MILLENNIUM)
+    data object MS: Unit(Res.string.ms,"ms", .001)
+    data object S: Unit(Res.string.s,"s", 1)
+    data object MIN: Unit(Res.string.min,"min", 60)
+    data object H: Unit(Res.string.h,"h", 3600)
+    data object DAY: Unit(Res.string.day,"day", H.reference.toDouble() * 24)
+    data object WEEK: Unit(Res.string.week,"week", DAY.reference.toDouble() * 7)
+    data object MONTH: Unit(Res.string.month,"month", DAY.reference.toDouble() * 30)
+    data object YEAR: Unit(Res.string.year,"year", DAY.reference.toDouble() * 365)
+    data object DECADE: Unit(Res.string.decade,"decade", YEAR.reference.toDouble() * 10)
+    data object CENTURY: Unit(Res.string.century,"century", YEAR.reference.toDouble() * 100)
+    data object MILLENNIUM: Unit(Res.string.millennium,"millennium", YEAR.reference.toDouble() * 1000)
+}

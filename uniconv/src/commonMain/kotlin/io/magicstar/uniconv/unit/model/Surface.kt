@@ -12,23 +12,23 @@ import io.magicstar.uniconv.generated.resources.km2
 import io.magicstar.uniconv.generated.resources.m2
 import io.magicstar.uniconv.generated.resources.mi2
 import io.magicstar.uniconv.generated.resources.mm2
+import io.magicstar.uniconv.generated.resources.surface
 import io.magicstar.uniconv.generated.resources.yd2
-import org.jetbrains.compose.resources.StringResource
+import kotlin.math.pow
 
-abstract class Surface(override val name: StringResource, override val abbreviation: String, override val reference: Number): Unit
+sealed class Surface: Magnitude(Res.string.surface) {
 
-object KM2: Surface(Res.string.km2,"km2", KM.reference.toDouble() * KM.reference.toDouble())
-object HA: Surface(Res.string.ha,"ha", HM.reference.toDouble() * HM.reference.toDouble())
-object A: Surface(Res.string.a,"a", DAM.reference.toDouble() * DAM.reference.toDouble())
-object M2: Surface(Res.string.m2,"m2", M.reference.toDouble() * M.reference.toDouble())
-object DM2: Surface(Res.string.dm2,"dm2", DM.reference.toDouble() * DM.reference.toDouble())
-object CM2: Surface(Res.string.cm2,"cm2", CM.reference.toDouble() * CM.reference.toDouble())
-object MM2: Surface(Res.string.mm2,"mm2", MM.reference.toDouble() * MM.reference.toDouble())
+    data object KM2 : Unit(Res.string.km2, "km2", Length.KM.reference.toDouble().pow(2))
+    data object HA : Unit(Res.string.ha, "ha", Length.HM.reference.toDouble().pow(2))
+    data object A : Unit(Res.string.a, "a", Length.DAM.reference.toDouble().pow(2))
+    data object M2 : Unit(Res.string.m2, "m2", Length.M.reference.toDouble().pow(2))
+    data object DM2 : Unit(Res.string.dm2, "dm2", Length.DM.reference.toDouble().pow(2))
+    data object CM2 : Unit(Res.string.cm2, "cm2", Length.CM.reference.toDouble().pow(2))
+    data object MM2 : Unit(Res.string.mm2, "mm2", Length.MM.reference.toDouble().pow(2))
 
-object MI2: Surface(Res.string.mi2,"mi2", MI.reference.toDouble() * MI.reference.toDouble())
-object ACRE: Surface(Res.string.acre,"acre", YD2.reference.toDouble() * 4840)
-object YD2: Surface(Res.string.yd2,"yd2", YD.reference.toDouble() * YD.reference.toDouble())
-object FT2: Surface(Res.string.ft2,"ft2", FT.reference.toDouble() * FT.reference.toDouble())
-object IN2: Surface(Res.string.in2,"in2", IN.reference.toDouble() * IN.reference.toDouble())
-
-val surfaceUnits = listOf<Unit>(KM2, HA, A, M2, DM2, CM2, MM2, MI2, ACRE, YD2, FT2, IN2)
+    data object MI2 : Unit(Res.string.mi2, "mi2", Length.MI.reference.toDouble().pow(2))
+    data object ACRE : Unit(Res.string.acre, "acre", YD2.reference.toDouble() * 4840)
+    data object YD2 : Unit(Res.string.yd2, "yd2", Length.YD.reference.toDouble().pow(2))
+    data object FT2 : Unit(Res.string.ft2, "ft2", Length.FT.reference.toDouble().pow(2))
+    data object IN2 : Unit(Res.string.in2, "in2", Length.IN.reference.toDouble().pow(2))
+}
