@@ -36,6 +36,7 @@ kotlin {
             dependencies {
                 implementation(libs.compose.resources)
                 implementation(libs.runtime)
+                implementation(libs.androidx.datastore.preferences)
             }
         }
     }
