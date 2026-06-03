@@ -34,6 +34,7 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
+        androidResources.localeFilters.addAll(listOf("en", "es"))
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_21
