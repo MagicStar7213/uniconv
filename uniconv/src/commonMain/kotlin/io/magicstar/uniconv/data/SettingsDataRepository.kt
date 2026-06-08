@@ -1,7 +1,6 @@
 package io.magicstar.uniconv.data
 
 import androidx.datastore.core.DataStore
-import androidx.datastore.core.Storage
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
@@ -12,17 +11,14 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
 
 class SettingsDataRepository(
-    private val storage: Storage<Preferences>,
     private val dispatcher: CoroutineDispatcher = Dispatchers.IO,
-    private val dataStore: DataStore<Preferences> = createDataStore(storage)
+    private val dataStore: DataStore<Preferences>
 ): SettingsRepository {
     override val magnitudeKey = stringPreferencesKey("magnitude")
     override val fromUnitKey = stringPreferencesKey("fromUnit")
     override val toUnitKey = stringPreferencesKey("toUnit")
 
-    override suspend fun <T: Comparable<T>> getKey(key: Preferences.Key<T>): Flow<T?> = withContext(dispatcher) {
-        dataStore.data.map { it[key] }
-    }
+    override fun <T: Comparable<T>> getKey(key: Preferences.Key<T>): Flow<T?> = dataStore.data.map { it[key] }
 
     override suspend fun <T : Comparable<T>> setKey(key: Preferences.Key<T>, value: T) {
         withContext(dispatcher) {
