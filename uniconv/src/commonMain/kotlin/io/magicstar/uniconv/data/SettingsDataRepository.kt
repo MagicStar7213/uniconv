@@ -4,6 +4,7 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.core.Storage
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.stringPreferencesKey
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -15,6 +16,9 @@ class SettingsDataRepository(
     private val dispatcher: CoroutineDispatcher = Dispatchers.IO,
     private val dataStore: DataStore<Preferences> = createDataStore(storage)
 ): SettingsRepository {
+    override val magnitudeKey = stringPreferencesKey("magnitude")
+    override val fromUnitKey = stringPreferencesKey("fromUnit")
+    override val toUnitKey = stringPreferencesKey("toUnit")
 
     override suspend fun <T: Comparable<T>> getKey(key: Preferences.Key<T>): Flow<T?> = withContext(dispatcher) {
         dataStore.data.map { it[key] }
