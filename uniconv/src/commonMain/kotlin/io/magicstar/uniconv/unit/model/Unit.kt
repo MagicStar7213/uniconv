@@ -2,7 +2,7 @@ package io.magicstar.uniconv.unit.model
 
 import org.jetbrains.compose.resources.StringResource
 
-open class Unit(val name: StringResource, val abbreviation: String, val reference: Number) {
+sealed class Unit(val name: StringResource, val abbreviation: String, val reference: Number) {
     open fun to(unit: Unit, value: Number): Double {
         return value.toDouble() * (reference.toDouble() / unit.reference.toDouble())
     }
