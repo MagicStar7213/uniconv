@@ -37,6 +37,8 @@ kotlin {
                 implementation(libs.compose.resources)
                 implementation(libs.runtime)
                 implementation(libs.androidx.datastore.preferences)
+                implementation(libs.androidx.lifecycle.viewmodel)
+                implementation(libs.kotlin.reflect)
             }
         }
     }
