@@ -15,8 +15,8 @@ class SettingsDataRepository(
     private val dataStore: DataStore<Preferences>
 ): SettingsRepository {
     override val magnitudeKey = stringPreferencesKey("magnitude")
-    override val fromUnitKey = stringPreferencesKey("fromUnit")
-    override val toUnitKey = stringPreferencesKey("toUnit")
+    override val unit1Key = stringPreferencesKey("unit1")
+    override val unit2Key = stringPreferencesKey("unit2")
 
     override fun <T: Comparable<T>> getKey(key: Preferences.Key<T>): Flow<T?> = dataStore.data.map { it[key] }
 

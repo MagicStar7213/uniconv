@@ -18,15 +18,10 @@ import kotlinx.coroutines.runBlocking
 import org.jetbrains.compose.resources.getString
 import kotlin.reflect.full.createInstance
 
-enum class UnitType {
-    FROM,
-    TO
-}
-
 data class UniconvState(
     val magnitude: Magnitude? = null,
-    val fromUnit: Unit? = null,
-    val toUnit: Unit? = null,
+    val unit1: Unit? = null,
+    val unit2: Unit? = null,
     val reference: List<Unit>? = null,
     val filteredUnits: List<Unit>? = null,
     val isCalculating: Boolean = false,
@@ -34,7 +29,7 @@ data class UniconvState(
 )
 
 sealed class UniconvIntent {
-    class ChangeUnit(val unit: Unit, val type: UnitType): UniconvIntent()
+    class ChangeUnit(val unit: Unit, val index: Int): UniconvIntent()
     class FilterUnits(val query: String): UniconvIntent()
     class Calculate(val units: Pair<Unit,Unit>, val value: Number): UniconvIntent()
 }
@@ -49,14 +44,14 @@ class UniconvViewModel(val repo: SettingsRepository): ViewModel() {
     init {
         val uiState = combine(
             repo.getKey(repo.magnitudeKey),
-            repo.getKey(repo.fromUnitKey),
-            repo.getKey(repo.toUnitKey)
-        ) { magn, fU, toU ->
+            repo.getKey(repo.unit1Key),
+            repo.getKey(repo.unit2Key)
+        ) { magn, u1, u2 ->
             val magnitude = if (magn != null) magnitudes.first { it.createInstance().id == magn } else magnitudes.first()
             val units = Unit::class.sealedSubclasses.filter { it.java.enclosingClass.kotlin == magnitude }.map { it as Unit }
-            val fromUnit = if (fU != null) units.first { it.abbreviation == fU } else units.first()
-            val toUnit = if (toU != null) units.first { it.abbreviation == toU } else units[1]
-            UniconvState(magnitude.createInstance(), fromUnit, toUnit, units, units, _state.value.isCalculating, _state.value.result)
+            val unit1 = if (u1 != null) units.first { it.abbreviation == u1 } else units.first()
+            val unit2 = if (u2 != null) units.first { it.abbreviation == u2 } else units[1]
+            UniconvState(magnitude.createInstance(), unit1, unit2, units, units, _state.value.isCalculating, _state.value.result)
         }.stateIn(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(5_000),
@@ -67,21 +62,21 @@ class UniconvViewModel(val repo: SettingsRepository): ViewModel() {
 
     fun onIntent(intent: UniconvIntent) {
         when (intent) {
-            is UniconvIntent.ChangeUnit -> changeUnit(intent.unit, intent.type)
+            is UniconvIntent.ChangeUnit -> changeUnit(intent.unit, intent.index)
             is UniconvIntent.FilterUnits -> filterUnits(intent.query)
             is UniconvIntent.Calculate -> calculate(intent.units, intent.value)
         }
     }
 
-    fun changeUnit(unit: Unit, unitType: UnitType) {
+    fun changeUnit(unit: Unit, index: Int) {
         _state.update {
-            if (unitType== UnitType.FROM)
-                it.copy(fromUnit = unit)
+            if (index == 1)
+                it.copy(unit1 = unit)
             else
-                it.copy(toUnit = unit)
+                it.copy(unit2 = unit)
         }
         viewModelScope.launch {
-            repo.setKey(if (unitType== UnitType.FROM) repo.fromUnitKey else repo.toUnitKey, unit.abbreviation)
+            repo.setKey(if (index == 1) repo.unit1Key else repo.unit2Key, unit.abbreviation)
         }
     }
 

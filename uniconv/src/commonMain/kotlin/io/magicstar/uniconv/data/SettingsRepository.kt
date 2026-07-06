@@ -5,8 +5,8 @@ import kotlinx.coroutines.flow.Flow
 
 interface SettingsRepository {
     val magnitudeKey: Preferences.Key<String>
-    val fromUnitKey: Preferences.Key<String>
-    val toUnitKey: Preferences.Key<String>
+    val unit1Key: Preferences.Key<String>
+    val unit2Key: Preferences.Key<String>
 
     fun <T: Comparable<T>> getKey(key: Preferences.Key<T>): Flow<T?>
     suspend fun <T: Comparable<T>> setKey(key: Preferences.Key<T>, value: T)
