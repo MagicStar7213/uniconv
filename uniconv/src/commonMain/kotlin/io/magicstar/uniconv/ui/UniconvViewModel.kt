@@ -1,7 +1,9 @@
 package io.magicstar.uniconv.ui
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.viewmodel.CreationExtras
 import io.magicstar.uniconv.data.SettingsRepository
 import io.magicstar.uniconv.unit.convert
 import io.magicstar.uniconv.unit.model.Magnitude
@@ -16,7 +18,9 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import org.jetbrains.compose.resources.getString
+import kotlin.reflect.KClass
 import kotlin.reflect.full.createInstance
+import kotlin.reflect.full.isSubclassOf
 
 data class UniconvState(
     val magnitude: Magnitude? = null,
@@ -108,5 +112,15 @@ class UniconvViewModel(val repo: SettingsRepository): ViewModel() {
     fun calculate(units: Pair<Unit, Unit>, value: Number) {
         val result = convert(value, units.first, units.second)
         _state.update { it.copy(result = result) }
+    }
+}
+
+class UniconvViewModelFactory(private val repo: SettingsRepository): ViewModelProvider.Factory {
+    override fun <T : ViewModel> create(modelClass: KClass<T>, extras: CreationExtras): T {
+        if (modelClass.isSubclassOf(UniconvViewModel::class)) {
+            @Suppress("UNCHECKED_CAST")
+            return UniconvViewModel(repo) as T
+        }
+        throw IllegalArgumentException("Unknown ViewModel class")
     }
 }
