@@ -27,6 +27,7 @@ data class UniconvState(
     val magnitude: Magnitude? = null,
     val fromUnit: Unit? = null,
     val toUnit: Unit? = null,
+    val reference: List<Unit>? = null,
     val filteredUnits: List<Unit>? = null,
     val isCalculating: Boolean = false,
     val result: Number? = null
@@ -55,7 +56,7 @@ class UniconvViewModel(val repo: SettingsRepository): ViewModel() {
             val units = Unit::class.sealedSubclasses.filter { it.java.enclosingClass.kotlin == magnitude }.map { it as Unit }
             val fromUnit = if (fU != null) units.first { it.abbreviation == fU } else units.first()
             val toUnit = if (toU != null) units.first { it.abbreviation == toU } else units[1]
-            UniconvState(magnitude.createInstance(), fromUnit, toUnit, _state.value.filteredUnits, _state.value.isCalculating, _state.value.result)
+            UniconvState(magnitude.createInstance(), fromUnit, toUnit, units, units, _state.value.isCalculating, _state.value.result)
         }.stateIn(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(5_000),
@@ -91,6 +92,7 @@ class UniconvViewModel(val repo: SettingsRepository): ViewModel() {
         viewModelScope.launch {
             repo.setKey(repo.magnitudeKey, magnitude.id)
         }
+        filterUnits("")
     }
 
     fun filterUnits(query: String) {
@@ -99,10 +101,10 @@ class UniconvViewModel(val repo: SettingsRepository): ViewModel() {
                 _state.value.magnitude!!::class
             else magnitudes.first()
         ).nestedClasses.map { it.createInstance() as Unit }
-        val filteredList = initialList.filter {
+        val filteredList = if (query != "") initialList.filter {
             val unitName = runBlocking(Dispatchers.IO) { getString(it.name) }
             query.lowercase() in "$unitName (${it.abbreviation})"
-        }
+        } else initialList
         _state.update { it.copy(filteredUnits = filteredList) }
     }
 
