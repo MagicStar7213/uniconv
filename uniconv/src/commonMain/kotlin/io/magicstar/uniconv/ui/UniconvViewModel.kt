@@ -40,6 +40,7 @@ sealed class UniconvIntent {
 
 class UniconvViewModel(val repo: SettingsRepository): ViewModel() {
     private val magnitudes = Magnitude::class.sealedSubclasses
+    val magnitudesList = magnitudes.map { it.createInstance() }
 
     private val _state = MutableStateFlow(UniconvState())
     val state = _state.asStateFlow()
@@ -80,6 +81,15 @@ class UniconvViewModel(val repo: SettingsRepository): ViewModel() {
         }
         viewModelScope.launch {
             repo.setKey(if (unitType== UnitType.FROM) repo.fromUnitKey else repo.toUnitKey, unit.abbreviation)
+        }
+    }
+
+    fun changeMagnitude(magnitude: Magnitude) {
+        _state.update {
+            it.copy(magnitude = magnitude)
+        }
+        viewModelScope.launch {
+            repo.setKey(repo.magnitudeKey, magnitude.id)
         }
     }
 
