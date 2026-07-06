@@ -14,7 +14,7 @@ import io.magicstar.uniconv.generated.resources.mi
 import io.magicstar.uniconv.generated.resources.mm
 import io.magicstar.uniconv.generated.resources.yd
 
-sealed class Length: Magnitude(Res.string.length) {
+sealed class Length: Magnitude("ln",Res.string.length) {
 
     data object MM : Unit(Res.string.mm, "mm", .001)
     data object CM : Unit(Res.string.cm, "cm", .01)

@@ -50,7 +50,7 @@ class UniconvViewModel(val repo: SettingsRepository): ViewModel() {
             repo.getKey(repo.fromUnitKey),
             repo.getKey(repo.toUnitKey)
         ) { magn, fU, toU ->
-            val magnitude = if (magn != null) magnitudes.first { it.createInstance().name.key == magn } else magnitudes.first()
+            val magnitude = if (magn != null) magnitudes.first { it.createInstance().id == magn } else magnitudes.first()
             val units = Unit::class.sealedSubclasses.filter { it.java.enclosingClass.kotlin == magnitude }.map { it as Unit }
             val fromUnit = if (fU != null) units.first { it.abbreviation == fU } else units.first()
             val toUnit = if (toU != null) units.first { it.abbreviation == toU } else units[1]

@@ -13,7 +13,7 @@ import io.magicstar.uniconv.generated.resources.oz
 import io.magicstar.uniconv.generated.resources.ton
 import io.magicstar.uniconv.generated.resources.weight
 
-sealed class Weight: Magnitude(Res.string.weight) {
+sealed class Weight: Magnitude("wg", Res.string.weight) {
 
     data object TON: Unit(Res.string.ton,"ton", 1_000_000)
     data object KG: Unit(Res.string.kg,"kg", 1000)

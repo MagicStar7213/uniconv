@@ -6,7 +6,7 @@ import io.magicstar.uniconv.generated.resources.K
 import io.magicstar.uniconv.generated.resources.Res
 import io.magicstar.uniconv.generated.resources.temperature
 
-sealed class Temperature: Magnitude(Res.string.temperature) {
+sealed class Temperature: Magnitude("tp", Res.string.temperature) {
 
     data object CELSIUS: Unit(Res.string.C,"ºC", 273.15) {
         override fun to(unit: Unit, value: Number): Double {

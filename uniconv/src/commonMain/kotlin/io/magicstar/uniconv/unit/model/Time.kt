@@ -14,7 +14,7 @@ import io.magicstar.uniconv.generated.resources.time
 import io.magicstar.uniconv.generated.resources.week
 import io.magicstar.uniconv.generated.resources.year
 
-sealed class Time: Magnitude(Res.string.time) {
+sealed class Time: Magnitude("tm",Res.string.time) {
 
     data object MS: Unit(Res.string.ms,"ms", .001)
     data object S: Unit(Res.string.s,"s", 1)

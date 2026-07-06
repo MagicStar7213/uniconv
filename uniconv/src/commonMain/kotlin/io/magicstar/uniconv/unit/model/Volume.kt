@@ -22,7 +22,7 @@ import io.magicstar.uniconv.generated.resources.volume
 import io.magicstar.uniconv.generated.resources.yd3
 import kotlin.math.pow
 
-sealed class Volume: Magnitude(Res.string.volume) {
+sealed class Volume: Magnitude("vl", Res.string.volume) {
 
     data object KM3: Unit(Res.string.km3,"km3", Length.KM.reference.toDouble().pow(3))
     data object M3: Unit(Res.string.m3,"m3", Length.M.reference.toDouble().pow(3))

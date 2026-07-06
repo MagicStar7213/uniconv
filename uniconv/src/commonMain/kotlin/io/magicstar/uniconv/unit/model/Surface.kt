@@ -16,7 +16,7 @@ import io.magicstar.uniconv.generated.resources.surface
 import io.magicstar.uniconv.generated.resources.yd2
 import kotlin.math.pow
 
-sealed class Surface: Magnitude(Res.string.surface) {
+sealed class Surface: Magnitude("sf", Res.string.surface) {
 
     data object KM2 : Unit(Res.string.km2, "km2", Length.KM.reference.toDouble().pow(2))
     data object HA : Unit(Res.string.ha, "ha", Length.HM.reference.toDouble().pow(2))
