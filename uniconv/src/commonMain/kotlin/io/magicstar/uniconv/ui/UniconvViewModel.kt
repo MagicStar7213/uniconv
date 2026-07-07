@@ -28,15 +28,15 @@ data class UniconvState(
     val unit2Index: Int = 1,
     val reference: List<Unit>? = null,
     val filteredUnits: List<Unit>? = null,
-    val isCalculating: Boolean = false,
-    val result: Number? = null
+    val value1: Number = 0,
+    val value2: Number = 0
 )
 
 sealed class UniconvIntent {
     class ChangeUnit(val unit: Unit, val type: Int): UniconvIntent()
     class ChangeMagnitude(val magnitude: Magnitude): UniconvIntent()
     class FilterUnits(val query: String): UniconvIntent()
-    class Calculate(val units: Pair<Unit,Unit>, val value: Number): UniconvIntent()
+    class Calculate(val units: Triple<Unit,Unit, Boolean>, val value: Number): UniconvIntent()
 }
 
 class UniconvViewModel(val repo: SettingsRepository): ViewModel() {
@@ -64,7 +64,7 @@ class UniconvViewModel(val repo: SettingsRepository): ViewModel() {
                 if (unit2KeyValue != null) units.first { it.abbreviation == unit2KeyValue }
                 else units[1]
 
-            UniconvState(magnitude.createInstance(), unit1, unit2, units.indexOf(unit1), units.indexOf(unit2), units, units, _state.value.isCalculating, _state.value.result)
+            UniconvState(magnitude.createInstance(), unit1, unit2, units.indexOf(unit1), units.indexOf(unit2), units, units)
         }
         _state.update { uiState }
     }
@@ -125,9 +125,13 @@ class UniconvViewModel(val repo: SettingsRepository): ViewModel() {
         _state.update { it.copy(filteredUnits = filteredList) }
     }
 
-    fun calculate(units: Pair<Unit, Unit>, value: Number) {
+    fun calculate(units: Triple<Unit, Unit, Boolean>, value: Number) {
         val result = convert(value, units.first, units.second)
-        _state.update { it.copy(result = result) }
+        _state.update {
+            if (units.third)
+                _state.value.copy(value1 = result)
+            else _state.value.copy(value2 = result)
+        }
     }
 }
 
