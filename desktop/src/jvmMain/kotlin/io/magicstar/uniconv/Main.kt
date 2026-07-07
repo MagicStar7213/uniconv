@@ -2,7 +2,8 @@ package io.magicstar.uniconv
 
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
-import io.magicstar.uniconv.data.initConfigFile
+import io.magicstar.uniconv.data.SettingsDataRepository
+import io.magicstar.uniconv.data.createDataStore
 import io.magicstar.uniconv.generated.resources.Res
 import io.magicstar.uniconv.generated.resources.uniconv
 import io.magicstar.uniconv.ui.App
@@ -15,9 +16,9 @@ fun main() = application {
         icon = painterResource(Res.drawable.uniconv),
         onCloseRequest = ::exitApplication
     ) {
-        initConfigFile()
         UniconvTheme {
-            App()
+            val dataStore = createDataStore()
+            App(SettingsDataRepository(dataStore = dataStore))
         }
     }
 }
