@@ -10,10 +10,8 @@ import io.magicstar.uniconv.unit.model.Magnitude
 import io.magicstar.uniconv.unit.model.Unit
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
@@ -49,22 +47,26 @@ class UniconvViewModel(val repo: SettingsRepository): ViewModel() {
     val state = _state.asStateFlow()
 
     init {
-        val uiState = combine(
-            repo.getKey(repo.magnitudeKey),
-            repo.getKey(repo.unit1Key),
-            repo.getKey(repo.unit2Key)
-        ) { magn, u1, u2 ->
-            val magnitude = if (magn != null) magnitudes.first { it.createInstance().id == magn } else magnitudes.first()
-            val units = Unit::class.sealedSubclasses.filter { it.java.enclosingClass.kotlin == magnitude }.map { it as Unit }
-            val unit1 = if (u1 != null) units.first { it.abbreviation == u1 } else units.first()
-            val unit2 = if (u2 != null) units.first { it.abbreviation == u2 } else units[1]
-            UniconvState(magnitude.createInstance(), unit1, unit2, units, units, _state.value.isCalculating, _state.value.result)
-        }.stateIn(
-            scope = viewModelScope,
-            started = SharingStarted.WhileSubscribed(5_000),
-            initialValue = UniconvState()
-        )
-        _state.update { uiState.value }
+        val uiState = runBlocking {
+            val magnitudeKeyValue = repo.getKey(repo.magnitudeKey).firstOrNull()
+            val unit1KeyValue = repo.getKey(repo.unit1Key).firstOrNull()
+            val unit2KeyValue = repo.getKey(repo.unit2Key).firstOrNull()
+
+            val magnitude =
+                if (magnitudeKeyValue != null) magnitudes.first { it.createInstance().id == magnitudeKeyValue }
+                else magnitudes.first()
+
+            val units = Unit::class.sealedSubclasses.filter { it.java.enclosingClass.kotlin == magnitude }.map { it.createInstance() }
+            val unit1 =
+                if (unit1KeyValue != null) units.first { it.abbreviation == unit1KeyValue }
+                else units.first()
+            val unit2 =
+                if (unit2KeyValue != null) units.first { it.abbreviation == unit2KeyValue }
+                else units[1]
+
+            UniconvState(magnitude.createInstance(), unit1, unit2, units.indexOf(unit1), units.indexOf(unit2), units, units, _state.value.isCalculating, _state.value.result)
+        }
+        _state.update { uiState }
     }
 
     fun onIntent(intent: UniconvIntent) {
