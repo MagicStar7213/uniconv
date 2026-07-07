@@ -91,13 +91,25 @@ class UniconvViewModel(val repo: SettingsRepository): ViewModel() {
     }
 
     fun changeMagnitude(magnitude: Magnitude) {
-        _state.update {
-            it.copy(magnitude = magnitude)
+        _state.update { uiState ->
+            uiState.copy(
+                magnitude = magnitude,
+                reference = Unit::class.sealedSubclasses.filter { it.java.enclosingClass.kotlin == magnitude::class }.map { it.createInstance() },
+                unit1Index = if (uiState.unit1Index > uiState.reference!!.lastIndex) {
+                    if (uiState.unit1Index > uiState.unit2Index) uiState.reference.lastIndex else uiState.reference.lastIndex - 1
+                } else uiState.unit1Index,
+
+                unit2Index = if (uiState.unit2Index > uiState.reference.lastIndex) {
+                    if (uiState.unit2Index > uiState.unit1Index) uiState.reference.lastIndex else uiState.reference.lastIndex - 1
+                } else uiState.unit2Index
+            )
         }
         viewModelScope.launch {
             repo.setKey(repo.magnitudeKey, magnitude.id)
         }
         filterUnits("")
+        changeUnit(_state.value.reference!![_state.value.unit1Index], 1)
+        changeUnit(_state.value.reference!![_state.value.unit2Index], 2)
     }
 
     fun filterUnits(query: String) {
