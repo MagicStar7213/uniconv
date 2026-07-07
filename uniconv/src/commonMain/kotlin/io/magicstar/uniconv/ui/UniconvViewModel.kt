@@ -33,7 +33,7 @@ data class UniconvState(
 )
 
 sealed class UniconvIntent {
-    class ChangeUnit(val unit: Unit, val index: Int): UniconvIntent()
+    class ChangeUnit(val unit: Unit, val type: Int): UniconvIntent()
     class ChangeMagnitude(val magnitude: Magnitude): UniconvIntent()
     class FilterUnits(val query: String): UniconvIntent()
     class Calculate(val units: Pair<Unit,Unit>, val value: Number): UniconvIntent()
@@ -67,22 +67,22 @@ class UniconvViewModel(val repo: SettingsRepository): ViewModel() {
 
     fun onIntent(intent: UniconvIntent) {
         when (intent) {
-            is UniconvIntent.ChangeUnit -> changeUnit(intent.unit, intent.index)
+            is UniconvIntent.ChangeUnit -> changeUnit(intent.unit, intent.type)
             is UniconvIntent.ChangeMagnitude -> changeMagnitude(intent.magnitude)
             is UniconvIntent.FilterUnits -> filterUnits(intent.query)
             is UniconvIntent.Calculate -> calculate(intent.units, intent.value)
         }
     }
 
-    fun changeUnit(unit: Unit, index: Int) {
+    fun changeUnit(unit: Unit, type: Int) {
         _state.update {
-            if (index == 1)
+            if (type == 1)
                 it.copy(unit1 = unit)
             else
                 it.copy(unit2 = unit)
         }
         viewModelScope.launch {
-            repo.setKey(if (index == 1) repo.unit1Key else repo.unit2Key, unit.abbreviation)
+            repo.setKey(if (type == 1) repo.unit1Key else repo.unit2Key, unit.abbreviation)
         }
     }
 
