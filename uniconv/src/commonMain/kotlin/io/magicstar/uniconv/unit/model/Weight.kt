@@ -13,17 +13,17 @@ import io.magicstar.uniconv.generated.resources.oz
 import io.magicstar.uniconv.generated.resources.ton
 import io.magicstar.uniconv.generated.resources.weight
 
-sealed class Weight: Magnitude("wg", Res.string.weight) {
+class Weight: Magnitude("wg", Res.string.weight) {
 
-    data object TON: Unit(Res.string.ton,"ton", 1_000_000)
-    data object KG: Unit(Res.string.kg,"kg", 1000)
-    data object HG: Unit(Res.string.hg,"hg", 100)
-    data object DAG: Unit(Res.string.dag,"dag", 10)
-    data object G: Unit(Res.string.g,"g", 1)
-    data object DG: Unit(Res.string.dg,"dg", .1)
-    data object CG: Unit(Res.string.cg,"cg", .01)
-    data object MG: Unit(Res.string.mg,"mg", .001)
+    class TON: Unit(Res.string.ton,"ton", 1_000_000)
+    class KG: Unit(Res.string.kg,"kg", 1000)
+    class HG: Unit(Res.string.hg,"hg", 100)
+    class DAG: Unit(Res.string.dag,"dag", 10)
+    class G: Unit(Res.string.g,"g", 1)
+    class DG: Unit(Res.string.dg,"dg", .1)
+    class CG: Unit(Res.string.cg,"cg", .01)
+    class MG: Unit(Res.string.mg,"mg", .001)
 
-    data object OZ: Unit(Res.string.oz,"oz", 28.3495)
-    data object LB: Unit(Res.string.lb,"lb", OZ.reference.toDouble() * 16)
+    class OZ: Unit(Res.string.oz,"oz", 28.3495)
+    class LB: Unit(Res.string.lb,"lb", OZ().reference.toDouble() * 16)
 }

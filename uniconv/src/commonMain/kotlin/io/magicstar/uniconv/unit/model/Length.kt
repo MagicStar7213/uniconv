@@ -14,18 +14,17 @@ import io.magicstar.uniconv.generated.resources.mi
 import io.magicstar.uniconv.generated.resources.mm
 import io.magicstar.uniconv.generated.resources.yd
 
-sealed class Length: Magnitude("ln",Res.string.length) {
+class Length: Magnitude("ln",Res.string.length) {
+    class MM : Unit(Res.string.mm, "mm", .001)
+    class CM : Unit(Res.string.cm, "cm", .01)
+    class DM : Unit(Res.string.dm, "dm", .1)
+    class M : Unit(Res.string.m, "m", 1)
+    class DAM : Unit(Res.string.dam, "dam", 10)
+    class HM : Unit(Res.string.hm, "hm", 100)
+    class KM : Unit(Res.string.km, "km", 1000)
 
-    data object MM : Unit(Res.string.mm, "mm", .001)
-    data object CM : Unit(Res.string.cm, "cm", .01)
-    data object DM : Unit(Res.string.dm, "dm", .1)
-    data object M : Unit(Res.string.m, "m", 1)
-    data object DAM : Unit(Res.string.dam, "dam", 10)
-    data object HM : Unit(Res.string.hm, "hm", 100)
-    data object KM : Unit(Res.string.km, "km", 1000)
-
-    data object IN : Unit(Res.string.`in`, "in", FT.reference.toDouble() / 12)
-    data object YD : Unit(Res.string.yd, "yd", 3 * FT.reference.toDouble())
-    data object FT : Unit(Res.string.ft, "ft", 1 / 3.280839895)
-    data object MI : Unit(Res.string.mi, "mi", 5280 * FT.reference.toDouble())
+    class IN : Unit(Res.string.`in`, "in", FT().reference.toDouble() / 12)
+    class YD : Unit(Res.string.yd, "yd", 3 * FT().reference.toDouble())
+    class FT : Unit(Res.string.ft, "ft", 1 / 3.280839895)
+    class MI : Unit(Res.string.mi, "mi", 5280 * FT().reference.toDouble())
 }
