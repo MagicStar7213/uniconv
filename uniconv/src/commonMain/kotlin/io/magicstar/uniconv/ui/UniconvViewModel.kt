@@ -26,6 +26,8 @@ data class UniconvState(
     val magnitude: Magnitude? = null,
     val unit1: Unit? = null,
     val unit2: Unit? = null,
+    val unit1Index: Int = 0,
+    val unit2Index: Int = 1,
     val reference: List<Unit>? = null,
     val filteredUnits: List<Unit>? = null,
     val isCalculating: Boolean = false,
