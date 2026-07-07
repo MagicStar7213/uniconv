@@ -11,11 +11,7 @@ kotlin {
         implementation(libs.androidx.core.ktx)
         implementation(libs.compose.activity)
         implementation(project.dependencies.platform(libs.compose.bom))
-        implementation(libs.compose.ui)
-        implementation(libs.compose.ui.graphics)
-        implementation(libs.compose.material3)
         implementation(libs.androidx.datastore.preferences)
-        implementation(libs.compose.resources)
     }
 }
 

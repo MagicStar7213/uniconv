@@ -21,7 +21,7 @@ kotlin {
             dependencies {
                 implementation(project(":uniconv"))
                 implementation(compose.desktop.currentOs)
-                implementation(libs.material3)
+                implementation(libs.androidx.datastore.preferences)
                 implementation(libs.kotlinx.serialization.json)
                 implementation(libs.compose.resources)
             }

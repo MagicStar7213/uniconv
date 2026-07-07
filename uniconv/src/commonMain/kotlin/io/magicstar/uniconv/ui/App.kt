@@ -1,5 +1,6 @@
 package io.magicstar.uniconv.ui
 
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
@@ -20,12 +21,11 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuAnchorType
 import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.ExposedDropdownMenuDefaults
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -33,7 +33,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.key.Key
 import androidx.compose.ui.input.key.key
 import androidx.compose.ui.input.key.onKeyEvent
@@ -41,54 +40,35 @@ import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.PopupProperties
-import io.magicstar.uniconv.data.dataMagnitude
-import io.magicstar.uniconv.data.dataOrigin
-import io.magicstar.uniconv.data.dataTarget
+import androidx.lifecycle.viewmodel.compose.viewModel
+import io.magicstar.uniconv.data.SettingsRepository
 import io.magicstar.uniconv.generated.resources.Res
 import io.magicstar.uniconv.generated.resources.convert
-import io.magicstar.uniconv.generated.resources.length
 import io.magicstar.uniconv.generated.resources.magnitudes
 import io.magicstar.uniconv.generated.resources.origin
-import io.magicstar.uniconv.generated.resources.speed
-import io.magicstar.uniconv.generated.resources.surface
-import io.magicstar.uniconv.generated.resources.swap
-import io.magicstar.uniconv.generated.resources.swap_horiz
-import io.magicstar.uniconv.generated.resources.temperature
-import io.magicstar.uniconv.generated.resources.time
 import io.magicstar.uniconv.generated.resources.uniconv_text
 import io.magicstar.uniconv.generated.resources.uniconv_text_dark
 import io.magicstar.uniconv.generated.resources.value
-import io.magicstar.uniconv.generated.resources.volume
-import io.magicstar.uniconv.generated.resources.weight
 import io.magicstar.uniconv.unit.convert
-import io.magicstar.uniconv.unit.model.Unit
-import io.magicstar.uniconv.unit.updateMagnitudes
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 
+@RequiresApi(9)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun App() {
-    val magnitudesList = listOf(
-        stringResource(Res.string.length), stringResource(Res.string.weight), stringResource(Res.string.time), stringResource(Res.string.temperature),
-        stringResource(Res.string.surface), stringResource(Res.string.volume), stringResource(Res.string.speed)
-    )
-    var magnitude by remember { mutableStateOf(dataMagnitude) }
+fun App(repo: SettingsRepository) {
+    val viewModel: UniconvViewModel = viewModel(factory = remember { UniconvViewModelFactory(repo) })
+    val state by viewModel.state.collectAsState()
 
     var enabled by remember { mutableStateOf(false) }
 
     var value by remember { mutableStateOf("") }
     var result by remember { mutableStateOf("") }
 
-    var reference: List<Unit> by remember { mutableStateOf(updateMagnitudes(magnitudesList, magnitude)) }
-    var origin by remember { mutableStateOf(reference.first { it.abbreviation == dataOrigin }) }
-    var target by remember { mutableStateOf(reference.first { it.abbreviation == dataTarget }) }
-
-    var originIndex by remember { mutableIntStateOf(reference.indexOf(reference.first { it.abbreviation == dataOrigin })) }
-    var targetIndex by remember { mutableIntStateOf(reference.indexOf(reference.first { it.abbreviation == dataTarget })) }
+    var unit1Index by remember { mutableIntStateOf(state.reference!!.indexOf(state.unit1)) }
+    var unit2Index by remember { mutableIntStateOf(state.reference!!.indexOf(state.unit2)) }
 
     enabled = value != ""
-    reference = updateMagnitudes(magnitudesList, magnitude)
 
     MaterialTheme {
         Box(
@@ -106,7 +86,7 @@ fun App() {
                 )
                 var magnMenuExpanded by remember { mutableStateOf(false) }
 
-                val setMagnitudeDefault = magnitude
+                val setMagnitudeDefault = stringResource(state.magnitude!!.name)
                 var magnTextFieldValue by remember { mutableStateOf(setMagnitudeDefault) }
 
                 ExposedDropdownMenuBox(
@@ -133,8 +113,8 @@ fun App() {
                         label = { Text(stringResource(Res.string.magnitudes)) },
                         trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(magnMenuExpanded) }
                     )
-                    if (!magnMenuExpanded) magnTextFieldValue = setMagnitudeDefault
-                    val tempMagnitudes = magnitudesList.filter { it.normalize().contains(magnTextFieldValue.normalize(), true) }
+                    if (!magnMenuExpanded) magnTextFieldValue = stringResource(state.magnitude!!.name)
+                    val tempMagnitudes = viewModel.magnitudesList.filter { stringResource(it.name).normalize().contains(magnTextFieldValue.normalize(), true) }
                     if (tempMagnitudes.isNotEmpty())
                         DropdownMenu(
                             modifier = Modifier.exposedDropdownSize(false),
@@ -145,26 +125,9 @@ fun App() {
                         ) {
                             tempMagnitudes.forEach {
                                 DropdownMenuItem(
-                                    text = { Text(it) },
+                                    text = { Text(stringResource(it.name)) },
                                     onClick = {
-                                        reference = updateMagnitudes(magnitudesList, it)
-                                        magnitude = it
-
-                                        originIndex = if (originIndex > reference.lastIndex) {
-                                            if (originIndex > targetIndex) reference.lastIndex else reference.lastIndex - 1
-                                        } else originIndex
-
-                                        targetIndex = if (targetIndex > reference.lastIndex) {
-                                            if (targetIndex > originIndex) reference.lastIndex else reference.lastIndex - 1
-                                        } else targetIndex
-
-                                        origin = reference[originIndex]
-                                        target = reference[targetIndex]
-
-                                        dataMagnitude = it
-                                        dataOrigin = origin.abbreviation
-                                        dataTarget = target.abbreviation
-
+                                        viewModel.onIntent(UniconvIntent.ChangeMagnitude(it))
                                         magnMenuExpanded = false
                                     }
                                 )
@@ -186,7 +149,7 @@ fun App() {
                             )
                             .onKeyEvent {
                                 if (it.key == Key.Enter) {
-                                    result = "${convert(value.toDouble(), origin, target)} ${target.abbreviation}"
+                                    result = "${convert(value.toDouble(), state.unit1!!, state.unit2!!)} ${state.unit2!!.abbreviation}"
                                     focusManager.clearFocus()
                                     true
                                 } else false
@@ -202,7 +165,7 @@ fun App() {
 
                     var originMenuExpanded by remember { mutableStateOf(false) }
 
-                    val setOriginDefault = "${stringResource(origin.name)} (${origin.abbreviation})"
+                    val setOriginDefault = "${stringResource(state.unit1!!.name)} (${state.unit1!!.abbreviation})"
                     var textFieldValue1 by remember { mutableStateOf(setOriginDefault) }
                     ExposedDropdownMenuBox(
                         modifier = Modifier
@@ -233,7 +196,7 @@ fun App() {
                             trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(originMenuExpanded) }
                         )
                         if (!originMenuExpanded) textFieldValue1 = setOriginDefault
-                        val tempReference = reference.filter { "${stringResource(it.name)} (${it.abbreviation})".normalize().contains(textFieldValue1.normalize(), true) }
+                        val tempReference = state.reference!!.filter { "${stringResource(it.name)} (${it.abbreviation})".normalize().contains(textFieldValue1.normalize(), true) }
                         if (tempReference.isNotEmpty())
                             DropdownMenu(
                                 modifier = Modifier.exposedDropdownSize(false),
@@ -246,9 +209,8 @@ fun App() {
                                     DropdownMenuItem(
                                         text = { Text("${stringResource(unit.name)} (${unit.abbreviation})") },
                                         onClick = {
-                                            originIndex = reference.indexOf(unit)
-                                            origin = unit
-                                            dataOrigin = origin.abbreviation
+                                            unit1Index = state.reference!!.indexOf(unit)
+                                            viewModel.onIntent(UniconvIntent.ChangeUnit(unit, 1))
                                             originMenuExpanded = false
                                         }
                                     )
@@ -257,23 +219,9 @@ fun App() {
 
                     }
 
-                    IconButton(
-                        onClick = {
-                            originIndex = targetIndex.also { targetIndex = originIndex }
-                            origin = reference[originIndex]
-                            target = reference[targetIndex]
-                        }
-                    )  {
-                        Icon(
-                            painter = painterResource(Res.drawable.swap_horiz),
-                            tint = if (isSystemInDarkTheme()) Color.White else Color.Black,
-                            contentDescription = stringResource(Res.string.swap)
-                        )
-                    }
-
                     var targetMenuExpanded by remember { mutableStateOf(false) }
 
-                    val setTargetDefault = "${stringResource(target.name)} (${target.abbreviation})"
+                    val setTargetDefault = "${stringResource(state.unit2!!.name)} (${state.unit2!!.abbreviation})"
                     var textFieldValue2 by remember { mutableStateOf(setTargetDefault) }
                     ExposedDropdownMenuBox(
                         modifier = Modifier
@@ -305,7 +253,7 @@ fun App() {
                             trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(targetMenuExpanded) }
                         )
                         if (!targetMenuExpanded) textFieldValue2 = setTargetDefault
-                        val tempReference = reference.filter { "${stringResource(it.name)} (${it.abbreviation})".normalize().contains(textFieldValue2.normalize(), true) }
+                        val tempReference = state.reference!!.filter { "${stringResource(it.name)} (${it.abbreviation})".normalize().contains(textFieldValue2.normalize(), true) }
                         if (tempReference.isNotEmpty())
                             DropdownMenu(
                                 modifier = Modifier.exposedDropdownSize(false),
@@ -318,9 +266,8 @@ fun App() {
                                     DropdownMenuItem(
                                         text = { Text("${stringResource(unit.name)} (${unit.abbreviation})") },
                                         onClick = {
-                                            targetIndex = reference.indexOf(unit)
-                                            target = unit
-                                            dataTarget = target.abbreviation
+                                            unit2Index = state.reference!!.indexOf(unit)
+                                            viewModel.onIntent(UniconvIntent.ChangeUnit(unit, 2))
                                             targetMenuExpanded = false
                                         }
                                     )
@@ -333,7 +280,7 @@ fun App() {
                     modifier = Modifier.padding(vertical = 5.dp),
                     enabled = enabled,
                     onClick = {
-                        result ="${convert(value.toDouble(), origin, target)} ${target.abbreviation}"
+                        result ="${convert(value.toDouble(), state.unit1!!, state.unit2!!)} ${state.unit2!!.abbreviation}"
                     }
                 ) {
                     Text(

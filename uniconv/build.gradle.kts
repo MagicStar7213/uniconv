@@ -36,9 +36,12 @@ kotlin {
             dependencies {
                 implementation(libs.compose.resources)
                 implementation(libs.runtime)
+                implementation(libs.material3)
+                implementation(libs.material3.adaptive)
                 implementation(libs.androidx.datastore.preferences)
                 implementation(libs.androidx.lifecycle.viewmodel)
                 implementation(libs.kotlin.reflect)
+                implementation(libs.kotlinx.coroutines)
             }
         }
     }
