@@ -10,4 +10,5 @@ interface SettingsRepository {
 
     fun <T: Comparable<T>> getKey(key: Preferences.Key<T>): Flow<T?>
     suspend fun <T: Comparable<T>> setKey(key: Preferences.Key<T>, value: T)
+    fun <T: Comparable<T>> containsKey(key: Preferences.Key<T>): Flow<Boolean>
 }

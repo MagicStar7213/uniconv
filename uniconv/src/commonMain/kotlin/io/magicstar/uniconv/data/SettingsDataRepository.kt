@@ -25,4 +25,6 @@ class SettingsDataRepository(
             dataStore.edit { it[key] = value }
         }
     }
+
+    override fun <T: Comparable<T>> containsKey(key: Preferences.Key<T>) = dataStore.data.map { it.contains(key) }
 }
