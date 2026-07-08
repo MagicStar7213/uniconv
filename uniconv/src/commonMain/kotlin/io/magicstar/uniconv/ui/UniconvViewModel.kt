@@ -37,6 +37,7 @@ sealed class UniconvIntent {
     class ChangeMagnitude(val magnitude: Magnitude): UniconvIntent()
     class FilterUnits(val query: String): UniconvIntent()
     class Calculate(val units: Triple<Unit,Unit, Int>, val value: Number): UniconvIntent()
+    class UpdateTextFieldValue(val newValue: Number, val unitType: Int): UniconvIntent()
 }
 
 class UniconvViewModel(val repo: SettingsRepository): ViewModel() {
@@ -75,6 +76,16 @@ class UniconvViewModel(val repo: SettingsRepository): ViewModel() {
             is UniconvIntent.ChangeMagnitude -> changeMagnitude(intent.magnitude)
             is UniconvIntent.FilterUnits -> filterUnits(intent.query)
             is UniconvIntent.Calculate -> calculate(intent.units, intent.value)
+            is UniconvIntent.UpdateTextFieldValue -> updateTextFieldValue(intent.newValue, intent.unitType)
+        }
+    }
+
+    fun updateTextFieldValue(newValue: Number, unitType: Int) {
+        _state.update {
+            if (unitType == 1)
+                it.copy(value1 = newValue)
+            else
+                it.copy(value2 = newValue)
         }
     }
 
