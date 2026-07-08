@@ -36,7 +36,7 @@ sealed class UniconvIntent {
     class ChangeUnit(val unit: Unit, val type: Int): UniconvIntent()
     class ChangeMagnitude(val magnitude: Magnitude): UniconvIntent()
     class FilterUnits(val query: String): UniconvIntent()
-    class Calculate(val units: Triple<Unit,Unit, Boolean>, val value: Number): UniconvIntent()
+    class Calculate(val units: Triple<Unit,Unit, Int>, val value: Number): UniconvIntent()
 }
 
 class UniconvViewModel(val repo: SettingsRepository): ViewModel() {
@@ -125,10 +125,10 @@ class UniconvViewModel(val repo: SettingsRepository): ViewModel() {
         _state.update { it.copy(filteredUnits = filteredList) }
     }
 
-    fun calculate(units: Triple<Unit, Unit, Boolean>, value: Number) {
+    fun calculate(units: Triple<Unit, Unit, Int>, value: Number) {
         val result = convert(value, units.first, units.second)
         _state.update {
-            if (units.third)
+            if (units.third == 1)
                 _state.value.copy(value1 = result)
             else _state.value.copy(value2 = result)
         }
