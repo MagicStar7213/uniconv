@@ -16,6 +16,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import org.jetbrains.compose.resources.getString
+import java.math.BigDecimal
 import kotlin.reflect.KClass
 import kotlin.reflect.full.createInstance
 import kotlin.reflect.full.isSubclassOf
@@ -36,7 +37,7 @@ sealed class UniconvIntent {
     class ChangeUnit(val unit: Unit, val type: Int): UniconvIntent()
     class ChangeMagnitude(val magnitude: Magnitude): UniconvIntent()
     class FilterUnits(val query: String): UniconvIntent()
-    class Calculate(val units: Triple<Unit,Unit, Int>, val value: Number): UniconvIntent()
+    class Calculate(val units: Triple<Unit,Unit, Int>, val value: BigDecimal): UniconvIntent()
     class UpdateTextFieldValue(val newValue: Number, val unitType: Int): UniconvIntent()
 }
 
@@ -136,7 +137,7 @@ class UniconvViewModel(val repo: SettingsRepository): ViewModel() {
         _state.update { it.copy(filteredUnits = filteredList) }
     }
 
-    fun calculate(units: Triple<Unit, Unit, Int>, value: Number) {
+    fun calculate(units: Triple<Unit, Unit, Int>, value: BigDecimal) {
         val result = convert(value, units.first, units.second)
         _state.update {
             if (units.third == 1)
