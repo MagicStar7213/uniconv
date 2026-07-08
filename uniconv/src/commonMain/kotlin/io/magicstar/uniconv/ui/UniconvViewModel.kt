@@ -92,9 +92,9 @@ class UniconvViewModel(val repo: SettingsRepository): ViewModel() {
     fun changeUnit(unit: Unit, type: Int) {
         _state.update {
             if (type == 1)
-                it.copy(unit1 = unit)
+                it.copy(unit1 = unit, unit1Index = _state.value.reference!!.indexOf(unit))
             else
-                it.copy(unit2 = unit)
+                it.copy(unit2 = unit, unit2Index = _state.value.reference!!.indexOf(unit))
         }
         viewModelScope.launch {
             repo.setKey(if (type == 1) repo.unit1Key else repo.unit2Key, unit.abbreviation)
