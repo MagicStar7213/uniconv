@@ -24,13 +24,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.PopupProperties
 import org.jetbrains.compose.resources.stringResource
-import java.math.BigDecimal
 import java.text.Normalizer
 
 @OptIn(ExperimentalMaterial3Api::class)
 @RequiresApi(9)
 @Composable
-fun UnitGroup(state: UniconvState, unitType: Int, unitSelectorWidth: Int, initialUnitText: () -> String, onValueChange: (BigDecimal) -> Unit, onClick: (io.magicstar.uniconv.unit.model.Unit) -> Unit) {
+fun UnitGroup(state: UniconvState, unitType: Int, unitSelectorWidth: Int, initialUnitText: () -> String, onValueChange: (String) -> Unit, onClick: (io.magicstar.uniconv.unit.model.Unit) -> Unit) {
     var isMenuExpanded by remember { mutableStateOf(false) }
 
     Row(
@@ -45,9 +44,10 @@ fun UnitGroup(state: UniconvState, unitType: Int, unitSelectorWidth: Int, initia
             ),
             singleLine = true,
             shape = CircleShape,
-            value = (if (unitType == 1) state.value1 else state.value2).toString(),
+            value = (if (unitType == 1) state.value1 else state.value2),
             onValueChange = {
-                onValueChange(if (it != "") it.normalize().toBigDecimal() else BigDecimal(0.0))
+                println("$unitType: onValueChange called")
+                onValueChange(if (it != "") it.normalize().toBigDecimal().toPlainString() else it)
             }
         )
 

@@ -41,6 +41,7 @@ import io.magicstar.uniconv.generated.resources.uniconv_text
 import io.magicstar.uniconv.generated.resources.uniconv_text_dark
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
+import java.math.BigDecimal
 
 @RequiresApi(9)
 @OptIn(ExperimentalMaterial3Api::class)
@@ -129,7 +130,10 @@ fun App(repo: SettingsRepository) {
                     initialUnitText = { state.unit1!!.abbreviation },
                     onValueChange = {
                         viewModel.onIntent(UniconvIntent.UpdateTextFieldValue(it,1))
-                        viewModel.onIntent(UniconvIntent.Calculate(Triple(state.unit1!!, state.unit2!!, 2), it))
+                        viewModel.onIntent(UniconvIntent.Calculate(
+                            Triple(state.unit1!!, state.unit2!!, 2),
+                            if (it != "") BigDecimal(it) else BigDecimal("0"))
+                        )
                     },
                     onClick = { viewModel.onIntent(UniconvIntent.ChangeUnit(it, 1)) }
                 )
@@ -141,7 +145,10 @@ fun App(repo: SettingsRepository) {
                     initialUnitText = { state.unit2!!.abbreviation },
                     onValueChange = {
                         viewModel.onIntent(UniconvIntent.UpdateTextFieldValue(it,2))
-                        viewModel.onIntent(UniconvIntent.Calculate(Triple(state.unit1!!, state.unit2!!, 1), it))
+                        viewModel.onIntent(UniconvIntent.Calculate(
+                            Triple(state.unit1!!, state.unit2!!, 1),
+                            if (it != "") BigDecimal(it) else BigDecimal("0"))
+                        )
                     },
                     onClick = { viewModel.onIntent(UniconvIntent.ChangeUnit(it, 2)) }
                 )

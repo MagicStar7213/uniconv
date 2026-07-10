@@ -29,8 +29,8 @@ data class UniconvState(
     val unit2Index: Int = 1,
     val reference: List<Unit>? = null,
     val filteredUnits: List<Unit>? = null,
-    val value1: Number = 0,
-    val value2: Number = 0
+    val value1: String = "0",
+    val value2: String = "0"
 )
 
 sealed class UniconvIntent {
@@ -38,7 +38,7 @@ sealed class UniconvIntent {
     class ChangeMagnitude(val magnitude: Magnitude): UniconvIntent()
     class FilterUnits(val query: String): UniconvIntent()
     class Calculate(val units: Triple<Unit,Unit, Int>, val value: BigDecimal): UniconvIntent()
-    class UpdateTextFieldValue(val newValue: Number, val unitType: Int): UniconvIntent()
+    class UpdateTextFieldValue(val newValue: String, val unitType: Int): UniconvIntent()
 }
 
 class UniconvViewModel(val repo: SettingsRepository): ViewModel() {
@@ -81,7 +81,7 @@ class UniconvViewModel(val repo: SettingsRepository): ViewModel() {
         }
     }
 
-    fun updateTextFieldValue(newValue: Number, unitType: Int) {
+    fun updateTextFieldValue(newValue: String, unitType: Int) {
         _state.update {
             if (unitType == 1)
                 it.copy(value1 = newValue)
@@ -141,8 +141,8 @@ class UniconvViewModel(val repo: SettingsRepository): ViewModel() {
         val result = convert(value, units.first, units.second)
         _state.update {
             if (units.third == 1)
-                _state.value.copy(value1 = result)
-            else _state.value.copy(value2 = result)
+                _state.value.copy(value1 = result.toPlainString())
+            else _state.value.copy(value2 = result.toPlainString())
         }
     }
 }
