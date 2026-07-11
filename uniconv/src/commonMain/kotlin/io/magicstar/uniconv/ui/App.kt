@@ -56,7 +56,6 @@ fun App(repo: SettingsRepository) {
             measurer.measure(state.reference!!.maxBy { it.abbreviation.length }.abbreviation).size.width
         )
     }
-    println(measurer.measure(state.reference!!.maxBy { it.abbreviation.length }.abbreviation).size.width)
 
     MaterialTheme {
         Box(
