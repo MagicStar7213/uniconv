@@ -130,7 +130,7 @@ fun App(repo: SettingsRepository) {
                     onValueChange = {
                         viewModel.onIntent(UniconvIntent.UpdateTextFieldValue(it,1))
                         viewModel.onIntent(UniconvIntent.Calculate(
-                            Triple(state.unit1!!, state.unit2!!, 2),
+                            state.unit1!!, state.unit2!!, 1,
                             if (it != "") BigDecimal(it) else BigDecimal("0"))
                         )
                     },
@@ -145,7 +145,7 @@ fun App(repo: SettingsRepository) {
                     onValueChange = {
                         viewModel.onIntent(UniconvIntent.UpdateTextFieldValue(it,2))
                         viewModel.onIntent(UniconvIntent.Calculate(
-                            Triple(state.unit1!!, state.unit2!!, 1),
+                            state.unit1!!, state.unit2!!, 2,
                             if (it != "") BigDecimal(it) else BigDecimal("0"))
                         )
                     },

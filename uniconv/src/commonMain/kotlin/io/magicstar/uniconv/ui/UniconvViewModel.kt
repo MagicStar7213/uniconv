@@ -37,7 +37,7 @@ sealed class UniconvIntent {
     class ChangeUnit(val unit: Unit, val type: Int): UniconvIntent()
     class ChangeMagnitude(val magnitude: Magnitude): UniconvIntent()
     class FilterUnits(val query: String): UniconvIntent()
-    class Calculate(val units: Triple<Unit,Unit, Int>, val value: BigDecimal): UniconvIntent()
+    class Calculate(val unit1: Unit, val unit2: Unit, val type: Int, val value: BigDecimal): UniconvIntent()
     class UpdateTextFieldValue(val newValue: String, val unitType: Int): UniconvIntent()
 }
 
@@ -76,7 +76,7 @@ class UniconvViewModel(val repo: SettingsRepository): ViewModel() {
             is UniconvIntent.ChangeUnit -> changeUnit(intent.unit, intent.type)
             is UniconvIntent.ChangeMagnitude -> changeMagnitude(intent.magnitude)
             is UniconvIntent.FilterUnits -> filterUnits(intent.query)
-            is UniconvIntent.Calculate -> calculate(intent.units, intent.value)
+            is UniconvIntent.Calculate -> calculate(intent.unit1, intent.unit2, intent.type, intent.value)
             is UniconvIntent.UpdateTextFieldValue -> updateTextFieldValue(intent.newValue, intent.unitType)
         }
     }
@@ -137,12 +137,15 @@ class UniconvViewModel(val repo: SettingsRepository): ViewModel() {
         _state.update { it.copy(filteredUnits = filteredList) }
     }
 
-    fun calculate(units: Triple<Unit, Unit, Int>, value: BigDecimal) {
-        val result = convert(value, units.first, units.second)
+    fun calculate(unit1: Unit, unit2: Unit, type: Int, value: BigDecimal) {
+        val origin = if (type == 1) unit1 else unit2
+        val target = if (type == 1) unit2 else unit1
+        val result = convert(value, origin, target)
+        println("$value ${origin.abbreviation} -> ${target.abbreviation}: $result")
         _state.update {
-            if (units.third == 1)
-                _state.value.copy(value1 = result.toPlainString())
-            else _state.value.copy(value2 = result.toPlainString())
+            if (type == 1)
+                it.copy(value2 = result.toPlainString())
+            else it.copy(value1 = result.toPlainString())
         }
     }
 }
