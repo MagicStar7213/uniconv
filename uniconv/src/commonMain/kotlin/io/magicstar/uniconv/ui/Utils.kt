@@ -46,7 +46,7 @@ fun UnitGroup(state: UniconvState, unitType: Int, unitSelectorWidth: Int, initia
             shape = CircleShape,
             value = (if (unitType == 1) state.value1 else state.value2),
             onValueChange = {
-                onValueChange(if (it != "") it.normalize().toBigDecimal().toPlainString() else it)
+                onValueChange(it)
             }
         )
 
