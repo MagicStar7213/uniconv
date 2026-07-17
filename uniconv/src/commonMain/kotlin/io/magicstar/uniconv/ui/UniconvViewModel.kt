@@ -53,6 +53,8 @@ class UniconvViewModel(val repo: SettingsRepository): ViewModel() {
             val magnitudeKeyValue = repo.getKey(repo.magnitudeKey).firstOrNull()
             val unit1KeyValue = repo.getKey(repo.unit1Key).firstOrNull()
             val unit2KeyValue = repo.getKey(repo.unit2Key).firstOrNull()
+            val value1KeyValue = repo.getKey(repo.value1Key).firstOrNull()
+            val value2KeyValue = repo.getKey(repo.value2Key).firstOrNull()
 
             val magnitude =
                 if (magnitudeKeyValue != null) magnitudes.first { it.createInstance().id == magnitudeKeyValue }
@@ -66,7 +68,8 @@ class UniconvViewModel(val repo: SettingsRepository): ViewModel() {
                 if (unit2KeyValue != null) units.first { it.abbreviation == unit2KeyValue }
                 else units[1]
 
-            UniconvState(magnitude.createInstance(), unit1, unit2, units.indexOf(unit1), units.indexOf(unit2), units, units)
+            UniconvState(magnitude.createInstance(), unit1, unit2, units.indexOf(unit1), units.indexOf(unit2),
+                units, units, value1KeyValue ?: "0", value2KeyValue ?: "0")
         }
         _state.update { uiState }
     }
@@ -87,6 +90,9 @@ class UniconvViewModel(val repo: SettingsRepository): ViewModel() {
                 it.copy(value1 = newValue)
             else
                 it.copy(value2 = newValue)
+        }
+        viewModelScope.launch {
+            repo.setKey(if (unitType == 1) repo.value1Key else repo.value2Key, newValue)
         }
     }
 
