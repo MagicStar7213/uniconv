@@ -100,6 +100,9 @@ class UniconvViewModel(val repo: SettingsRepository): ViewModel() {
         viewModelScope.launch {
             repo.setKey(if (type == 1) repo.unit1Key else repo.unit2Key, unit.abbreviation)
         }
+        with(_state.value) {
+            calculate(unit1!!, unit2!!, type, BigDecimal(if (type == 1) value1 else value2))
+        }
     }
 
     fun changeMagnitude(magnitude: Magnitude) {
