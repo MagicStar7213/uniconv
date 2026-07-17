@@ -1,17 +1,14 @@
 package io.magicstar.uniconv.test
 
 import io.magicstar.uniconv.unit.convert
-import io.magicstar.uniconv.unit.model.FT_S
-import io.magicstar.uniconv.unit.model.KM_H
-import io.magicstar.uniconv.unit.model.KN
-import io.magicstar.uniconv.unit.model.MPH
-import io.magicstar.uniconv.unit.model.M_S
+import io.magicstar.uniconv.unit.model.Speed
 import io.magicstar.uniconv.unit.model.Unit
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.MethodSource
 import si.uom.SI
 import systems.uom.common.USCustomary
+import java.math.BigDecimal
 import kotlin.test.assertEquals
 
 
@@ -26,7 +23,7 @@ class SpeedTest {
                 USCustomary.KNOT,
                 USCustomary.FOOT_PER_SECOND
             )
-            val programUnitList = listOf(KM_H, M_S, MPH, KN, FT_S)
+            val programUnitList = listOf(Speed.KM_H(), Speed.M_S(), Speed.MPH(), Speed.KN(), Speed.FT_S())
             val expected = mutableListOf<Arguments>()
             unitsList.forEach { origin ->
                 unitsList.forEach { target ->
@@ -43,8 +40,8 @@ class SpeedTest {
     @ParameterizedTest
     @MethodSource("expectedResults")
     fun checkConversions(origin: Unit, target: Unit, expectedValue: Number) {
-        println("For origin unit ${origin.name} and target unit ${target.name}:")
-        val actual = convert(5, origin, target)
+        println("For origin unit ${origin.abbreviation} and target unit ${target.abbreviation}:")
+        val actual = convert(BigDecimal("5"), origin, target)
         assertEquals(
             expectedValue.toDouble().roundTo(10),
             actual.toDouble().roundTo(10),

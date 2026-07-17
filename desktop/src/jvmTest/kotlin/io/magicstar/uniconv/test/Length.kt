@@ -1,13 +1,14 @@
 package io.magicstar.uniconv.test
 
 import io.magicstar.uniconv.unit.convert
-import io.magicstar.uniconv.unit.model.*
+import io.magicstar.uniconv.unit.model.Length
 import io.magicstar.uniconv.unit.model.Unit
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.MethodSource
 import si.uom.SI
 import systems.uom.common.USCustomary
+import java.math.BigDecimal
 import kotlin.test.assertEquals
 
 
@@ -29,7 +30,9 @@ class LengthTest {
                 USCustomary.FOOT,
                 USCustomary.MILE
             )
-            val programUnitList = listOf(MM, CM, DM, M, DAM, HM, KM, IN, YD, FT, MI)
+            val programUnitList = listOf(Length.MM(), Length.CM(), Length.DM(), Length.M(),
+                Length.DAM(), Length.HM(), Length.KM(), Length.IN(), Length.YD(), Length.FT(), Length.MI()
+            )
             val expected = mutableListOf<Arguments>()
             unitsList.forEach { origin ->
                 unitsList.forEach { target ->
@@ -46,8 +49,8 @@ class LengthTest {
     @ParameterizedTest
     @MethodSource("expectedResults")
     fun checkConversions(origin: Unit, target: Unit, expectedValue: Number) {
-        println("For origin unit ${origin.name} and target unit ${target.name}:")
-        val actual = convert(5, origin, target)
+        println("For origin unit ${origin.abbreviation} and target unit ${target.abbreviation}:")
+        val actual = convert(BigDecimal("5"), origin, target)
         assertEquals(
             expectedValue.toDouble().roundTo(10),
             actual.toDouble().roundTo(10),
