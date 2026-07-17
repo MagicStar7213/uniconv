@@ -144,12 +144,7 @@ class UniconvViewModel(val repo: SettingsRepository): ViewModel() {
         val origin = if (type == 1) unit1 else unit2
         val target = if (type == 1) unit2 else unit1
         val result = convert(value, origin, target)
-        println("$value ${origin.abbreviation} -> ${target.abbreviation}: $result")
-        _state.update {
-            if (type == 1)
-                it.copy(value2 = result.toPlainString())
-            else it.copy(value1 = result.toPlainString())
-        }
+        updateTextFieldValue(result.toPlainString(), if (type == 1) 2 else 1)
     }
 }
 
