@@ -16,11 +16,13 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.PopupProperties
 import org.jetbrains.compose.resources.stringResource
@@ -29,7 +31,7 @@ import java.text.Normalizer
 @OptIn(ExperimentalMaterial3Api::class)
 @RequiresApi(9)
 @Composable
-fun UnitGroup(state: UniconvState, unitType: Int, unitSelectorWidth: Int, initialUnitText: () -> String, onValueChange: (String) -> Unit, onClick: (io.magicstar.uniconv.unit.model.Unit) -> Unit) {
+fun UnitGroup(state: UniconvState, unitType: Int, initialUnitText: () -> String, onValueChange: (String) -> Unit, onClick: (io.magicstar.uniconv.unit.model.Unit) -> Unit) {
     var isMenuExpanded by remember { mutableStateOf(false) }
 
     Row(
@@ -49,6 +51,13 @@ fun UnitGroup(state: UniconvState, unitType: Int, unitSelectorWidth: Int, initia
                 onValueChange(it)
             }
         )
+
+        val measurer = rememberTextMeasurer()
+        val unitSelectorWidth by remember {
+            mutableIntStateOf(
+                measurer.measure(state.let { if (unitType == 1) it.unit1!! else it.unit2!! }.abbreviation).size.width
+            )
+        }
 
         var selectedUnitText by remember { mutableStateOf(initialUnitText()) }
         ExposedDropdownMenuBox(

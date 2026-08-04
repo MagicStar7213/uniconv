@@ -24,13 +24,11 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.PopupProperties
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -49,13 +47,6 @@ import java.math.BigDecimal
 fun App(repo: SettingsRepository) {
     val viewModel: UniconvViewModel = viewModel(factory = remember { UniconvViewModelFactory(repo) })
     val state by viewModel.state.collectAsState()
-
-    val measurer = rememberTextMeasurer()
-    val unitSelectorWidth by remember {
-        mutableIntStateOf(
-            measurer.measure(state.reference!!.maxBy { it.abbreviation.length }.abbreviation).size.width
-        )
-    }
 
     MaterialTheme {
         Box(
@@ -125,7 +116,6 @@ fun App(repo: SettingsRepository) {
                 UnitGroup(
                     state,
                     unitType = 1,
-                    unitSelectorWidth,
                     initialUnitText = { state.unit1!!.abbreviation },
                     onValueChange = {
                         viewModel.onIntent(UniconvIntent.UpdateTextFieldValue(it,1))
@@ -140,7 +130,6 @@ fun App(repo: SettingsRepository) {
                 UnitGroup(
                     state,
                     unitType = 2,
-                    unitSelectorWidth,
                     initialUnitText = { state.unit2!!.abbreviation },
                     onValueChange = {
                         viewModel.onIntent(UniconvIntent.UpdateTextFieldValue(it,2))
