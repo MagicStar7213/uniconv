@@ -10,15 +10,17 @@ import io.magicstar.uniconv.ui.App
 import io.magicstar.uniconv.ui.theme.UniconvTheme
 import org.jetbrains.compose.resources.painterResource
 
-fun main() = application {
-    Window(
-        title = "Uniconv",
-        icon = painterResource(Res.drawable.uniconv),
-        onCloseRequest = ::exitApplication
-    ) {
-        UniconvTheme {
-            val dataStore = createDataStore()
-            App(SettingsDataRepository(dataStore = dataStore))
+fun main() {
+    val dataStore = createDataStore()
+    application {
+        Window(
+            title = "Uniconv",
+            icon = painterResource(Res.drawable.uniconv),
+            onCloseRequest = ::exitApplication
+        ) {
+            UniconvTheme {
+                App(SettingsDataRepository(dataStore = dataStore))
+            }
         }
     }
 }

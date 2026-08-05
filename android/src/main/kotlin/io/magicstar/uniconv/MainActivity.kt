@@ -11,10 +11,10 @@ import io.magicstar.uniconv.ui.theme.UniconvTheme
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        val dataStore = createDataStore(this.applicationContext)
         setContent {
             UniconvTheme {
-                App(SettingsDataRepository(dataStore = createDataStore(this.applicationContext)))
+                App(SettingsDataRepository(dataStore = dataStore))
             }
         }
     }
