@@ -36,7 +36,6 @@ import java.text.Normalizer
 @Composable
 fun UnitGroup(modifier: Modifier = Modifier, state: UniconvState, unitType: Int, initialUnitText: () -> String, onValueChange: (String) -> Unit, onClick: (io.magicstar.uniconv.unit.model.Unit) -> Unit) {
     var isMenuExpanded by remember { mutableStateOf(false) }
-    val interactionSource = remember { MutableInteractionSource() }
 
     Row(
         verticalAlignment = Alignment.CenterVertically,
@@ -48,7 +47,6 @@ fun UnitGroup(modifier: Modifier = Modifier, state: UniconvState, unitType: Int,
                 .weight(1f),
             singleLine = true,
             shape = CircleShape,
-            interactionSource = interactionSource,
             value = (if (unitType == 1) state.value1 else state.value2),
             onValueChange = onValueChange
         )
