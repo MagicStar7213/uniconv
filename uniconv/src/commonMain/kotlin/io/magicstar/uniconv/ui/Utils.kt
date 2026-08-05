@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuAnchorType
@@ -24,7 +23,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.PopupProperties
 import org.jetbrains.compose.resources.stringResource
 import java.text.Normalizer
 
@@ -90,9 +88,8 @@ fun UnitGroup(state: UniconvState, unitType: Int, initialUnitText: () -> String,
             if (!isMenuExpanded) selectedUnitText = initialUnitText()
             val tempReference = state.reference!!.filter { "${stringResource(it.name)} (${it.abbreviation})".normalize().contains(selectedUnitText.normalize(), true) }
             if (tempReference.isNotEmpty())
-                DropdownMenu(
+                ExposedDropdownMenu(
                     modifier = Modifier.exposedDropdownSize(false),
-                    properties = PopupProperties(focusable = true),
                     scrollState = rememberScrollState(),
                     expanded = isMenuExpanded,
                     onDismissRequest = { isMenuExpanded = false }
