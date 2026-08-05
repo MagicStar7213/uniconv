@@ -116,10 +116,13 @@ class UniconvViewModel(val repo: SettingsRepository): ViewModel() {
             uiState.copy(
                 magnitude = magnitude,
                 reference = Unit::class.sealedSubclasses.filter { it.java.enclosingClass.kotlin == magnitude::class }.map { it.createInstance() },
+            )
+        }
+        _state.update { uiState ->
+            uiState.copy(
                 unit1Index = if (uiState.unit1Index > uiState.reference!!.lastIndex) {
                     if (uiState.unit1Index > uiState.unit2Index) uiState.reference.lastIndex else uiState.reference.lastIndex - 1
                 } else uiState.unit1Index,
-
                 unit2Index = if (uiState.unit2Index > uiState.reference.lastIndex) {
                     if (uiState.unit2Index > uiState.unit1Index) uiState.reference.lastIndex else uiState.reference.lastIndex - 1
                 } else uiState.unit2Index
