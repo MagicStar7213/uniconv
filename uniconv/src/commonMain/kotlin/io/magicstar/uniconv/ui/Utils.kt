@@ -39,19 +39,14 @@ fun UnitGroup(state: UniconvState, unitType: Int, initialUnitText: () -> String,
         verticalAlignment = Alignment.CenterVertically
     ) {
         OutlinedTextField(
-            modifier = Modifier.padding(
-                start = 50.dp,
-                top = 15.dp,
-                bottom = 15.dp,
-                end = 4.dp
-            ),
+            modifier = Modifier
+                .padding(top = 10.dp)
+                .weight(1f),
             singleLine = true,
             shape = CircleShape,
             interactionSource = interactionSource,
             value = (if (unitType == 1) state.value1 else state.value2),
-            onValueChange = {
-                onValueChange(it)
-            }
+            onValueChange = onValueChange
         )
 
         val measurer = rememberTextMeasurer()
@@ -73,9 +68,7 @@ fun UnitGroup(state: UniconvState, unitType: Int, initialUnitText: () -> String,
                 .width((16+unitSelectorWidth+16+48+12).dp)
                 .padding(
                     start = 10.dp,
-                    end = 4.dp,
                     top = 15.dp,
-                    bottom = 15.dp
                 ),
             expanded = isMenuExpanded,
             onExpandedChange = {
