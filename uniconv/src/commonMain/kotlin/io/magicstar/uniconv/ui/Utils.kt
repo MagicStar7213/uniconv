@@ -23,7 +23,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.SubcomposeLayout
 import androidx.compose.ui.text.rememberTextMeasurer
+import androidx.compose.ui.unit.Constraints
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.stringResource
 import java.text.Normalizer
@@ -31,12 +34,13 @@ import java.text.Normalizer
 @OptIn(ExperimentalMaterial3Api::class)
 @RequiresApi(9)
 @Composable
-fun UnitGroup(state: UniconvState, unitType: Int, initialUnitText: () -> String, onValueChange: (String) -> Unit, onClick: (io.magicstar.uniconv.unit.model.Unit) -> Unit) {
+fun UnitGroup(modifier: Modifier = Modifier, state: UniconvState, unitType: Int, initialUnitText: () -> String, onValueChange: (String) -> Unit, onClick: (io.magicstar.uniconv.unit.model.Unit) -> Unit) {
     var isMenuExpanded by remember { mutableStateOf(false) }
     val interactionSource = remember { MutableInteractionSource() }
 
     Row(
-        verticalAlignment = Alignment.CenterVertically
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = modifier
     ) {
         OutlinedTextField(
             modifier = Modifier
@@ -117,4 +121,17 @@ fun UnitGroup(state: UniconvState, unitType: Int, initialUnitText: () -> String,
 fun String.normalize(): String {
     val unaccentRegex = "\\p{InCombiningDiacriticalMarks}+".toRegex()
     return unaccentRegex.replace(Normalizer.normalize(this, Normalizer.Form.NFD), "")
+}
+
+@Composable
+fun withWidth(modifier: Modifier = Modifier,
+              calculation: @Composable () -> Unit,
+              content: @Composable (Dp) -> Unit) {
+    SubcomposeLayout(modifier = modifier) { constraints ->
+        val measuredWidth = subcompose("viewToMeasure", calculation)[0].measure(Constraints()).width.toDp()
+        val contentPlaceable = subcompose("content") { content(measuredWidth) }[0].measure(constraints)
+        layout(contentPlaceable.width, contentPlaceable.height) {
+            contentPlaceable.place(0, 0)
+        }
+    }
 }
