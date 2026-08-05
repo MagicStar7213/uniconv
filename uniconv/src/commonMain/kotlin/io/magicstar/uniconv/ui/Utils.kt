@@ -12,6 +12,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuAnchorType
 import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.ExposedDropdownMenuDefaults
+import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -54,9 +55,15 @@ fun UnitGroup(state: UniconvState, unitType: Int, initialUnitText: () -> String,
         )
 
         val measurer = rememberTextMeasurer()
+        val textStyle = LocalTextStyle.current
         val unitSelectorWidth by remember {
             mutableIntStateOf(
-                measurer.measure(state.let { if (unitType == 1) it.unit1!! else it.unit2!! }.abbreviation).size.width
+                measurer.measure(
+                    text = state.let { if (unitType == 1) it.unit1!! else it.unit2!! }.abbreviation,
+                    style = textStyle,
+                    maxLines = 1,
+                    softWrap = true
+                ).size.width
             )
         }
 
