@@ -1,6 +1,7 @@
 package io.magicstar.uniconv.ui
 
 import androidx.annotation.RequiresApi
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -31,6 +32,7 @@ import java.text.Normalizer
 @Composable
 fun UnitGroup(state: UniconvState, unitType: Int, initialUnitText: () -> String, onValueChange: (String) -> Unit, onClick: (io.magicstar.uniconv.unit.model.Unit) -> Unit) {
     var isMenuExpanded by remember { mutableStateOf(false) }
+    val interactionSource = remember { MutableInteractionSource() }
 
     Row(
         verticalAlignment = Alignment.CenterVertically
@@ -44,6 +46,7 @@ fun UnitGroup(state: UniconvState, unitType: Int, initialUnitText: () -> String,
             ),
             singleLine = true,
             shape = CircleShape,
+            interactionSource = interactionSource,
             value = (if (unitType == 1) state.value1 else state.value2),
             onValueChange = {
                 onValueChange(it)
@@ -100,7 +103,8 @@ fun UnitGroup(state: UniconvState, unitType: Int, initialUnitText: () -> String,
                             onClick = {
                                 onClick(unit)
                                 isMenuExpanded = false
-                            }
+                            },
+                            interactionSource = interactionSource
                         )
                     }
                 }
