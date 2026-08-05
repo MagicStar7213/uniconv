@@ -107,8 +107,7 @@ fun UnitGroup(modifier: Modifier = Modifier, state: UniconvState, unitType: Int,
                             onClick = {
                                 onClick(unit)
                                 isMenuExpanded = false
-                            },
-                            interactionSource = interactionSource
+                            }
                         )
                     }
                 }
