@@ -97,7 +97,10 @@ fun UnitGroup(modifier: Modifier = Modifier, state: UniconvState, unitType: Int,
                     modifier = Modifier.exposedDropdownSize(false),
                     scrollState = rememberScrollState(),
                     expanded = isMenuExpanded,
-                    onDismissRequest = { isMenuExpanded = false }
+                    onDismissRequest = {
+                        isMenuExpanded = false
+                        keyboardController?.hide()
+                    }
                 ) {
                     tempReference.forEach { unit ->
                         DropdownMenuItem(
