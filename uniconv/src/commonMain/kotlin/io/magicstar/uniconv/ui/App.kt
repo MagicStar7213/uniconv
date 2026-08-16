@@ -14,7 +14,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuAnchorType
@@ -32,7 +31,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.PopupProperties
 import androidx.lifecycle.viewmodel.compose.viewModel
 import io.magicstar.uniconv.data.SettingsRepository
 import io.magicstar.uniconv.generated.resources.Res
@@ -115,9 +113,8 @@ fun App(repo: SettingsRepository) {
                                 .contains(magnTextFieldValue.normalize(), true)
                         }
                         if (tempMagnitudes.isNotEmpty())
-                            DropdownMenu(
+                            ExposedDropdownMenu(
                                 modifier = Modifier.exposedDropdownSize(false),
-                                properties = PopupProperties(focusable = true),
                                 scrollState = rememberScrollState(),
                                 expanded = magnMenuExpanded,
                                 onDismissRequest = { magnMenuExpanded = false }
