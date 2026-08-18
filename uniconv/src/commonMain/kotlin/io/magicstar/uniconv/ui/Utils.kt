@@ -88,6 +88,7 @@ fun UnitGroup(modifier: Modifier = Modifier, state: UniconvState, unitType: Int,
                 },
                 readOnly = false,
                 singleLine = true,
+                placeholder = { Text(initialUnitText()) },
                 trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(isMenuExpanded) }
             )
             if (!isMenuExpanded) selectedUnitText = initialUnitText()
