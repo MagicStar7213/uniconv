@@ -1,10 +1,8 @@
 package io.magicstar.uniconv.ui
 
 import androidx.annotation.RequiresApi
-import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.KeyboardActions
@@ -14,12 +12,10 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuAnchorType
 import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.ExposedDropdownMenuDefaults
-import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -42,12 +38,9 @@ fun UnitGroup(modifier: Modifier = Modifier, state: UniconvState, unitType: Int,
 
     Row(
         verticalAlignment = Alignment.CenterVertically,
-        modifier = modifier
+        modifier = modifier.padding(top = with(LocalDensity.current) { 15.toDp() })
     ) {
         OutlinedTextField(
-            modifier = Modifier
-                .padding(top = 10.dp)
-                .weight(1f),
             singleLine = true,
             shape = CircleShape,
             value = (if (unitType == 1) state.value1 else state.value2),
@@ -56,27 +49,9 @@ fun UnitGroup(modifier: Modifier = Modifier, state: UniconvState, unitType: Int,
             keyboardActions = KeyboardActions(onDone = { keyboardController?.hide() })
         )
 
-        val measurer = rememberTextMeasurer()
-        val textStyle = LocalTextStyle.current
-        val unitSelectorWidth by remember {
-            mutableIntStateOf(
-                measurer.measure(
-                    text = state.let { if (unitType == 1) it.unit1!! else it.unit2!! }.abbreviation,
-                    style = textStyle,
-                    maxLines = 1,
-                    softWrap = true
-                ).size.width
-            )
-        }
-
         var selectedUnitText by remember { mutableStateOf(initialUnitText()) }
         ExposedDropdownMenuBox(
-            modifier = Modifier
-                .width((16+unitSelectorWidth+16+48+12).dp)
-                .padding(
-                    start = 10.dp,
-                    top = 15.dp,
-                ),
+            modifier = Modifier.padding(start = 10.dp),
             expanded = isMenuExpanded,
             onExpandedChange = {
                 isMenuExpanded = it
@@ -127,17 +102,4 @@ fun UnitGroup(modifier: Modifier = Modifier, state: UniconvState, unitType: Int,
 fun String.normalize(): String {
     val unaccentRegex = "\\p{InCombiningDiacriticalMarks}+".toRegex()
     return unaccentRegex.replace(Normalizer.normalize(this, Normalizer.Form.NFD), "")
-}
-
-@Composable
-fun withWidth(modifier: Modifier = Modifier,
-              calculation: @Composable () -> Unit,
-              content: @Composable (Dp) -> Unit) {
-    SubcomposeLayout(modifier = modifier) { constraints ->
-        val measuredWidth = subcompose("viewToMeasure", calculation)[0].measure(Constraints()).width.toDp()
-        val contentPlaceable = subcompose("content") { content(measuredWidth) }[0].measure(constraints)
-        layout(contentPlaceable.width, contentPlaceable.height) {
-            contentPlaceable.place(0, 0)
-        }
-    }
 }

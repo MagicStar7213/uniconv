@@ -53,118 +53,100 @@ fun App(repo: SettingsRepository) {
             modifier = Modifier.fillMaxSize().background(MaterialTheme.colorScheme.background),
             contentAlignment = Alignment.Center
         ) {
-            withWidth(
-                calculation = {
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
+            ) {
+                Image(
+                    painter = painterResource(if (isSystemInDarkTheme()) Res.drawable.uniconv_text_dark else Res.drawable.uniconv_text),
+                    contentDescription = "App logo",
+                    modifier = Modifier.size(90.dp)
+                )
+                var magnMenuExpanded by remember { mutableStateOf(false) }
+
+                val setMagnitudeDefault = stringResource(state.magnitude!!.name)
+                var magnTextFieldValue by remember { mutableStateOf(setMagnitudeDefault) }
+
+                ExposedDropdownMenuBox(
+                    modifier = Modifier.padding(
+                        vertical = 15.dp
+                    ),
+                    expanded = magnMenuExpanded,
+                    onExpandedChange = {
+                        magnMenuExpanded = it
+                        if (magnMenuExpanded) magnTextFieldValue = ""
+                    }
+                ) {
                     OutlinedTextField(
-                        modifier = Modifier,
+                        modifier = Modifier.menuAnchor(ExposedDropdownMenuAnchorType.PrimaryEditable, true),
                         shape = CircleShape,
-                        value = stringResource(state.magnitude!!.name),
-                        onValueChange = {},
+                        value = magnTextFieldValue,
+                        onValueChange = {
+                            magnTextFieldValue = it
+                            magnMenuExpanded = true
+                        },
                         readOnly = false,
                         singleLine = true,
                         label = { Text(stringResource(Res.string.magnitudes)) },
-                        trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(false) }
+                        trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(magnMenuExpanded) }
                     )
-                }
-            ) { width ->
-                Column(
-                    modifier = Modifier.width(width),
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.Center
-                ) {
-                    Image(
-                        painter = painterResource(if (isSystemInDarkTheme()) Res.drawable.uniconv_text_dark else Res.drawable.uniconv_text),
-                        contentDescription = "App logo",
-                        modifier = Modifier.size(90.dp)
-                    )
-                    var magnMenuExpanded by remember { mutableStateOf(false) }
-
-                    val setMagnitudeDefault = stringResource(state.magnitude!!.name)
-                    var magnTextFieldValue by remember { mutableStateOf(setMagnitudeDefault) }
-
-                    ExposedDropdownMenuBox(
-                        modifier = Modifier.padding(
-                            vertical = 15.dp
-                        ),
-                        expanded = magnMenuExpanded,
-                        onExpandedChange = {
-                            magnMenuExpanded = it
-                            if (magnMenuExpanded) magnTextFieldValue = ""
-                        }
-                    ) {
-                        OutlinedTextField(
-                            modifier = Modifier
-                                .menuAnchor(ExposedDropdownMenuAnchorType.PrimaryEditable, true)
-                                .fillMaxWidth(),
-                            shape = CircleShape,
-                            value = magnTextFieldValue,
-                            onValueChange = {
-                                magnTextFieldValue = it
-                                magnMenuExpanded = true
-                            },
-                            readOnly = false,
-                            singleLine = true,
-                            label = { Text(stringResource(Res.string.magnitudes)) },
-                            trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(magnMenuExpanded) }
-                        )
-                        if (!magnMenuExpanded) magnTextFieldValue = stringResource(state.magnitude!!.name)
-                        val tempMagnitudes = viewModel.magnitudesList.filter {
-                            stringResource(it.name).normalize()
-                                .contains(magnTextFieldValue.normalize(), true)
-                        }
-                        if (tempMagnitudes.isNotEmpty())
-                            ExposedDropdownMenu(
-                                modifier = Modifier.exposedDropdownSize(false),
-                                scrollState = rememberScrollState(),
-                                expanded = magnMenuExpanded,
-                                onDismissRequest = { magnMenuExpanded = false }
-                            ) {
-                                tempMagnitudes.forEach {
-                                    DropdownMenuItem(
-                                        text = { Text(stringResource(it.name)) },
-                                        onClick = {
-                                            viewModel.onIntent(UniconvIntent.ChangeMagnitude(it))
-                                            magnMenuExpanded = false
-                                        }
-                                    )
-                                }
-                            }
+                    if (!magnMenuExpanded) magnTextFieldValue = stringResource(state.magnitude!!.name)
+                    val tempMagnitudes = viewModel.magnitudesList.filter {
+                        stringResource(it.name).normalize()
+                            .contains(magnTextFieldValue.normalize(), true)
                     }
-
-                    UnitGroup(
-                        modifier = Modifier.fillMaxWidth(),
-                        state = state,
-                        unitType = 1,
-                        initialUnitText = { state.unit1!!.abbreviation },
-                        onValueChange = {
-                            viewModel.onIntent(UniconvIntent.UpdateTextFieldValue(it, 1))
-                            viewModel.onIntent(
-                                UniconvIntent.Calculate(
-                                    state.unit1!!, state.unit2!!, 1,
-                                    if (it != "") BigDecimal(it) else BigDecimal("0")
+                    if (tempMagnitudes.isNotEmpty())
+                        ExposedDropdownMenu(
+                            modifier = Modifier.exposedDropdownSize(false),
+                            scrollState = rememberScrollState(),
+                            expanded = magnMenuExpanded,
+                            onDismissRequest = { magnMenuExpanded = false }
+                        ) {
+                            tempMagnitudes.forEach {
+                                DropdownMenuItem(
+                                    text = { Text(stringResource(it.name)) },
+                                    onClick = {
+                                        viewModel.onIntent(UniconvIntent.ChangeMagnitude(it))
+                                        magnMenuExpanded = false
+                                    }
                                 )
-                            )
-                        },
-                        onClick = { viewModel.onIntent(UniconvIntent.ChangeUnit(it, 1)) }
-                    )
-
-                    UnitGroup(
-                        modifier = Modifier.fillMaxWidth(),
-                        state = state,
-                        unitType = 2,
-                        initialUnitText = { state.unit2!!.abbreviation },
-                        onValueChange = {
-                            viewModel.onIntent(UniconvIntent.UpdateTextFieldValue(it, 2))
-                            viewModel.onIntent(
-                                UniconvIntent.Calculate(
-                                    state.unit1!!, state.unit2!!, 2,
-                                    if (it != "") BigDecimal(it) else BigDecimal("0")
-                                )
-                            )
-                        },
-                        onClick = { viewModel.onIntent(UniconvIntent.ChangeUnit(it, 2)) }
-                    )
+                            }
+                        }
                 }
+
+                UnitGroup(
+                    modifier = Modifier,
+                    state = state,
+                    unitType = 1,
+                    initialUnitText = { state.unit1!!.abbreviation },
+                    onValueChange = {
+                        viewModel.onIntent(UniconvIntent.UpdateTextFieldValue(it, 1))
+                        viewModel.onIntent(
+                            UniconvIntent.Calculate(
+                                state.unit1!!, state.unit2!!, 1,
+                                if (it != "") BigDecimal(it) else BigDecimal("0")
+                            )
+                        )
+                    },
+                    onClick = { viewModel.onIntent(UniconvIntent.ChangeUnit(it, 1)) }
+                )
+
+                UnitGroup(
+                    modifier = Modifier,
+                    state = state,
+                    unitType = 2,
+                    initialUnitText = { state.unit2!!.abbreviation },
+                    onValueChange = {
+                        viewModel.onIntent(UniconvIntent.UpdateTextFieldValue(it, 2))
+                        viewModel.onIntent(
+                            UniconvIntent.Calculate(
+                                state.unit1!!, state.unit2!!, 2,
+                                if (it != "") BigDecimal(it) else BigDecimal("0")
+                            )
+                        )
+                    },
+                    onClick = { viewModel.onIntent(UniconvIntent.ChangeUnit(it, 2)) }
+                )
             }
         }
     }
