@@ -44,6 +44,10 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import io.magicstar.uniconv.generated.resources.Res
+import io.magicstar.uniconv.generated.resources.negatives_not_allowed
+import io.magicstar.uniconv.generated.resources.not_a_number
+import io.magicstar.uniconv.unit.model.Temperature
 import org.jetbrains.compose.resources.stringResource
 import java.math.BigDecimal
 import java.text.Normalizer
@@ -60,19 +64,42 @@ fun UnitGroup(viewModel: UniconvViewModel, state: UniconvState, unitType: Int, i
         modifier = Modifier.padding(top = with(LocalDensity.current) { 15.toDp() })
     ) {
         var selectedUnitText by remember { mutableStateOf(initialUnitText()) }
+        var isError by remember { mutableStateOf(false) }
+        var supportingText by remember { mutableStateOf("") }
+        val errorMessages = listOf(stringResource(Res.string.not_a_number), stringResource(Res.string.negatives_not_allowed))
         OutlinedTextField(
             singleLine = true,
             shape = CircleShape,
             value = (if (unitType == 1) state.value1 else state.value2),
             onValueChange = {
                 viewModel.onIntent(UniconvIntent.UpdateTextFieldValue(it, unitType))
-                viewModel.onIntent(
+                try {
+                    BigDecimal(it)
+                    isError = false
+                    supportingText = ""
+                } catch (_: NumberFormatException) {
+                    if (it != "" && it != "-" && it != ".") {
+                        isError = true
+                        supportingText = errorMessages[0]
+                    }
+                }
+                if (it == "") {
+                    isError = false
+                    supportingText = ""
+                }
+                if (!isError && it != "" && it != "." && (it == "-" || BigDecimal(it) < BigDecimal("0")) && state.magnitude !is Temperature) {
+                    isError = true
+                    supportingText = errorMessages[1]
+                }
+                if (!isError) viewModel.onIntent(
                     UniconvIntent.Calculate(
                         state.unit1!!, state.unit2!!, unitType,
                         if (it == "" || it == "-" || it == ".") BigDecimal("0") else BigDecimal(it)
                     )
                 )
             },
+            isError = isError,
+            supportingText = { Text(supportingText) },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number, imeAction = ImeAction.Done),
             keyboardActions = KeyboardActions(onDone = { keyboardController?.hide() }),
             trailingIcon = {
@@ -82,7 +109,7 @@ fun UnitGroup(viewModel: UniconvViewModel, state: UniconvState, unitType: Int, i
                 val textColor =
                     textStyle.color.takeOrElse {
                         val focused = interactionSource.collectIsFocusedAsState().value
-                        colors.let { if (focused) it.focusedTextColor else it.unfocusedTextColor }
+                        colors.let { if (isError) it.errorTextColor else if (focused) it.focusedTextColor else it.unfocusedTextColor }
                     }
                 val mergedTextStyle = textStyle.merge(TextStyle(color = textColor))
 
@@ -107,7 +134,7 @@ fun UnitGroup(viewModel: UniconvViewModel, state: UniconvState, unitType: Int, i
                         readOnly = false,
                         singleLine = true,
                         textStyle = mergedTextStyle,
-                        cursorBrush = SolidColor(colors.cursorColor),
+                        cursorBrush = SolidColor(if (isError) colors.errorCursorColor else colors.cursorColor),
                         interactionSource = interactionSource,
                         decorationBox = @Composable { innerTextField ->
                             Row(verticalAlignment = Alignment.CenterVertically) {

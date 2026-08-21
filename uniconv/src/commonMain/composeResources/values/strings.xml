@@ -14,6 +14,8 @@
     <string name="value">Value</string>
     <string name="swap">Switch</string>
     <string name="convert">Convert</string>
+    <string name="not_a_number">"That is not a number"</string>
+    <string name="negatives_not_allowed">"This magnitude doesn't support negative numbers"</string>
 
     <string name="m">Meters</string>
     <string name="mm">Millimeters</string>
