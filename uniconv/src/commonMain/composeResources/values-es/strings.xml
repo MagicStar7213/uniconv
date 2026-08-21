@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <resources>
     <string name="magnitudes">Magnitud</string>
-    <string name="languages">Idiomas</string>
     <string name="length">Longitud</string>
     <string name="weight">Masa</string>
     <string name="time">Tiempo</string>
@@ -9,11 +8,6 @@
     <string name="surface">Superficie</string>
     <string name="volume">Volumen</string>
     <string name="speed">Velocidad</string>
-    <string name="origin">Origen</string>
-    <string name="target">Destino</string>
-    <string name="value">Valor</string>
-    <string name="swap">Intercambiar</string>
-    <string name="convert">Convertir</string>
     <string name="not_a_number">No es un número</string>
     <string name="negatives_not_allowed">Esta magnitud no admite números negativos</string>
 
