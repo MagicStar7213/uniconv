@@ -60,52 +60,52 @@ fun App(repo: SettingsRepository) {
                     contentDescription = "App logo",
                     modifier = Modifier.size(90.dp)
                 )
-                var magnMenuExpanded by remember { mutableStateOf(false) }
+                var magnitudeMenuExpanded by remember { mutableStateOf(false) }
 
                 val setMagnitudeDefault = stringResource(state.magnitude!!.name)
-                var magnTextFieldValue by remember { mutableStateOf(setMagnitudeDefault) }
+                var magnitudeTextFieldValue by remember { mutableStateOf(setMagnitudeDefault) }
 
                 ExposedDropdownMenuBox(
                     modifier = Modifier.padding(
                         vertical = 15.dp
                     ),
-                    expanded = magnMenuExpanded,
+                    expanded = magnitudeMenuExpanded,
                     onExpandedChange = {
-                        magnMenuExpanded = it
-                        if (magnMenuExpanded) magnTextFieldValue = ""
+                        magnitudeMenuExpanded = it
+                        if (magnitudeMenuExpanded) magnitudeTextFieldValue = ""
                     }
                 ) {
                     OutlinedTextField(
                         modifier = Modifier.menuAnchor(ExposedDropdownMenuAnchorType.PrimaryEditable, true),
                         shape = CircleShape,
-                        value = magnTextFieldValue,
+                        value = magnitudeTextFieldValue,
                         onValueChange = {
-                            magnTextFieldValue = it
-                            magnMenuExpanded = true
+                            magnitudeTextFieldValue = it
+                            magnitudeMenuExpanded = true
                         },
                         readOnly = false,
                         singleLine = true,
                         label = { Text(stringResource(Res.string.magnitudes)) },
-                        trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(magnMenuExpanded) }
+                        trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(magnitudeMenuExpanded) }
                     )
-                    if (!magnMenuExpanded) magnTextFieldValue = stringResource(state.magnitude!!.name)
+                    if (!magnitudeMenuExpanded) magnitudeTextFieldValue = stringResource(state.magnitude!!.name)
                     val tempMagnitudes = viewModel.magnitudesList.filter {
                         stringResource(it.name).normalize()
-                            .contains(magnTextFieldValue.normalize(), true)
+                            .contains(magnitudeTextFieldValue.normalize(), true)
                     }
                     if (tempMagnitudes.isNotEmpty())
                         ExposedDropdownMenu(
                             modifier = Modifier.exposedDropdownSize(false),
                             scrollState = rememberScrollState(),
-                            expanded = magnMenuExpanded,
-                            onDismissRequest = { magnMenuExpanded = false }
+                            expanded = magnitudeMenuExpanded,
+                            onDismissRequest = { magnitudeMenuExpanded = false }
                         ) {
                             tempMagnitudes.forEach {
                                 DropdownMenuItem(
                                     text = { Text(stringResource(it.name)) },
                                     onClick = {
                                         viewModel.onIntent(UniconvIntent.ChangeMagnitude(it))
-                                        magnMenuExpanded = false
+                                        magnitudeMenuExpanded = false
                                     }
                                 )
                             }
