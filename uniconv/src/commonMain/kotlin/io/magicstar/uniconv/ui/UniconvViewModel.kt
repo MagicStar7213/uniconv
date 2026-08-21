@@ -69,7 +69,10 @@ class UniconvViewModel(val repo: SettingsRepository): ViewModel() {
                 else units[1]
 
             UniconvState(magnitude.createInstance(), unit1, unit2, units.indexOf(unit1), units.indexOf(unit2),
-                units, units, value1KeyValue ?: "0", value2KeyValue ?: "0")
+                units, units,
+                value1KeyValue?.let { if (it == "" || it == "-" || it == ".") "0" else it } ?: "0",
+                value2KeyValue?.let { if (it == "" || it == "-" || it == ".") "0" else it } ?: "0"
+            )
         }
         _state.update { uiState }
     }
