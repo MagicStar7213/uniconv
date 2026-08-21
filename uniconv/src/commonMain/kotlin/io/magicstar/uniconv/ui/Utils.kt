@@ -69,7 +69,7 @@ fun UnitGroup(viewModel: UniconvViewModel, state: UniconvState, unitType: Int, i
                 viewModel.onIntent(
                     UniconvIntent.Calculate(
                         state.unit1!!, state.unit2!!, unitType,
-                        if (it != "") BigDecimal(it) else BigDecimal("0")
+                        if (it == "" || it == "-" || it == ".") BigDecimal("0") else BigDecimal(it)
                     )
                 )
             },
