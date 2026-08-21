@@ -13,8 +13,8 @@ group = "io.magicstar"
 version = libs.versions.uniconv.get()
 
 kotlin {
-    jvmToolchain(21)
-    compilerOptions.languageVersion = KotlinVersion.KOTLIN_2_3
+    jvmToolchain(25)
+    compilerOptions.languageVersion = KotlinVersion.KOTLIN_2_4
 
     jvm()
     android {
