@@ -72,7 +72,6 @@ fun UnitGroup(viewModel: UniconvViewModel, state: UniconvState, unitType: Int, i
             shape = CircleShape,
             value = (if (unitType == 1) state.value1 else state.value2),
             onValueChange = {
-                viewModel.onIntent(UniconvIntent.UpdateTextFieldValue(it, unitType))
                 try {
                     BigDecimal(it)
                     isError = false
@@ -91,12 +90,17 @@ fun UnitGroup(viewModel: UniconvViewModel, state: UniconvState, unitType: Int, i
                     isError = true
                     supportingText = errorMessages[1]
                 }
-                if (!isError) viewModel.onIntent(
-                    UniconvIntent.Calculate(
-                        state.unit1!!, state.unit2!!, unitType,
-                        if (it == "" || it == "-" || it == ".") BigDecimal("0") else BigDecimal(it)
+                if (!isError) {
+                    viewModel.onIntent(UniconvIntent.UpdateTextFieldValue(it, unitType))
+                    viewModel.onIntent(
+                        UniconvIntent.Calculate(
+                            state.unit1!!, state.unit2!!, unitType,
+                            if (it == "" || it == "-" || it == ".") BigDecimal("0") else BigDecimal(
+                                it
+                            )
+                        )
                     )
-                )
+                }
             },
             isError = isError,
             supportingText = { Text(supportingText) },
