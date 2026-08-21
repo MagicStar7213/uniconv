@@ -37,7 +37,6 @@ import io.magicstar.uniconv.generated.resources.uniconv_text
 import io.magicstar.uniconv.generated.resources.uniconv_text_dark
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
-import java.math.BigDecimal
 
 @RequiresApi(9)
 @OptIn(ExperimentalMaterial3Api::class)
@@ -113,36 +112,18 @@ fun App(repo: SettingsRepository) {
                 }
 
                 UnitGroup(
-                    modifier = Modifier,
+                    viewModel = viewModel,
                     state = state,
                     unitType = 1,
                     initialUnitText = { state.unit1!!.abbreviation },
-                    onValueChange = {
-                        viewModel.onIntent(UniconvIntent.UpdateTextFieldValue(it, 1))
-                        viewModel.onIntent(
-                            UniconvIntent.Calculate(
-                                state.unit1!!, state.unit2!!, 1,
-                                if (it != "") BigDecimal(it) else BigDecimal("0")
-                            )
-                        )
-                    },
                     onClick = { viewModel.onIntent(UniconvIntent.ChangeUnit(it, 1)) }
                 )
 
                 UnitGroup(
-                    modifier = Modifier,
+                    viewModel = viewModel,
                     state = state,
                     unitType = 2,
                     initialUnitText = { state.unit2!!.abbreviation },
-                    onValueChange = {
-                        viewModel.onIntent(UniconvIntent.UpdateTextFieldValue(it, 2))
-                        viewModel.onIntent(
-                            UniconvIntent.Calculate(
-                                state.unit1!!, state.unit2!!, 2,
-                                if (it != "") BigDecimal(it) else BigDecimal("0")
-                            )
-                        )
-                    },
                     onClick = { viewModel.onIntent(UniconvIntent.ChangeUnit(it, 2)) }
                 )
             }

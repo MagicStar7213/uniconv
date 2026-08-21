@@ -45,25 +45,34 @@ import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.stringResource
+import java.math.BigDecimal
 import java.text.Normalizer
 
 @OptIn(ExperimentalMaterial3Api::class)
 @RequiresApi(9)
 @Composable
-fun UnitGroup(modifier: Modifier = Modifier, state: UniconvState, unitType: Int, initialUnitText: () -> String, onValueChange: (String) -> Unit, onClick: (io.magicstar.uniconv.unit.model.Unit) -> Unit) {
+fun UnitGroup(viewModel: UniconvViewModel, state: UniconvState, unitType: Int, initialUnitText: () -> String, onClick: (io.magicstar.uniconv.unit.model.Unit) -> Unit) {
     var isMenuExpanded by remember { mutableStateOf(false) }
     val keyboardController = LocalSoftwareKeyboardController.current
 
     Row(
         verticalAlignment = Alignment.CenterVertically,
-        modifier = modifier.padding(top = with(LocalDensity.current) { 15.toDp() })
+        modifier = Modifier.padding(top = with(LocalDensity.current) { 15.toDp() })
     ) {
         var selectedUnitText by remember { mutableStateOf(initialUnitText()) }
         OutlinedTextField(
             singleLine = true,
             shape = CircleShape,
             value = (if (unitType == 1) state.value1 else state.value2),
-            onValueChange = onValueChange,
+            onValueChange = {
+                viewModel.onIntent(UniconvIntent.UpdateTextFieldValue(it, unitType))
+                viewModel.onIntent(
+                    UniconvIntent.Calculate(
+                        state.unit1!!, state.unit2!!, unitType,
+                        if (it != "") BigDecimal(it) else BigDecimal("0")
+                    )
+                )
+            },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number, imeAction = ImeAction.Done),
             keyboardActions = KeyboardActions(onDone = { keyboardController?.hide() }),
             trailingIcon = {
