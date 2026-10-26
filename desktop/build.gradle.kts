@@ -46,6 +46,7 @@ compose.desktop {
     application {
         mainClass = "io.magicstar.uniconv.MainKt"
         nativeDistributions {
+            modules("jdk.unsupported")
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
             packageName = "Uniconv"
             packageVersion = project.version.toString()
