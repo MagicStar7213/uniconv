@@ -122,6 +122,7 @@ fun UnitGroup(viewModel: UniconvViewModel, state: UniconvState, unitType: Int, i
                     onExpandedChange = {
                         isMenuExpanded = it
                         if (isMenuExpanded) selectedUnitText = ""
+                        if (!isMenuExpanded) keyboardController?.hide()
                     }
                 ) {
                     var textFieldHeight by remember { mutableIntStateOf(0) }
@@ -217,6 +218,7 @@ fun UnitGroup(viewModel: UniconvViewModel, state: UniconvState, unitType: Int, i
                                     onClick = {
                                         onClick(unit)
                                         isMenuExpanded = false
+                                        keyboardController?.hide()
                                     }
                                 )
                             }

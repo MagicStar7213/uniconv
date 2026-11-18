@@ -28,6 +28,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import io.magicstar.uniconv.data.SettingsRepository
@@ -44,6 +45,7 @@ import org.jetbrains.compose.resources.stringResource
 fun App(repo: SettingsRepository) {
     val viewModel: UniconvViewModel = viewModel(factory = remember { UniconvViewModelFactory(repo) })
     val state by viewModel.state.collectAsState()
+    val keyboardController = LocalSoftwareKeyboardController.current
 
     MaterialTheme {
         Box(
@@ -72,6 +74,7 @@ fun App(repo: SettingsRepository) {
                     onExpandedChange = {
                         magnitudeMenuExpanded = it
                         if (magnitudeMenuExpanded) magnitudeTextFieldValue = ""
+                        if (!magnitudeMenuExpanded) keyboardController?.hide()
                     }
                 ) {
                     OutlinedTextField(
@@ -97,7 +100,10 @@ fun App(repo: SettingsRepository) {
                             modifier = Modifier.exposedDropdownSize(false),
                             scrollState = rememberScrollState(),
                             expanded = magnitudeMenuExpanded,
-                            onDismissRequest = { magnitudeMenuExpanded = false }
+                            onDismissRequest = {
+                                magnitudeMenuExpanded = false
+                                keyboardController?.hide()
+                            }
                         ) {
                             tempMagnitudes.forEach {
                                 DropdownMenuItem(
@@ -105,6 +111,7 @@ fun App(repo: SettingsRepository) {
                                     onClick = {
                                         viewModel.onIntent(UniconvIntent.ChangeMagnitude(it))
                                         magnitudeMenuExpanded = false
+                                        keyboardController?.hide()
                                     }
                                 )
                             }
