@@ -22,7 +22,6 @@ kotlin {
                 implementation(project(":uniconv"))
                 implementation(compose.desktop.currentOs)
                 implementation(libs.androidx.datastore.preferences)
-                implementation(libs.kotlinx.serialization.json)
                 implementation(libs.compose.resources)
                 implementation(libs.kotlinx.coroutines)
             }
